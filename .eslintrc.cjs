@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path');
+const path = require('path')
 
 module.exports = {
   env: { browser: true, es2020: true, 'jest/globals': true },
@@ -45,12 +45,12 @@ module.exports = {
       'warn',
       {
         singleQuote: true,
-        semi: true
+        semi: false
       }
     ],
     'react-refresh/only-export-components': 'warn',
     'no-multiple-empty-lines': [2, { max: 2 }],
-    semi: [2, 'always'],
+    semi: ['off'],
     curly: ['warn'],
     'prefer-template': ['warn'],
     'space-before-function-paren': [0, { anonymous: 'always', named: 'always' }],
@@ -68,4 +68,4 @@ module.exports = {
     'import/no-duplicates': 'warn',
     'import/no-named-as-default': 0
   }
-};
+}

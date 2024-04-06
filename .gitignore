@@ -26,3 +26,5 @@ build
 
 .env
 .env.production
+
+.npmrc
