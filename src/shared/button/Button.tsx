@@ -15,7 +15,7 @@ export default function Button(props: IButtonProps) {
   const { id, className, disabled, label, role, testId, type, onClick } = props
 
   return (
-    <button data-testId={testId} id={id} className={className} role={role} type={type} disabled={disabled} onClick={onClick}>
+    <button data-testid={testId} id={id} className={className} role={role} type={type} disabled={disabled} onClick={onClick}>
       {label}
     </button>
   )

@@ -5,7 +5,7 @@ import AppRouter from './AppRoutes'
 function App() {
   return (
     <BrowserRouter>
-      <div className="w-screen min-h-screen flex flex-col relative">
+      <div className="relative flex min-h-screen w-screen flex-col ">
         <AppRouter />
       </div>
     </BrowserRouter>
