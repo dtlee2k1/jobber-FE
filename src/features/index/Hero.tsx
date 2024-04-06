@@ -1,12 +1,17 @@
-import { useEffect, useRef } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { FaSearch } from 'react-icons/fa'
 import Button from 'src/shared/button/Button'
+import TextInput from 'src/shared/inputs/TextInput'
 import Typed from 'typed.js'
 import { v4 as uuidv4 } from 'uuid'
 
-const categories: string[] = ['Graphics &#38; Design', 'Digital Marketing', 'Writing &#38; Translation', 'Programming &#38; Tech']
+const categories: string[] = ['Graphics & Design', 'Digital Marketing', 'Writing & Translation', 'Programming & Tech']
 
 export default function Hero() {
   const typedElement = useRef<HTMLSpanElement>(null)
+  const [searchTerm, setSearchTerm] = useState<string>('')
+
+  const navigateToSearchPage = () => {}
 
   useEffect(() => {
     const typed = new Typed(typedElement.current, {
@@ -43,15 +48,23 @@ export default function Hero() {
             <div className="flex w-full justify-between gap-6 lg:gap-12">
               <form className="mx-auto flex w-full items-center bg-white">
                 <div className="h-full w-full">
-                  <input
+                  <TextInput
                     type="search"
                     className="h-full w-full border border-gray-600 px-4 py-1 text-gray-800 focus:outline-none"
                     placeholder="Search"
-                    value=""
+                    value={searchTerm}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                      setSearchTerm(e.target.value)
+                    }}
                   />
                 </div>
                 <div className="bg-sky-500">
-                  <Button type="submit" className="flex h-12 w-12 items-center justify-center text-sm text-white" label="Search" />
+                  <Button
+                    type="submit"
+                    className="flex h-12 w-12 items-center justify-center text-sm text-white"
+                    label={<FaSearch className="h-5 w-5" />}
+                    onClick={navigateToSearchPage}
+                  />
                 </div>
               </form>
             </div>
