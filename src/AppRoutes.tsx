@@ -1,8 +1,9 @@
 import { useRoutes } from 'react-router-dom'
-import Home from './features/home/Home'
-import AppPage from './features/AppPage'
 
-export default function AppRoutes() {
+import AppPage from './features/AppPage'
+import Home from './features/home/Home'
+
+export default function AppRouter() {
   const routeElements = useRoutes([
     {
       path: '/',

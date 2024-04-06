@@ -48,6 +48,7 @@ module.exports = {
         semi: false
       }
     ],
+    'no-undef': 'off',
     'react-refresh/only-export-components': 'warn',
     'no-multiple-empty-lines': [2, { max: 2 }],
     semi: ['off'],
@@ -57,6 +58,7 @@ module.exports = {
     camelcase: 0,
     'no-return-assign': 0,
     quotes: ['error', 'single'],
+    '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-namespace': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
