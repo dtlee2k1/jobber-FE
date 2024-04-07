@@ -64,7 +64,7 @@ export default function Hero() {
                 <div className="h-full w-full">
                   <TextInput
                     type="search"
-                    className="h-full w-full border border-gray-600 px-4 py-1 text-gray-800 focus:outline-none"
+                    className="h-full w-full border border-gray-600 px-4 py-1 text-gray-800 focus:outline-none dark:border-none"
                     placeholder="Search"
                     value={searchTerm}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {

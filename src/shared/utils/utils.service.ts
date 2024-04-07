@@ -36,6 +36,11 @@ export const categories = (): string[] => {
     'Programming & Tech',
     'Photography',
     'Data',
+    'Business',
+    'Business',
+    'Business',
+    'Business',
+    'Business',
     'Business'
   ]
 }
