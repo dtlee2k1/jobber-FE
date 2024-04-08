@@ -2,8 +2,9 @@ import browseImage from 'src/assets/browse.png'
 import collaborate from 'src/assets/collaborate.png'
 import contact from 'src/assets/contact.png'
 import create from 'src/assets/create.png'
+import { ICategory } from 'src/interfaces/home.interface'
 
-export const categories: any[] = [
+export const categories: ICategory[] = [
   {
     name: 'Programming & Tech',
     icon: create

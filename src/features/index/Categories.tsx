@@ -1,3 +1,4 @@
+import { ICategory } from 'src/interfaces/home.interface'
 import { categories } from 'src/shared/utils/static-data'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -11,7 +12,7 @@ export default function Categories() {
           </h2>
         </div>
         <div className="hidden gap-8 sm:grid sm:grid-cols-3 md:grid-cols-4">
-          {categories.map((category: any) => (
+          {categories.map((category: ICategory) => (
             <div key={uuidv4()} className="w-full cursor-pointer py-5">
               <img className="mx-auto mb-4 hidden sm:flex sm:h-8 sm:w-8 md:h-12 md:w-12" src={category.icon} alt={category.name} />
               <h3 className="mb-1 text-base hover:text-sky-400">
@@ -21,7 +22,7 @@ export default function Categories() {
           ))}
         </div>
         <div className="flex flex-wrap gap-x-2 gap-y-4 py-1 sm:hidden">
-          {categories.map((category: any) => (
+          {categories.map((category: ICategory) => (
             <div key={uuidv4()} className="w-auto cursor-pointer rounded-3xl border border-black p-2 text-black hover:bg-[#f7f9fa]">
               <h3 className="mb-1 text-xs font-bold ">{category.name}</h3>
             </div>
