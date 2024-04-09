@@ -35,12 +35,12 @@ export default function Hero() {
     }
   }, [])
   return (
-    <div className="relative bg-white pb-20 pt-40 lg:pt-44 dark:bg-gray-900">
+    <div className="relative bg-white pb-20 pt-40 dark:bg-gray-900 lg:pt-44">
       <div className="relative m-auto px-6 xl:container md:px-12 lg:px-6">
-        <h3 className="mb-4 mt-4 max-w-2xl pb-2 text-center text-2xl font-normal lg:text-left dark:text-white">
+        <h3 className="mb-4 mt-4 max-w-2xl pb-2 text-center text-2xl font-normal dark:text-white lg:text-left">
           Expert categories: <span ref={typedElement}></span>
         </h3>
-        <h1 className="text-center text-4xl font-black text-blue-900 sm:mx-auto sm:w-10/12 sm:text-5xl md:w-10/12 md:text-5xl lg:w-auto lg:text-left xl:text-7xl dark:text-white">
+        <h1 className="text-center text-4xl font-black text-blue-900 dark:text-white sm:mx-auto sm:w-10/12 sm:text-5xl md:w-10/12 md:text-5xl lg:w-auto lg:text-left xl:text-7xl">
           Hire expert freelancers <br className="hidden lg:block" />{' '}
           <span className="relative bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent dark:from-blue-400 dark:to-cyan-300">
             for your project
@@ -49,7 +49,7 @@ export default function Hero() {
         </h1>
         <div className="lg:flex">
           <div className="relative mt-8 space-y-8 text-center sm:mx-auto sm:w-10/12 md:mt-16 md:w-2/3 lg:ml-0 lg:mr-auto lg:w-7/12 lg:text-left">
-            <p className="text-gray-700 sm:text-lg lg:w-11/12 dark:text-gray-300">
+            <p className="text-gray-700 dark:text-gray-300 sm:text-lg lg:w-11/12">
               Find the right freelance service for your next project.
             </p>
 
@@ -85,16 +85,15 @@ export default function Hero() {
 
             <div className="grid grid-cols-3 gap-x-2 gap-y-4 sm:flex sm:justify-center lg:justify-start">
               {categories.map((category) => (
-                <div
+                <a
                   key={uuidv4()}
+                  href={`/search/categories/${replaceSpacesWithDash(category)}`}
                   className="w-full min-w-0 cursor-pointer rounded-full border border-gray-200 p-4 duration-300 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-600/20 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-cyan-300/30"
                 >
                   <div className="flex justify-center">
-                    <span className="block truncate font-medium dark:text-white">
-                      <a href={`/search/categories/${replaceSpacesWithDash(category)}`}>{category}</a>
-                    </span>
+                    <span className="block truncate font-medium dark:text-white">{category}</span>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>

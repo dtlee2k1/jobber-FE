@@ -3,6 +3,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import { api } from './api'
 
 const persistConfig = {
   key: 'root',
@@ -10,7 +11,9 @@ const persistConfig = {
   blacklist: ['clientApi', '_persist']
 }
 
-export const combineReducer = combineReducers({})
+export const combineReducer = combineReducers({
+  [api.reducerPath]: api.reducer
+})
 
 export const rootReducers = (state: any, action: any) => {
   // Reset the state to default when user logout

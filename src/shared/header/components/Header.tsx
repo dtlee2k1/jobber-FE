@@ -47,7 +47,7 @@ export default function Header({ navClass }: IHeader) {
                 <div className="text-gray-600 dark:text-gray-300 lg:pr-4">
                   <ul className="space-y-6 text-base font-medium tracking-wide lg:flex lg:space-y-0 lg:text-sm">
                     <li>
-                      <div className="hover:text-primary dark:hover:text-primaryLight block transition md:px-4">
+                      <div className="block transition hover:text-sky-500 dark:hover:text-white md:px-4">
                         <span>Become a Seller</span>
                       </div>
                     </li>
@@ -62,7 +62,9 @@ export default function Header({ navClass }: IHeader) {
                         hover:before:scale-105 focus:before:bg-sky-600/10 active:duration-75 active:before:scale-95
                         dark:focus:before:bg-sky-400/10 sm:px-6"
                   >
-                    <span className="relative text-sm font-semibold text-gray-600 dark:text-gray-300">Sign In</span>
+                    <span className="relative text-sm font-semibold text-gray-600 hover:text-sky-500 dark:text-gray-300 dark:hover:text-white">
+                      Sign In
+                    </span>
                   </div>
                   <div
                     onClick={() => setShowModal((item) => ({ ...item, register: true }))}

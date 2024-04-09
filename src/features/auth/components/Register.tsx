@@ -9,16 +9,12 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
     <div className="relative top-[10%] mx-auto w-11/12 max-w-md rounded bg-white md:w-2/3">
       <div className="relative px-5 py-5">
         <div className="flex justify-between text-2xl font-bold text-gray-600">
-          <Button
-            className="cursor-pointer rounded text-gray-400 hover:text-gray-600"
-            role="button"
-            label={<FaChevronLeft className="icon icon-tabler icon-tabler-x" />}
-          />
+          <Button className="cursor-pointer rounded text-gray-400 hover:text-gray-600" role="button" label={<FaChevronLeft />} />
           <h1 className="flex w-full justify-center">Join Jobber</h1>
           <Button
             className="cursor-pointer rounded text-gray-400 hover:text-gray-600"
             role="button"
-            label={<FaTimes className="icon icon-tabler icon-tabler-x" />}
+            label={<FaTimes />}
             onClick={onClose}
           />
         </div>
@@ -31,7 +27,9 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
             </span>
           </li>
           <li className="flex items-center">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-bold text-white lg:h-12 lg:w-12">2</span>
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-500 font-bold text-white dark:bg-sky-500 lg:h-12 lg:w-12">
+              2
+            </span>
           </li>
         </ol>
       </div>
@@ -72,7 +70,7 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
           </label>
           <div className="relative mb-5 mt-2">
             <div className="absolute right-0 flex h-full cursor-pointer items-center pr-3 text-gray-600">
-              <FaEye className="icon icon-tabler icon-tabler-info-circle" />
+              <FaEye />
             </div>
             <TextInput
               id="password"
@@ -107,7 +105,7 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
             <div className="absolute left-0 top-0 flex h-20 w-20 cursor-pointer justify-center rounded-full bg-[#dee1e7]">
               <FaCamera className="flex self-center" />
             </div>
-            <TextInput name="image" type="file" />
+            <TextInput name="image" type="file" className="mt-4" />
           </div>
         </div>
         <Button
