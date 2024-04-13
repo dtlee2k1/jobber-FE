@@ -1,16 +1,13 @@
 import { SerializedError } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
-import { IAuthDocument, IAuthResponse } from './auth.interface'
+import { IAuthDocument, IAuthResponse, IResetPassword, ISignInPayload, ISignUpPayload } from './auth.interface'
 
-// export type validationErrorsType =
-//   | ISignInPayload
-//   | ISignUpPayload
-//   | IResetPassword
-//   | ICreateGig
-//   // | IPersonalInfoData
-//   | IExperience
-//   | IEducation
-//   | ILanguage
+export type validationErrorsType = ISignInPayload | ISignUpPayload | IResetPassword
+// | ICreateGig
+// | IPersonalInfoData
+// | IExperience
+// | IEducation
+// | ILanguage
 
 export interface IQueryResponse {
   data: IAuthResponse

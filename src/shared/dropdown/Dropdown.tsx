@@ -1,11 +1,11 @@
-import { Dispatch } from '@reduxjs/toolkit'
-import { CSSProperties, MouseEvent, SetStateAction, useState } from 'react'
+import { CSSProperties, Dispatch, MouseEvent, SetStateAction, useState } from 'react'
 import { FaChevronDown, FaChevronUp, FaTimes } from 'react-icons/fa'
 import { v4 as uuid4 } from 'uuid'
 
 import Button from '../button/Button'
 import TextInput from '../inputs/TextInput'
 import { filter } from 'lodash'
+import { lowerCase } from '../utils/utils.service'
 
 interface IDropdownProps {
   text: string
@@ -15,7 +15,7 @@ interface IDropdownProps {
   dropdownClassNames?: string
   showSearchInput?: boolean
   style?: CSSProperties
-  setValue?: Dispatch<SetStateAction<any>>
+  setValue?: Dispatch<SetStateAction<string>>
   onClick?: (item: string) => void
 }
 
@@ -37,20 +37,16 @@ export default function Dropdown({
 
   const onHandleSelect = (event: MouseEvent) => {
     const selectedItem: string = (event.target as HTMLLIElement).textContent as string
-    if (setValue) {
-      setValue(selectedItem)
-    }
+    setToggleDropdown(false)
     setInputText(selectedItem)
     setDropdownItems(values)
-    setToggleDropdown(false)
-    if (onClick) {
-      onClick(selectedItem)
-    }
+    setValue && setValue(selectedItem)
+    onClick && onClick(selectedItem)
   }
 
   return (
     <div className={`w-full divide-y divide-gray-100 rounded border ${mainClassNames}`} style={style}>
-      {(!showSearchInput || showSearchInput) && !toggleDropdown && (
+      {!toggleDropdown && (
         <Button
           className="bg-teal flex w-full justify-between rounded px-3 py-2 text-white"
           label={
@@ -63,7 +59,11 @@ export default function Dropdown({
               )}
             </>
           }
-          onClick={() => setToggleDropdown(!toggleDropdown)}
+          onClick={() => {
+            setToggleDropdown(!toggleDropdown)
+            setInputText(text)
+            setDropdownItems(values)
+          }}
         />
       )}
 
@@ -75,10 +75,10 @@ export default function Dropdown({
             value={inputText}
             className="h-10 w-full items-center rounded pl-3 text-sm font-normal text-gray-600 focus:outline-none lg:text-base"
             placeholder="Search..."
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              const inputValue: string = event.target.value
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const inputValue: string = e.target.value
               setInputText(inputValue)
-              const filtered: string[] = filter(dropdownItems, (item: string) => item.toLowerCase().includes(inputValue.toLowerCase()))
+              const filtered: string[] = filter(dropdownItems, (item: string) => lowerCase(item).includes(lowerCase(inputValue)))
               setDropdownItems(filtered)
               if (!inputValue) {
                 setDropdownItems(values)
