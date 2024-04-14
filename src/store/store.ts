@@ -4,6 +4,8 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { api } from './api'
+import authReducer from 'src/features/auth/reducer/auth.reducer'
+import logoutReducer from 'src/features/auth/reducer/logout.reducer'
 
 const persistConfig = {
   key: 'root',
@@ -12,7 +14,9 @@ const persistConfig = {
 }
 
 export const combineReducer = combineReducers({
-  [api.reducerPath]: api.reducer
+  [api.reducerPath]: api.reducer,
+  authUser: authReducer,
+  logout: logoutReducer
 })
 
 export const rootReducers = (state: any, action: any) => {

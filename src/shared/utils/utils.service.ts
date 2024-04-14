@@ -49,3 +49,26 @@ export const countriesList = (): string[] => {
   const countriesObj = countries.getNames('en', { select: 'official' })
   return Object.values(countriesObj)
 }
+
+export const saveToSessionStorage = (data: string, username: string): void => {
+  sessionStorage.setItem('isLoggedIn', data)
+  sessionStorage.setItem('loggedInUser', username)
+}
+
+export const getDataFromSessionStorage = (key: string) => {
+  const data = sessionStorage.getItem(key) as string
+  return JSON.parse(data)
+}
+
+export const saveToLocalStorage = (key: string, data: string): void => {
+  localStorage.setItem(key, data)
+}
+
+export const getDataFromLocalStorage = (key: string) => {
+  const data = localStorage.getItem(key) as string
+  return JSON.parse(data)
+}
+
+export const deleteFromLocalStorage = (key: string): void => {
+  localStorage.removeItem(key)
+}

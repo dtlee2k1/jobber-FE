@@ -1,4 +1,5 @@
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
+import { getDataFromSessionStorage } from 'src/shared/utils/utils.service'
 
 const BASE_ENDPOINT = 'http://localhost:4000'
 
@@ -17,7 +18,7 @@ const baseQueryWithReAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 
   // Refresh jwt token when it has been expired
   if (result.error && result.error.status === 401) {
-    const loggedInUsername: string = "getDataFromSessionStorage('loggedInUser')"
+    const loggedInUsername: string = getDataFromSessionStorage('loggedInUser')
     await baseQuery(`/auth/refresh-token/${loggedInUsername}`, api, extraOptions)
   }
   return result

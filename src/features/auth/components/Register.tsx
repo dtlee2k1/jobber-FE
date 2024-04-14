@@ -8,11 +8,14 @@ import Button from 'src/shared/button/Button'
 import Dropdown from 'src/shared/dropdown/Dropdown'
 import TextInput from 'src/shared/inputs/TextInput'
 import ModalBg from 'src/shared/modals/ModalBg'
-import { countriesList } from 'src/shared/utils/utils.service'
+import { countriesList, saveToSessionStorage } from 'src/shared/utils/utils.service'
 import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service'
 import { useAuthSchema } from 'src/hooks/useAuthSchema'
 import { registerUserSchema } from 'src/schemes/auth.scheme'
 import { useSignUpMutation } from 'src/services/auth.service'
+import { useAppDispatch } from 'src/store/store'
+import { addAuthUser } from '../reducer/auth.reducer'
+import { updateLogout } from '../reducer/logout.reducer'
 
 export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
   const [step, setStep] = useState<number>(1)
@@ -32,6 +35,8 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
   })
 
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const dispatch = useAppDispatch()
 
   const { schemaValidation, validationErrors } = useAuthSchema({ schema: registerUserSchema, userInfo })
   const [signUp, { isLoading }] = useSignUpMutation()
@@ -55,8 +60,12 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
       const isValid = await schemaValidation()
       if (isValid) {
         const result = await signUp(userInfo).unwrap()
-        console.log(result)
         setAlertMessage('')
+
+        dispatch(addAuthUser({ authInfo: result.user }))
+        dispatch(updateLogout(false))
+
+        saveToSessionStorage(JSON.stringify(true), JSON.stringify(result.user?.username))
       }
     } catch (error) {
       console.log(error)
@@ -265,7 +274,7 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
               onClick={onRegisterUser}
               disabled={!userInfo.profilePicture || !userInfo.country}
               className={`${!userInfo.profilePicture || !userInfo.country ? 'cursor-not-allowed' : 'cursor-pointer'} text-md block w-full cursor-pointer rounded bg-sky-500 px-8 py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none`}
-              label={`${isLoading} ? "SIGNUP IN PROCESS..." : "SIGNUP"`}
+              label={isLoading ? 'SIGNUP IN PROCESS...' : 'SIGNUP'}
             />
           </div>
         )}

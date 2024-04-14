@@ -39,3 +39,13 @@ export interface IResponse {
   browserName?: string
   deviceType?: string
 }
+
+export interface ISliderImagesText {
+  header: string
+  subHeader: string
+}
+
+export interface IGigCardItemModal {
+  overlay: boolean
+  deleteApproval: boolean
+}
