@@ -1,16 +1,23 @@
 import { useState } from 'react'
 import { IUseAuthSchema } from 'src/interfaces/auth.interface'
-import { validationErrorsType } from 'src/interfaces/utils.interface'
+import { IValidationErrors } from 'src/interfaces/utils.interface'
 
 export function useAuthSchema({ schema, userInfo }: IUseAuthSchema) {
-  const [validationErrors, setValidationErrors] = useState<validationErrorsType[]>([])
+  const [validationErrors, setValidationErrors] = useState<IValidationErrors>({})
 
   const schemaValidation = async () => {
     await schema
       .validate(userInfo, { abortEarly: false })
-      .then(() => setValidationErrors([]))
+      .then(() => setValidationErrors({}))
       .catch((err) => {
-        setValidationErrors([...err.errors])
+        const errorsObject = err.errors.reduce((acc: IValidationErrors, curr: { [key: string]: string }) => {
+          const key = Object.keys(curr)[0]
+          const value = curr[key]
+          acc[key] = value
+          return acc
+        }, {})
+
+        setValidationErrors(errorsObject)
       })
 
     const validation: boolean = await schema.isValid(userInfo, { abortEarly: false })

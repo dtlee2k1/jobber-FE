@@ -2,6 +2,15 @@ import { SerializedError } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { IAuthDocument, IAuthResponse, IResetPassword, ISignInPayload, ISignUpPayload } from './auth.interface'
 
+export interface IValidationErrors {
+  [key: string]: string | undefined
+  username?: string
+  password?: string
+  email?: string
+  country?: string
+  profilePicture?: string
+}
+
 export type validationErrorsType = ISignInPayload | ISignUpPayload | IResetPassword
 // | ICreateGig
 // | IPersonalInfoData

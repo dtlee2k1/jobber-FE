@@ -7,6 +7,8 @@ export interface ITextInputProps {
   value?: string | number
   placeholder?: string
   className?: string
+  classNameError?: string
+  errorMessage?: string
   style?: CSSProperties
   readOnly?: boolean
   checked?: boolean
@@ -47,6 +49,7 @@ const TextInput = forwardRef<HTMLInputElement, ITextInputProps>((props, ref) => 
       onKeyDown={props.onKeyDown}
       autoComplete="false"
     />
+    <div className={props.classNameError}>{props.errorMessage}</div>
   </>
 ))
 

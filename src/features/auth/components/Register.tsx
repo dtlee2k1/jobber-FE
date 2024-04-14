@@ -72,7 +72,6 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
       setAlertMessage(error?.data.message)
     }
   }
-
   return (
     <ModalBg>
       <div className="relative top-[8%] mx-auto w-11/12 max-w-md rounded bg-white md:w-2/3">
@@ -143,7 +142,15 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setUserInfo((userInfo) => ({ ...userInfo, username: e.target.value }))
                 }
-                className="mb-5 mt-2 flex h-10 w-full items-center rounded border border-gray-300 pl-3 text-sm font-normal text-gray-600 focus:border focus:border-sky-500/50 focus:outline-none"
+                className={classNames(
+                  'mt-2 flex h-10 w-full items-center rounded border pl-3 text-sm font-normal text-gray-600 focus:border focus:outline-none',
+                  {
+                    'border-gray-300 focus:border-sky-500/50': !validationErrors.username,
+                    'border-red-600 bg-red-50 focus:border-red-600': validationErrors.username
+                  }
+                )}
+                classNameError="mt-1 min-h-[1rem] text-xs text-red-600"
+                errorMessage={validationErrors.username}
                 placeholder="Enter username"
               />
             </div>
@@ -157,7 +164,15 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
                 type="email"
                 value={userInfo.email}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserInfo((userInfo) => ({ ...userInfo, email: e.target.value }))}
-                className="mb-5 mt-2 flex h-10 w-full items-center rounded border border-gray-300 pl-3 text-sm font-normal text-gray-600 focus:border focus:border-sky-500/50 focus:outline-none"
+                className={classNames(
+                  'mt-2 flex h-10 w-full items-center rounded border pl-3 text-sm font-normal text-gray-600 focus:border focus:outline-none',
+                  {
+                    'border-gray-300 focus:border-sky-500/50': !validationErrors.email,
+                    'border-red-600 bg-red-50 focus:border-red-600': validationErrors.email
+                  }
+                )}
+                classNameError="mt-1 min-h-[1rem] text-xs text-red-600"
+                errorMessage={validationErrors.email}
                 placeholder="Enter email"
               />
             </div>
@@ -169,14 +184,14 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
                 {passwordType === 'password' ? (
                   <div
                     onClick={() => setPasswordType('text')}
-                    className="absolute right-0 flex h-full cursor-pointer items-center pr-3 text-gray-600"
+                    className="absolute right-0 top-3.5 flex cursor-pointer items-center pr-3 text-gray-600"
                   >
                     <FaEyeSlash />
                   </div>
                 ) : (
                   <div
                     onClick={() => setPasswordType('password')}
-                    className="absolute right-0 flex h-full cursor-pointer items-center pr-3 text-gray-600"
+                    className="absolute right-0 top-3.5 flex cursor-pointer items-center pr-3 text-gray-600"
                   >
                     <FaEye />
                   </div>
@@ -190,7 +205,15 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setUserInfo((userInfo) => ({ ...userInfo, password: e.target.value }))
                   }
-                  className="flex h-10 w-full items-center rounded border border-gray-300 pl-3 text-sm font-normal text-gray-600 focus:border focus:border-sky-500/50 focus:outline-none"
+                  className={classNames(
+                    'flex h-10 w-full items-center rounded border pl-3 text-sm font-normal text-gray-600 focus:border focus:outline-none',
+                    {
+                      'border-gray-300 focus:border-sky-500/50': !validationErrors.password,
+                      'border-red-600 bg-red-50 focus:border-red-600': validationErrors.password
+                    }
+                  )}
+                  classNameError="mt-1 min-h-[1rem] text-xs text-red-600"
+                  errorMessage={validationErrors.password}
                   placeholder="Enter password"
                 />
               </div>
@@ -198,7 +221,7 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
             <Button
               disabled={!userInfo.username || !userInfo.email || !userInfo.password}
               onClick={() => setStep(2)}
-              className={`${!userInfo.username || !userInfo.email || !userInfo.password ? 'cursor-not-allowed' : 'cursor-pointer'} text-md  block w-full cursor-pointer rounded bg-sky-500 px-8 py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none`}
+              className={`${!userInfo.username || !userInfo.email || !userInfo.password ? 'cursor-not-allowed' : 'cursor-pointer'} text-md  block w-full rounded bg-sky-500 px-8 py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none`}
               label="Continue"
             />
           </div>
@@ -273,7 +296,7 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
             <Button
               onClick={onRegisterUser}
               disabled={!userInfo.profilePicture || !userInfo.country}
-              className={`${!userInfo.profilePicture || !userInfo.country ? 'cursor-not-allowed' : 'cursor-pointer'} text-md block w-full cursor-pointer rounded bg-sky-500 px-8 py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none`}
+              className={`${!userInfo.profilePicture || !userInfo.country ? 'cursor-not-allowed' : 'cursor-pointer'} text-md block w-full rounded bg-sky-500 px-8 py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none`}
               label={isLoading ? 'SIGNUP IN PROCESS...' : 'SIGNUP'}
             />
           </div>
