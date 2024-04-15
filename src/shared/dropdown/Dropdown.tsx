@@ -1,10 +1,10 @@
+import { filter } from 'lodash'
 import { CSSProperties, Dispatch, MouseEvent, SetStateAction, useState } from 'react'
 import { FaChevronDown, FaChevronUp, FaTimes } from 'react-icons/fa'
 import { v4 as uuid4 } from 'uuid'
 
 import Button from '../button/Button'
 import TextInput from '../inputs/TextInput'
-import { filter } from 'lodash'
 import { lowerCase } from '../utils/utils.service'
 
 interface IDropdownProps {

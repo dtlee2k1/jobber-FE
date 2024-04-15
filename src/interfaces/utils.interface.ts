@@ -1,5 +1,6 @@
 import { SerializedError } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+
 import { IAuthDocument, IAuthResponse, IResetPassword, ISignInPayload, ISignUpPayload } from './auth.interface'
 
 export interface IValidationErrors {

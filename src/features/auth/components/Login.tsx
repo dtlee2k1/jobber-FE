@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { useState } from 'react'
 import { FaEye, FaEyeSlash, FaTimes } from 'react-icons/fa'
 import { useAuthSchema } from 'src/hooks/useAuthSchema'
@@ -11,9 +12,9 @@ import TextInput from 'src/shared/inputs/TextInput'
 import ModalBg from 'src/shared/modals/ModalBg'
 import { saveToSessionStorage } from 'src/shared/utils/utils.service'
 import { useAppDispatch } from 'src/store/store'
-import { updateLogout } from '../reducer/logout.reducer'
+
 import { addAuthUser } from '../reducer/auth.reducer'
-import classNames from 'classnames'
+import { updateLogout } from '../reducer/logout.reducer'
 
 export default function LoginModal({ onClose, onToggle, onTogglePassword }: IModalBgProps) {
   const [alertMessage, setAlertMessage] = useState<string>('')

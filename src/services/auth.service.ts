@@ -1,7 +1,7 @@
+import { IResponse } from 'src/interfaces/utils.interface'
 import { api } from 'src/store/api'
 
 import { ISignInPayload, ISignUpPayload } from '../interfaces/auth.interface'
-import { IResponse } from 'src/interfaces/utils.interface'
 
 export const authApi = api.injectEndpoints({
   endpoints: (build) => ({

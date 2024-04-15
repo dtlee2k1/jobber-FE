@@ -1,19 +1,21 @@
+/* eslint-disable quotes */
 import classNames from 'classnames'
 import { useRef, useState } from 'react'
 import { FaCamera, FaChevronLeft, FaEye, FaEyeSlash, FaTimes } from 'react-icons/fa'
+import { useAuthSchema } from 'src/hooks/useAuthSchema'
 import { ISignUpPayload } from 'src/interfaces/auth.interface'
 import { IModalBgProps } from 'src/interfaces/modal.interface'
+import { registerUserSchema } from 'src/schemes/auth.scheme'
+import { useSignUpMutation } from 'src/services/auth.service'
 import Alert from 'src/shared/alert/Alert'
 import Button from 'src/shared/button/Button'
 import Dropdown from 'src/shared/dropdown/Dropdown'
 import TextInput from 'src/shared/inputs/TextInput'
 import ModalBg from 'src/shared/modals/ModalBg'
-import { countriesList, saveToSessionStorage } from 'src/shared/utils/utils.service'
 import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service'
-import { useAuthSchema } from 'src/hooks/useAuthSchema'
-import { registerUserSchema } from 'src/schemes/auth.scheme'
-import { useSignUpMutation } from 'src/services/auth.service'
+import { countriesList, saveToSessionStorage } from 'src/shared/utils/utils.service'
 import { useAppDispatch } from 'src/store/store'
+
 import { addAuthUser } from '../reducer/auth.reducer'
 import { updateLogout } from '../reducer/logout.reducer'
 
@@ -99,7 +101,7 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
           <ol className="flex w-full">
             <li
               className={classNames(
-                "flex w-full items-center text-white after:inline-block after:h-1 after:w-full after:border-4 after:border-b  after:content-[''] ",
+                "flex w-full items-center text-white after:inline-block after:h-1 after:w-full after:border-4 after:border-b  after:content-['']",
                 {
                   'after:border-sky-300/50 dark:after:border-sky-300/50': step !== 2,
                   'after:border-sky-500 dark:after:border-sky-500': step === 2

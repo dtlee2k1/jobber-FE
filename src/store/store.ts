@@ -1,11 +1,12 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit'
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer } from 'redux-persist'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import { api } from './api'
 import authReducer from 'src/features/auth/reducer/auth.reducer'
 import logoutReducer from 'src/features/auth/reducer/logout.reducer'
+
+import { api } from './api'
 
 const persistConfig = {
   key: 'root',
