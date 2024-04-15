@@ -6,6 +6,7 @@ export interface IValidationErrors {
   [key: string]: string | undefined
   username?: string
   password?: string
+  confirmPassword?: string
   email?: string
   country?: string
   profilePicture?: string

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import ForgotPasswordModal from 'src/features/auth/components/ForgotPassword'
 import LoginModal from 'src/features/auth/components/Login'
 import RegisterModal from 'src/features/auth/components/Register'
 import { HeaderModalProps } from 'src/interfaces/header.interface'
@@ -29,6 +30,12 @@ export default function Header({ navClass }: IHeader) {
         <RegisterModal
           onClose={() => setShowModal((item) => ({ ...item, register: false }))}
           onToggle={() => setShowModal((item) => ({ ...item, register: false, login: true }))}
+        />
+      )}
+      {showModal.forgotPassword && (
+        <ForgotPasswordModal
+          onClose={() => setShowModal((item) => ({ ...item, forgotPassword: false }))}
+          onToggle={() => setShowModal((item) => ({ ...item, forgotPassword: false, login: true }))}
         />
       )}
       <header>
