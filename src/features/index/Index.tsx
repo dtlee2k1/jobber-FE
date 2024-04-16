@@ -1,4 +1,4 @@
-import Header from 'src/shared/header/components/Header'
+import Header from 'src/shared/header/Header'
 
 import Categories from './Categories'
 import GigTabs from './gig-tabs/GigTabs'

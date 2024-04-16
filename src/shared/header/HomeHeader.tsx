@@ -3,11 +3,13 @@ import { Transition } from '@headlessui/react'
 import { Dispatch, SetStateAction, useRef, useState } from 'react'
 import { FaAngleLeft, FaAngleRight, FaBars, FaRegBell, FaRegEnvelope } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { addAuthUser } from 'src/features/auth/reducer/auth.reducer'
 import { IAuthUser } from 'src/interfaces/auth.interface'
 import { IBuyerDocument } from 'src/interfaces/buyer.interface'
 import { ISellerDocument } from 'src/interfaces/seller.interface'
 import { IReduxState } from 'src/interfaces/store.interface'
 import { useResendEmailMutation } from 'src/services/auth.service'
+import Banner from 'src/shared/banner/Banner'
 import Button from 'src/shared/button/Button'
 import { categories, replaceSpacesWithDash } from 'src/shared/utils/utils.service'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
@@ -29,6 +31,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
   const { showCategoryContainer } = props
 
   const authUser = useAppSelector((state: IReduxState) => state.authUser)
+  const logout = useAppSelector((state: IReduxState) => state.logout)
 
   const settingsDropdownRef = useRef<HTMLDivElement | null>(null)
   const messageDropdownRef = useRef<HTMLDivElement | null>(null)
@@ -51,10 +54,27 @@ export default function HomeHeader(props: IHomeHeaderProps) {
   // const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] = useDetectOutsideClick(notificationDropdownRef, false)
   // const [isOrderDropdownOpen, setIsOrderDropdownOpen] = useDetectOutsideClick(orderDropdownRef, false)
 
+  const onResendEmail = async (): Promise<void> => {
+    try {
+      const result = await resendEmail({ userId: authUser.id as number, email: `${authUser.email}` }).unwrap()
+      dispatch(addAuthUser({ authInfo: result.user }))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <header>
       <nav className="navbar peer-checked:navbar-active relative z-[120] w-full border-b bg-white shadow-2xl shadow-gray-600/5 backdrop-blur dark:shadow-none">
-        {/* Add Banner component here  */}
+        {!logout && !authUser.emailVerified && (
+          <Banner
+            bgColor="bg-warning"
+            showLink={true}
+            linkText="Resend email"
+            text="Please verify your email before you proceed."
+            onClick={onResendEmail}
+          />
+        )}
         <div className="m-auto px-6 xl:container md:px-12 lg:px-6">
           <div className="flex flex-wrap items-center justify-between gap-6 md:gap-0 md:py-3 lg:py-5">
             <div className="flex w-full gap-x-4 lg:w-6/12">
@@ -161,7 +181,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                       className="relative flex gap-2 px-3 text-base font-medium"
                       label={
                         <>
-                          <img src="" alt="profile" className="h-7 w-7 rounded-full object-cover" />
+                          <img src={authUser.profilePicture!} alt="profile" className="h-7 w-7 rounded-full object-cover" />
                           <span className="flex self-center">{authUser.username}</span>
                         </>
                       }

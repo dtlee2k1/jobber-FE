@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IReduxState } from 'src/interfaces/store.interface'
 import { useCheckCurrentUserQuery } from 'src/services/auth.service'
-import HomeHeader from 'src/shared/header/components/HomeHeader'
+import HomeHeader from 'src/shared/header/HomeHeader'
 import { applicationLogout, saveToSessionStorage } from 'src/shared/utils/utils.service'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 

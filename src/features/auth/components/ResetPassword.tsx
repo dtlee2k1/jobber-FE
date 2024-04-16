@@ -7,7 +7,7 @@ import { resetPasswordSchema } from 'src/schemes/auth.scheme'
 import { useResetPasswordMutation } from 'src/services/auth.service'
 import Alert from 'src/shared/alert/Alert'
 import Button from 'src/shared/button/Button'
-import Header from 'src/shared/header/components/Header'
+import Header from 'src/shared/header/Header'
 import TextInput from 'src/shared/inputs/TextInput'
 
 export default function ResetPassword() {
