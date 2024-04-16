@@ -6,11 +6,11 @@ import RegisterModal from 'src/features/auth/components/Register'
 import { HeaderModalProps } from 'src/interfaces/header.interface'
 import Button from 'src/shared/button/Button'
 
-interface IHeader {
+interface IHeaderProps {
   navClass: string
 }
 
-export default function Header({ navClass }: IHeader) {
+export default function Header({ navClass }: IHeaderProps) {
   const [showModal, setShowModal] = useState<HeaderModalProps>({
     login: false,
     register: false,

@@ -2,10 +2,10 @@ import { IAuthUser } from './auth.interface'
 
 export interface IReduxState {
   authUser: IAuthUser
-  header: string
+  // header: string
   logout: boolean
-  buyer: object
-  seller: object
-  showCategoryContainer: boolean
-  notification: object
+  // buyer: object
+  // seller: object
+  // showCategoryContainer: boolean
+  // notification: object
 }
