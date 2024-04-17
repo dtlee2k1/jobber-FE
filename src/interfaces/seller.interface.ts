@@ -4,7 +4,12 @@ import { ISellerGig } from './gig.interface'
 import { IOrderDocument } from './order.interface'
 import { IRatingCategories } from './review.interface'
 
-export type SellerContextType = { gigs: ISellerGig[]; pausedGigs: ISellerGig[]; orders: IOrderDocument[]; seller: ISellerDocument | null }
+export type SellerContextType = {
+  gigs: ISellerGig[]
+  pausedGigs: ISellerGig[]
+  orders: IOrderDocument[]
+  seller: ISellerDocument | null
+}
 
 export interface ILanguage {
   [key: string]: string | number | undefined
