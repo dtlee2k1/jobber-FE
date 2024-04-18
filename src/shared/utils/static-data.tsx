@@ -2,21 +2,13 @@ import browseImage from 'src/assets/browse.png'
 import collaborate from 'src/assets/collaborate.png'
 import contact from 'src/assets/contact.png'
 import create from 'src/assets/create.png'
+import { ISellerGig } from 'src/interfaces/gig.interface'
 import { ICategory } from 'src/interfaces/home.interface'
+import { IRatingTypes } from 'src/interfaces/review.interface'
+import { ISellerDocument } from 'src/interfaces/seller.interface'
 import { ISliderImagesText } from 'src/interfaces/utils.interface'
 
-export const emptyBuyerData = {
-  _id: '',
-  username: '',
-  email: '',
-  profilePicture: '',
-  country: '',
-  isSeller: false,
-  purchasedGigs: [],
-  createdAt: ''
-}
-
-export const emptySellerData = {
+export const emptySellerData: ISellerDocument = {
   _id: '',
   profilePublicId: '',
   fullName: '',
@@ -52,7 +44,7 @@ export const emptySellerData = {
   createdAt: ''
 }
 
-export const emptyGigData = {
+export const emptyGigData: ISellerGig = {
   _id: '',
   id: '',
   sellerId: '',
@@ -82,7 +74,7 @@ export const emptyGigData = {
   createdAt: ''
 }
 
-export const ratingTypes = {
+export const ratingTypes: IRatingTypes = {
   one: '1',
   two: '2',
   three: '3',

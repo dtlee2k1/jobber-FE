@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import { IReduxState } from 'src/interfaces/store.interface'
 import Layout from 'src/layouts/Layout'
 import { useCheckCurrentUserQuery } from 'src/services/auth.service'
+import { useGetCurrentBuyerByUsernameQuery } from 'src/services/buyer.service'
 import HomeHeader from 'src/shared/header/HomeHeader'
 import { applicationLogout, saveToSessionStorage } from 'src/shared/utils/utils.service'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 
 import { addAuthUser } from './auth/reducer/auth.reducer'
+import { addBuyer } from './buyer/reducers/buyer.reducer'
 import Home from './home/Home'
 import Index from './index/Index'
 
@@ -19,6 +21,8 @@ export default function AppPage() {
   const [isValidToken, setIsValidToken] = useState<boolean>(false)
 
   const { data: currentUserData, isError } = useCheckCurrentUserQuery()
+  const { data: buyerData } = useGetCurrentBuyerByUsernameQuery()
+
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -27,13 +31,14 @@ export default function AppPage() {
       if (currentUserData && currentUserData.user && !appLogout) {
         setIsValidToken(true)
         dispatch(addAuthUser({ authInfo: currentUserData.user }))
+        dispatch(addBuyer(buyerData?.buyer))
 
         saveToSessionStorage(JSON.stringify(true), JSON.stringify(currentUserData.user.username))
       }
     } catch (error) {
       console.log(error)
     }
-  }, [appLogout, currentUserData, dispatch])
+  }, [appLogout, currentUserData, dispatch, buyerData?.buyer])
 
   const logoutUser = useCallback(async () => {
     if ((!currentUserData && appLogout) || isError) {
