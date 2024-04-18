@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction, useRef, useState } from 'react'
 import { FaAngleLeft, FaAngleRight, FaBars, FaRegBell, FaRegEnvelope } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { addAuthUser } from 'src/features/auth/reducer/auth.reducer'
+import useDetectOutsideClick from 'src/hooks/useDetectOutsideClick'
 import { IAuthUser } from 'src/interfaces/auth.interface'
 import { IBuyerDocument } from 'src/interfaces/buyer.interface'
 import { ISellerDocument } from 'src/interfaces/seller.interface'
@@ -14,6 +15,8 @@ import Button from 'src/shared/button/Button'
 import { categories, replaceSpacesWithDash } from 'src/shared/utils/utils.service'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import { v4 as uuidv4 } from 'uuid'
+
+import SettingsDropdown from './SettingsDropdown'
 
 export interface IHomeHeaderProps {
   buyer?: IBuyerDocument
@@ -32,6 +35,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
 
   const authUser = useAppSelector((state: IReduxState) => state.authUser)
   const logout = useAppSelector((state: IReduxState) => state.logout)
+  const buyer = useAppSelector((state: IReduxState) => state.buyer)
 
   const settingsDropdownRef = useRef<HTMLDivElement | null>(null)
   const messageDropdownRef = useRef<HTMLDivElement | null>(null)
@@ -44,15 +48,13 @@ export default function HomeHeader(props: IHomeHeaderProps) {
   const dispatch = useAppDispatch()
   const [resendEmail] = useResendEmailMutation()
 
-  const isSettingsDropdown = false
-  const isMessageDropdownOpen = false
-  const isNotificationDropdownOpen = false
-  const isOrderDropdownOpen = false
-
-  // const [isSettingsDropdown, setIsSettingsDropdown] = useDetectOutsideClick(settingsDropdownRef, false)
-  // const [isMessageDropdownOpen, setIsMessageDropdownOpen] = useDetectOutsideClick(messageDropdownRef, false)
-  // const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] = useDetectOutsideClick(notificationDropdownRef, false)
-  // const [isOrderDropdownOpen, setIsOrderDropdownOpen] = useDetectOutsideClick(orderDropdownRef, false)
+  const { isActive: isSettingsDropdown, setIsActive: setIsSettingsDropdown } = useDetectOutsideClick(settingsDropdownRef, false)
+  const { isActive: isMessageDropdownOpen, setIsActive: setIsMessageDropdownOpen } = useDetectOutsideClick(messageDropdownRef, false)
+  const { isActive: isNotificationDropdownOpen, setIsActive: setIsNotificationDropdownOpen } = useDetectOutsideClick(
+    notificationDropdownRef,
+    false
+  )
+  const { isActive: isOrderDropdownOpen, setIsActive: setIsOrderDropdownOpen } = useDetectOutsideClick(orderDropdownRef, false)
 
   const onResendEmail = async (): Promise<void> => {
     try {
@@ -61,6 +63,10 @@ export default function HomeHeader(props: IHomeHeaderProps) {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const toggleDropdown = () => {
+    setIsSettingsDropdown(!isSettingsDropdown)
   }
 
   return (
@@ -185,6 +191,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                           <span className="flex self-center">{authUser.username}</span>
                         </>
                       }
+                      onClick={toggleDropdown}
                     />
                     <Transition
                       ref={settingsDropdownRef}
@@ -196,7 +203,15 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                       leaveFrom="opacity-100 translate-y-0"
                       leaveTo="opacity-0 translate-y-1"
                     >
-                      <div className="absolute -right-48 z-50 mt-5 w-96">{/* <!-- SettingsDropdown --> */}</div>
+                      <div className="absolute right-0 z-50 mt-5">
+                        <SettingsDropdown
+                          seller={{} as ISellerDocument}
+                          buyer={buyer}
+                          authUser={authUser}
+                          type="buyer"
+                          setIsDropdownOpen={setIsSettingsDropdown}
+                        />
+                      </div>
                     </Transition>
                   </li>
                 </ul>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import ForgotPasswordModal from 'src/features/auth/components/ForgotPassword'
 import LoginModal from 'src/features/auth/components/Login'
 import RegisterModal from 'src/features/auth/components/Register'
-import { HeaderModalProps } from 'src/interfaces/header.interface'
+import { IHeaderModalProps } from 'src/interfaces/header.interface'
 import Button from 'src/shared/button/Button'
 
 interface IHeaderProps {
@@ -11,7 +11,7 @@ interface IHeaderProps {
 }
 
 export default function Header({ navClass }: IHeaderProps) {
-  const [showModal, setShowModal] = useState<HeaderModalProps>({
+  const [showModal, setShowModal] = useState<IHeaderModalProps>({
     login: false,
     register: false,
     forgotPassword: false
