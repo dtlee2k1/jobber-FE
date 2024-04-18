@@ -63,12 +63,6 @@ export interface IExtendedDateModalProps {
   onClose: () => void
 }
 
-export interface IOrderTableProps {
-  type: string
-  orders: IOrderDocument[]
-  orderTypes: number
-}
-
 export interface IActiveOrderProps {
   activeOrders: IOrderDocument[]
 }

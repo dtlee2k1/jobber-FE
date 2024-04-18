@@ -1,5 +1,9 @@
 import classNames from 'classnames'
 import { useState } from 'react'
+import { IOrderDocument } from 'src/interfaces/order.interface'
+import { orderTypes } from 'src/shared/utils/utils.service'
+
+import BuyerTable from './BuyerTable'
 
 const BUYER_GIG_STATUS = {
   ACTIVE: 'active',
@@ -11,6 +15,8 @@ const BUYER_GIG_STATUS = {
 
 export default function BuyerDashboard() {
   const [type, setType] = useState<string>(BUYER_GIG_STATUS.ACTIVE)
+
+  const orders: IOrderDocument[] = []
 
   return (
     <div className="container mx-auto mt-8 px-6 md:px-12 lg:px-6">
@@ -50,6 +56,15 @@ export default function BuyerDashboard() {
             </li>
           </ul>
         </div>
+        {type === BUYER_GIG_STATUS.ACTIVE && (
+          <BuyerTable type={type} orders={orders} orderTypes={orderTypes(BUYER_GIG_STATUS.IN_PROGRESS, orders)} />
+        )}
+        {type === BUYER_GIG_STATUS.COMPLETED && (
+          <BuyerTable type={type} orders={orders} orderTypes={orderTypes(BUYER_GIG_STATUS.COMPLETED, orders)} />
+        )}
+        {type === BUYER_GIG_STATUS.CANCELLED && (
+          <BuyerTable type={type} orders={[]} orderTypes={orderTypes(BUYER_GIG_STATUS.CANCELLED, orders)} />
+        )}
       </div>
     </div>
   )

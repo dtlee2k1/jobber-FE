@@ -3,6 +3,7 @@ import countries from 'i18n-iso-countries'
 import enLocale from 'i18n-iso-countries/langs/en.json'
 import { NavigateFunction } from 'react-router-dom'
 import { logout } from 'src/features/auth/reducer/logout.reducer'
+import { IOrderDocument } from 'src/interfaces/order.interface'
 import { authApi } from 'src/services/auth.service'
 import { api } from 'src/store/api'
 
@@ -90,4 +91,9 @@ export const applicationLogout = (dispatch: Dispatch, navigate: NavigateFunction
   saveToSessionStorage(JSON.stringify(false), JSON.stringify(''))
   deleteFromLocalStorage('becomeASeller')
   navigate('/')
+}
+
+export const orderTypes = (status: string, orders: IOrderDocument[]) => {
+  const orderList = orders.filter((order) => lowerCase(order.status) === status)
+  return orderList.length
 }
