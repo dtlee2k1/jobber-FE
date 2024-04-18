@@ -38,13 +38,13 @@ export default function ProtectedRoute({ children }: IProtectedRouteProps) {
   }, [checkUser])
 
   if ((data && data.user) || authUser) {
-    tokenIsValid ? (
+    return tokenIsValid ? (
       <>
         <HomeHeader showCategoryContainer={true} />
         {children}
       </>
     ) : null
   } else {
-    return <Navigate to="/" />
+    return <Navigate replace to="/" />
   }
 }

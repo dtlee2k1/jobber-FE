@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IReduxState } from 'src/interfaces/store.interface'
+import Layout from 'src/layouts/Layout'
 import { useCheckCurrentUserQuery } from 'src/services/auth.service'
 import HomeHeader from 'src/shared/header/HomeHeader'
 import { applicationLogout, saveToSessionStorage } from 'src/shared/utils/utils.service'
@@ -51,7 +52,9 @@ export default function AppPage() {
   ) : (
     <>
       <HomeHeader showCategoryContainer={showCategoryContainer} />
-      <Home />
+      <Layout backgroundColor="#fff">
+        <Home />
+      </Layout>
     </>
   )
 }
