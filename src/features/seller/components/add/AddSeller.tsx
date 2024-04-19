@@ -1,13 +1,16 @@
 import { useState } from 'react'
-import { IPersonalInfoData } from 'src/interfaces/seller.interface'
+import { IExperience, IPersonalInfoData } from 'src/interfaces/seller.interface'
 import { IReduxState } from 'src/interfaces/store.interface'
 import Breadcrumb from 'src/shared/breadcrumb/Breadcrumb'
 import { useAppSelector } from 'src/store/store'
+import { v4 as uuidv4 } from 'uuid'
 
 import PersonalInfo from './components/PersonalInfo'
+import SellerExperienceFields from './components/SellerExperienceFields'
 
 export default function AddSeller() {
   const authUser = useAppSelector((state: IReduxState) => state.authUser)
+
   const [personalInfo, setPersonalInfo] = useState<IPersonalInfoData>({
     fullName: '',
     profilePicture: `${authUser.profilePicture}`,
@@ -15,6 +18,17 @@ export default function AddSeller() {
     responseTime: '',
     oneliner: ''
   })
+  const [experienceFields, setExperienceFields] = useState<IExperience[]>([
+    {
+      id: uuidv4(),
+      title: '',
+      company: '',
+      startDate: 'Start Year',
+      endDate: 'End Year',
+      currentlyWorkingHere: false,
+      description: ''
+    }
+  ])
 
   return (
     <div className="relative w-full">
@@ -29,6 +43,7 @@ export default function AddSeller() {
 
         <div className="left-0 top-0 z-10 mt-4 block h-full bg-white">
           <PersonalInfo personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} personalInfoErrors={[]} />
+          <SellerExperienceFields experienceFields={experienceFields} setExperienceFields={setExperienceFields} experienceErrors={[]} />
         </div>
       </div>
     </div>

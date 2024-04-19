@@ -1,6 +1,7 @@
 import { Dispatch } from '@reduxjs/toolkit'
 import countries from 'i18n-iso-countries'
 import enLocale from 'i18n-iso-countries/langs/en.json'
+import { filter } from 'lodash'
 import { NavigateFunction } from 'react-router-dom'
 import { logout } from 'src/features/auth/reducer/logout.reducer'
 import { IOrderDocument } from 'src/interfaces/order.interface'
@@ -96,4 +97,28 @@ export const applicationLogout = (dispatch: Dispatch, navigate: NavigateFunction
 export const orderTypes = (status: string, orders: IOrderDocument[]) => {
   const orderList = orders.filter((order) => lowerCase(order.status) === status)
   return orderList.length
+}
+
+export const sellerOrderList = (status: string, orders: IOrderDocument[]): IOrderDocument[] => {
+  const orderList: IOrderDocument[] = filter(orders, (order: IOrderDocument) => lowerCase(order.status) === lowerCase(status))
+  return orderList
+}
+
+export const degreeList = () => {
+  return ['Associate', 'B.A.', 'B.Sc.', 'M.A.', 'M.B.A.', 'M.Sc.', 'J.D.', 'M.D.', 'Ph.D.', 'LLB', 'Certificate', 'Other']
+}
+
+export const languageLevel = () => {
+  return ['Basic', 'Conversational', 'Fluent', 'Native']
+}
+
+export const yearsList = (maxOffset: number) => {
+  const years: string[] = []
+  const currentYear: number = new Date().getFullYear()
+
+  for (let i = 0; i <= maxOffset; i++) {
+    const year = currentYear - i
+    years.push(`${year}`)
+  }
+  return years
 }

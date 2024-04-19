@@ -56,12 +56,6 @@ export interface IPersonalInfoData {
   oneliner: string
 }
 
-export interface IPersonalInfoProps {
-  personalInfo: IPersonalInfoData
-  setPersonalInfo: Dispatch<SetStateAction<IPersonalInfoData>>
-  personalInfoErrors: IPersonalInfoData[]
-}
-
 export interface IReduxSeller {
   type?: string
   payload: ISellerDocument
@@ -72,15 +66,6 @@ export interface IProfileHeaderProps {
   showEditIcons: boolean
   sellerProfile?: ISellerDocument
   setSellerProfile?: Dispatch<SetStateAction<ISellerDocument>>
-}
-
-export interface IExperienceProps {
-  selectedField?: IExperience
-  experienceFields?: IExperience[]
-  experienceErrors?: IExperience[]
-  setExperienceFields?: Dispatch<SetStateAction<IExperience[]>>
-  setShowExperienceAddForm?: Dispatch<SetStateAction<boolean>>
-  setShowExperienceEditForm?: Dispatch<SetStateAction<boolean>>
 }
 
 export interface IEducationProps {
