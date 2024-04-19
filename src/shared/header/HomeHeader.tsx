@@ -174,14 +174,18 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                       <div className="absolute right-0 mt-5 w-96">{/* <!-- OrderDropdown --> */}</div>
                     </Transition>
                   </li>
-                  <li className="relative flex items-center">
-                    <Link
-                      to="/seller_onboarding"
-                      className="relative ml-auto flex h-9 items-center justify-center rounded-full bg-sky-500 font-bold text-white hover:bg-sky-400 sm:px-6"
-                    >
-                      <span>Become a Seller</span>
-                    </Link>
-                  </li>
+
+                  {buyer && !buyer.isSeller && (
+                    <li className="relative flex items-center">
+                      <Link
+                        to="/seller_onboarding"
+                        className="relative ml-auto flex h-9 items-center justify-center rounded-full bg-sky-500 font-bold text-white hover:bg-sky-400 sm:px-6"
+                      >
+                        <span>Become a Seller</span>
+                      </Link>
+                    </li>
+                  )}
+
                   <li className="relative z-50 flex cursor-pointer items-center">
                     <Button
                       className="relative flex gap-2 px-3 text-base font-medium"

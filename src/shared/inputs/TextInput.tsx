@@ -1,6 +1,6 @@
 import { ChangeEvent, CSSProperties, forwardRef, KeyboardEvent } from 'react'
 
-export interface ITextInputProps {
+interface ITextInputProps {
   id?: string
   name?: string
   type?: string
@@ -49,7 +49,7 @@ const TextInput = forwardRef<HTMLInputElement, ITextInputProps>((props, ref) => 
       onKeyDown={props.onKeyDown}
       autoComplete="false"
     />
-    <div className={props.classNameError}>{props.errorMessage}</div>
+    {props.errorMessage && <div className={props.classNameError}>{props.errorMessage}</div>}
   </>
 ))
 

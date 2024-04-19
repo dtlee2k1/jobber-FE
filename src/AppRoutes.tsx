@@ -7,6 +7,7 @@ import BuyerDashboard from './features/buyer/components/BuyerDashboard'
 import PageNotFound from './features/error/PageNotFound'
 import Home from './features/home/Home'
 import ProtectedRoute from './features/ProtectedRoute'
+import AddSeller from './features/seller/components/add/AddSeller'
 import Layout from './layouts/Layout'
 
 export default function AppRouter() {
@@ -39,6 +40,16 @@ export default function AppRouter() {
         <ProtectedRoute>
           <Layout backgroundColor="#fff">
             <BuyerDashboard />
+          </Layout>
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: '/seller_onboarding',
+      element: (
+        <ProtectedRoute>
+          <Layout backgroundColor="#fff">
+            <AddSeller />
           </Layout>
         </ProtectedRoute>
       )
