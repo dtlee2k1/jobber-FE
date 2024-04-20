@@ -11,7 +11,7 @@ interface IOrderTableProps {
 
 export default function BuyerTable({ type, orderTypes, orders }: IOrderTableProps) {
   return (
-    <div className="flex flex-col">
+    <div className="mt-4 flex flex-col">
       <div className="border-grey border border-b-0 px-3 py-3">
         <div className="text-xs font-bold uppercase sm:text-sm md:text-base">{type} orders </div>
       </div>

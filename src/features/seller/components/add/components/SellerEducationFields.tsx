@@ -103,7 +103,17 @@ export default function SellerEducationFields({ educationFields, setEducationFie
               />
             </div>
             <div className="relative">
-              <Dropdown text={field.year} maxHeight="300" mainClassNames="absolute bg-white z-30" values={yearsList(30)} />
+              <Dropdown
+                text={field.year}
+                maxHeight="300"
+                mainClassNames="absolute bg-white z-30"
+                values={yearsList(30)}
+                onClick={(item: string) => {
+                  const data = [...educationFields]
+                  data[index]['year'] = item
+                  setEducationFields(data)
+                }}
+              />
             </div>
 
             <div className="mb-2">

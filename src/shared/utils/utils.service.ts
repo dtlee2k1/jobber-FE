@@ -105,7 +105,7 @@ export const sellerOrderList = (status: string, orders: IOrderDocument[]): IOrde
 }
 
 export const degreeList = () => {
-  return ['Associate', 'B.Sc.', 'M.Sc.', 'Ph.D.', 'Certificate', 'Other']
+  return ['Associate', 'B.Sc.', 'Engineering', 'M.Sc.', 'Ph.D.', 'Certificate', 'Other']
 }
 
 export const languageLevel = () => {

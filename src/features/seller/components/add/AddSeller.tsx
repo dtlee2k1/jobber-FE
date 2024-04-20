@@ -1,4 +1,5 @@
-import { filter } from 'lodash'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { filter, omit } from 'lodash'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { addBuyer } from 'src/features/buyer/reducers/buyer.reducer'
@@ -99,10 +100,15 @@ export default function AddSeller() {
       // Filter all remaining non-validated fields
       const skills = filter(skillsFields, (field) => field !== '')
       const socialLinks = filter(socialFields, (field) => field !== '')
+
       const certificates = certificateFields.map((field) => {
         field.year = field.year === 'Year' ? '' : field.year
-        return field
-      })
+        return omit(field, ['id'])
+      }) as ICertificate[]
+
+      const experience = experienceFields.map((field) => omit(field, ['id'])) as IExperience[]
+      const education = educationFields.map((field) => omit(field, ['id'])) as IEducation[]
+      const languages = languageFields.map((field) => omit(field, ['id'])) as ILanguage[]
 
       const sellerData: ISellerDocument = {
         email: `${authUser.email}`,
@@ -113,10 +119,10 @@ export default function AddSeller() {
         country: `${authUser.country}`,
         skills,
         oneliner: personalInfo.oneliner,
-        languages: languageFields,
+        languages,
         responseTime: parseInt(personalInfo.responseTime),
-        experience: experienceFields,
-        education: educationFields,
+        experience,
+        education,
         socialLinks,
         certificates
       }

@@ -32,7 +32,6 @@ export default function Dropdown({
 }: IDropdownProps) {
   const [dropdownItems, setDropdownItems] = useState<string[]>(values)
   const [inputText, setInputText] = useState<string>(text)
-  // const dropdownRef = useRef<HTMLLIElement>(null)
   const [toggleDropdown, setToggleDropdown] = useState<boolean>(false)
 
   const onHandleSelect = (event: MouseEvent) => {
