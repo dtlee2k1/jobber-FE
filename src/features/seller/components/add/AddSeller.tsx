@@ -11,6 +11,7 @@ import { useCreateSellerMutation } from 'src/services/seller.service'
 import Breadcrumb from 'src/shared/breadcrumb/Breadcrumb'
 import Button from 'src/shared/button/Button'
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader'
+import { lowerCase } from 'src/shared/utils/utils.service'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -125,7 +126,7 @@ export default function AddSeller() {
 
       dispatch(addBuyer(updatedBuyer))
       dispatch(addSeller(result.seller))
-      navigate('/')
+      navigate(`/seller_profile/${lowerCase(`${authUser.username}`)}/${result.seller?._id}/edit`)
     } catch (error) {
       console.log(error)
     }
