@@ -4,6 +4,7 @@ interface ITextAreaInputProps {
   id?: string
   name?: string
   value?: string | number
+  type?: string
   placeholder?: string
   className?: string
   style?: CSSProperties

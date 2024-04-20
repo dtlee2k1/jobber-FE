@@ -10,19 +10,15 @@ import { v4 as uuidv4 } from 'uuid'
 
 export interface IExperienceProps {
   selectedField?: IExperience
-  experienceFields?: IExperience[]
+  experienceFields: IExperience[]
   experienceErrors?: IExperience[]
-  setExperienceFields?: Dispatch<SetStateAction<IExperience[]>>
+  setExperienceFields: Dispatch<SetStateAction<IExperience[]>>
   setShowExperienceAddForm?: Dispatch<SetStateAction<boolean>>
   setShowExperienceEditForm?: Dispatch<SetStateAction<boolean>>
 }
 
 export default function SellerExperienceFields({ experienceFields, setExperienceFields }: IExperienceProps) {
   const handleExperienceFieldsChange = (e: React.ChangeEvent, index: number) => {
-    if (!setExperienceFields || !experienceFields) {
-      return
-    }
-
     const target = e.target as HTMLInputElement
     const data = [...experienceFields]
 
@@ -31,14 +27,11 @@ export default function SellerExperienceFields({ experienceFields, setExperience
       updatePresentEndDate(data, index)
     } else {
       data[index][target.name] = target.value
-      setExperienceFields(data)
     }
+    setExperienceFields(data)
   }
 
   const handleAddExperienceFields = () => {
-    if (!setExperienceFields || !experienceFields) {
-      return
-    }
     const newField = {
       id: uuidv4(),
       title: '',
@@ -51,10 +44,7 @@ export default function SellerExperienceFields({ experienceFields, setExperience
     setExperienceFields([...experienceFields, newField])
   }
 
-  const handleRemoveExperienceField = (index: number) => {
-    if (!setExperienceFields || !experienceFields) {
-      return
-    }
+  const handleRemoveExperienceFields = (index: number) => {
     const data = [...experienceFields]
     data.splice(index, 1)
 
@@ -62,9 +52,6 @@ export default function SellerExperienceFields({ experienceFields, setExperience
   }
 
   const updatePresentEndDate = (data: IExperience[], index: number) => {
-    if (!setExperienceFields || !experienceFields) {
-      return
-    }
     const newData = [...data]
     const currentExperienceField = newData[index]
 
@@ -166,7 +153,7 @@ export default function SellerExperienceFields({ experienceFields, setExperience
               <Button
                 className="md:text-md h-7 rounded bg-red-500 px-6 text-center text-sm font-bold text-white hover:bg-red-400 focus:outline-none md:px-8"
                 label="Delete"
-                onClick={() => handleRemoveExperienceField(index)}
+                onClick={() => handleRemoveExperienceFields(index)}
               />
             )}
           </div>

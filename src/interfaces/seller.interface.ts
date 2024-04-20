@@ -68,50 +68,6 @@ export interface IProfileHeaderProps {
   setSellerProfile?: Dispatch<SetStateAction<ISellerDocument>>
 }
 
-export interface IEducationProps {
-  selectedField?: IEducation
-  educationFields?: IEducation[]
-  educationErrors?: IEducation[]
-  setEducationFields?: Dispatch<SetStateAction<IEducation[]>>
-  setShowEducationAddForm?: Dispatch<SetStateAction<boolean>>
-  setShowEducationEditForm?: Dispatch<SetStateAction<boolean>>
-}
-
-export interface ISkillProps {
-  type?: string
-  selectedField?: string[]
-  skillsFields?: string[]
-  skillsErrors?: string[]
-  setSkillsFields?: Dispatch<SetStateAction<string[]>>
-  setShowSkillEditForm?: Dispatch<SetStateAction<boolean>>
-  setShowSkillAddForm?: Dispatch<SetStateAction<boolean>>
-}
-
-export interface ILanguageProps {
-  languageEdit?: ILanguage
-  languageFields?: ILanguage[]
-  languagesErrors?: ILanguage[]
-  setLanguageFields?: Dispatch<SetStateAction<ILanguage[]>>
-  setShowLanguageEditForm?: Dispatch<SetStateAction<boolean>>
-  setShowLanguageAddForm?: Dispatch<SetStateAction<boolean>>
-}
-
-export interface ICertificateProps {
-  selectedField?: ICertificate
-  certificatesFields?: ICertificate[]
-  setCertificatesFields?: Dispatch<SetStateAction<ICertificate[]>>
-  setShowCertificateAddForm?: Dispatch<SetStateAction<boolean>>
-  setShowCertificateEditForm?: Dispatch<SetStateAction<boolean>>
-}
-
-export interface ISocialLinksProps {
-  socialFields?: string[]
-  type?: string
-  setSocialFields?: Dispatch<SetStateAction<string[]>>
-  setShowSocialLinksAddForm?: Dispatch<SetStateAction<boolean>>
-  setShowSocialLinksEditForm?: Dispatch<SetStateAction<boolean>>
-}
-
 export interface ISellerContext {
   showEditIcons: boolean
   sellerProfile: ISellerDocument
