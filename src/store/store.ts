@@ -3,9 +3,10 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import authReducer from 'src/features/auth/reducer/auth.reducer'
-import logoutReducer from 'src/features/auth/reducer/logout.reducer'
+import authReducer from 'src/features/auth/reducers/auth.reducer'
+import logoutReducer from 'src/features/auth/reducers/logout.reducer'
 import buyerReducer from 'src/features/buyer/reducers/buyer.reducer'
+import sellerReducer from 'src/features/seller/reducers/seller.reducer'
 
 import { api } from './api'
 
@@ -19,7 +20,8 @@ export const combineReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   authUser: authReducer,
   logout: logoutReducer,
-  buyer: buyerReducer
+  buyer: buyerReducer,
+  seller: sellerReducer
 })
 
 export const rootReducers = (state: any, action: any) => {

@@ -5,7 +5,7 @@ import { useVerifyEmailMutation } from 'src/services/auth.service'
 import Alert from 'src/shared/alert/Alert'
 import { useAppDispatch } from 'src/store/store'
 
-import { addAuthUser } from '../reducer/auth.reducer'
+import { addAuthUser } from '../reducers/auth.reducer'
 
 export default function ConfirmEmail() {
   const [alertMessage, setAlertMessage] = useState<string>('')

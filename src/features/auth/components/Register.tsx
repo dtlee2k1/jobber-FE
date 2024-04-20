@@ -16,8 +16,8 @@ import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service'
 import { countriesList, saveToSessionStorage } from 'src/shared/utils/utils.service'
 import { useAppDispatch } from 'src/store/store'
 
-import { addAuthUser } from '../reducer/auth.reducer'
-import { updateLogout } from '../reducer/logout.reducer'
+import { addAuthUser } from '../reducers/auth.reducer'
+import { updateLogout } from '../reducers/logout.reducer'
 
 export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
   const [step, setStep] = useState<number>(1)

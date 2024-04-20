@@ -9,7 +9,7 @@ import HomeHeader from 'src/shared/header/HomeHeader'
 import { applicationLogout, saveToSessionStorage } from 'src/shared/utils/utils.service'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 
-import { addAuthUser } from './auth/reducer/auth.reducer'
+import { addAuthUser } from './auth/reducers/auth.reducer'
 import { addBuyer } from './buyer/reducers/buyer.reducer'
 import Home from './home/Home'
 import Index from './index/Index'

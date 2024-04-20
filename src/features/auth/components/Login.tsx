@@ -13,8 +13,8 @@ import ModalBg from 'src/shared/modals/ModalBg'
 import { saveToSessionStorage } from 'src/shared/utils/utils.service'
 import { useAppDispatch } from 'src/store/store'
 
-import { addAuthUser } from '../reducer/auth.reducer'
-import { updateLogout } from '../reducer/logout.reducer'
+import { addAuthUser } from '../reducers/auth.reducer'
+import { updateLogout } from '../reducers/logout.reducer'
 
 export default function LoginModal({ onClose, onToggle, onTogglePassword }: IModalBgProps) {
   const [alertMessage, setAlertMessage] = useState<string>('')

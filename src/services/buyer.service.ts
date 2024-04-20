@@ -4,15 +4,15 @@ import { api } from 'src/store/api'
 export const buyerApi = api.injectEndpoints({
   endpoints: (build) => ({
     getCurrentBuyerByUsername: build.query<IResponse, void>({
-      query: () => 'buyer/username',
+      query: () => '/buyer/username',
       providesTags: ['Buyer']
     }),
     getBuyerByUsername: build.query<IResponse, string>({
-      query: (username: string) => `buyer/${username}`,
+      query: (username: string) => `/buyer/${username}`,
       providesTags: ['Buyer']
     }),
     getBuyerByEmail: build.query<IResponse, void>({
-      query: () => 'buyer/email',
+      query: () => '/buyer/email',
       providesTags: ['Buyer']
     })
   })
