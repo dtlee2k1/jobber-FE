@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { Dispatch, SetStateAction } from 'react'
 import Button from 'src/shared/button/Button'
 import TextInput from 'src/shared/inputs/TextInput'
@@ -6,13 +7,13 @@ interface ISkillProps {
   type?: string
   selectedField?: string[]
   skillsFields: string[]
-  skillsErrors?: string[]
+  skillsErrors: string[]
   setSkillsFields: Dispatch<SetStateAction<string[]>>
   setShowSkillEditForm?: Dispatch<SetStateAction<boolean>>
   setShowSkillAddForm?: Dispatch<SetStateAction<boolean>>
 }
 
-export default function SellerSkillFields({ skillsFields, setSkillsFields }: ISkillProps) {
+export default function SellerSkillFields({ skillsFields, setSkillsFields, skillsErrors }: ISkillProps) {
   const handleAddSkillFields = () => {
     setSkillsFields([...skillsFields, ''])
   }
@@ -38,7 +39,12 @@ export default function SellerSkillFields({ skillsFields, setSkillsFields }: ISk
       {skillsFields.map((field, index) => (
         <div key={index} className="mb-8">
           <TextInput
-            className="border-grey w-full rounded border p-2.5 text-sm font-normal text-gray-600 focus:outline-none"
+            className={classNames('w-full rounded border p-2.5 text-sm font-normal text-gray-600', {
+              'border-grey focus:outline-none': !skillsErrors[index],
+              'border-red-600 bg-red-50 focus:border-red-600': skillsErrors[index]
+            })}
+            classNameError="mt-1 min-h-[1rem] text-xs text-red-600"
+            errorMessage={skillsErrors[index]}
             placeholder="Skill E.g: Front End Developer"
             type="text"
             name="skill"

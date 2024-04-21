@@ -8,8 +8,8 @@ import PageNotFound from './features/error/PageNotFound'
 import Home from './features/home/Home'
 import ProtectedRoute from './features/ProtectedRoute'
 import AddSeller from './features/seller/components/add/AddSeller'
-import Layout from './layouts/Layout'
 import CurrentSellerProfile from './features/seller/components/profile/CurrentSellerProfile'
+import Layout from './layouts/Layout'
 
 export default function AppRouter() {
   const routeElements = useRoutes([

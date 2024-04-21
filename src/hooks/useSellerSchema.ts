@@ -17,42 +17,66 @@ interface IUseSellerSchema {
 }
 
 export function useSellerSchema({ personalInfo, experienceFields, educationFields, skillsFields, languageFields }: IUseSellerSchema) {
-  const [personalInfoErrors, setPersonalInfoErrors] = useState<IPersonalInfoData[]>([])
-  const [experienceErrors, setExperienceErrors] = useState<IExperience[]>([])
-  const [educationErrors, setEducationErrors] = useState<IEducation[]>([])
+  const [personalInfoErrors, setPersonalInfoErrors] = useState<Partial<IPersonalInfoData>>({})
+  const [experienceErrors, setExperienceErrors] = useState<Partial<IExperience>>({})
+  const [educationErrors, setEducationErrors] = useState<Partial<IEducation>>({})
   const [skillsErrors, setSkillsErrors] = useState<string[]>([])
-  const [languagesErrors, setLanguagesErrors] = useState<ILanguage[]>([])
+  const [languagesErrors, setLanguagesErrors] = useState<Partial<ILanguage>>({})
 
   async function schemaValidation(): Promise<boolean> {
     await personalInfoSchema
       .validate(personalInfo, { abortEarly: false })
-      .then(() => setPersonalInfoErrors([]))
+      .then(() => setPersonalInfoErrors({}))
       .catch((error) => {
-        setPersonalInfoErrors([...error.errors])
+        const errorsObject = error.errors.reduce((acc: IPersonalInfoData, curr: { [key: string]: string }) => {
+          const key = Object.keys(curr)[0]
+          const value = curr[key]
+          acc[key] = value
+          return acc
+        }, {})
+        setPersonalInfoErrors(errorsObject)
       })
 
     await ArrayOfExperienceSchema.validate(experienceFields, { abortEarly: false })
-      .then(() => setExperienceErrors([]))
+      .then(() => setExperienceErrors({}))
       .catch((error) => {
-        setExperienceErrors(error.errors)
+        const errorsObject = error.errors.reduce((acc: IExperience, curr: { [key: string]: string }) => {
+          const key = Object.keys(curr)[0]
+          const value = curr[key]
+          acc[key] = value
+          return acc
+        }, {})
+        setExperienceErrors(errorsObject)
       })
 
     await ArrayOfEducationSchema.validate(educationFields, { abortEarly: false })
-      .then(() => setEducationErrors([]))
+      .then(() => setEducationErrors({}))
       .catch((error) => {
-        setEducationErrors(error.errors)
+        const errorsObject = error.errors.reduce((acc: IEducation, curr: { [key: string]: string }) => {
+          const key = Object.keys(curr)[0]
+          const value = curr[key]
+          acc[key] = value
+          return acc
+        }, {})
+        setEducationErrors(errorsObject)
       })
 
     await ArrayOfSkillsSchema.validate(skillsFields, { abortEarly: false })
       .then(() => setSkillsErrors([]))
       .catch((error) => {
-        setSkillsErrors(error.errors)
+        setSkillsErrors([...error.errors])
       })
 
     await ArrayOfLanguagesSchema.validate(languageFields, { abortEarly: false })
-      .then(() => setLanguagesErrors([]))
+      .then(() => setLanguagesErrors({}))
       .catch((error) => {
-        setLanguagesErrors(error.errors)
+        const errorsObject = error.errors.reduce((acc: ILanguage, curr: { [key: string]: string }) => {
+          const key = Object.keys(curr)[0]
+          const value = curr[key]
+          acc[key] = value
+          return acc
+        }, {})
+        setLanguagesErrors(errorsObject)
       })
 
     const isPersonalInfoValid = await personalInfoSchema.isValid(personalInfo, { abortEarly: false })

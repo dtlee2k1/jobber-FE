@@ -11,13 +11,13 @@ import { v4 as uuidv4 } from 'uuid'
 export interface IExperienceProps {
   selectedField?: IExperience
   experienceFields: IExperience[]
-  experienceErrors?: IExperience[]
+  experienceErrors: Partial<IExperience>
   setExperienceFields: Dispatch<SetStateAction<IExperience[]>>
   setShowExperienceAddForm?: Dispatch<SetStateAction<boolean>>
   setShowExperienceEditForm?: Dispatch<SetStateAction<boolean>>
 }
 
-export default function SellerExperienceFields({ experienceFields, setExperienceFields }: IExperienceProps) {
+export default function SellerExperienceFields({ experienceFields, setExperienceFields, experienceErrors }: IExperienceProps) {
   const handleExperienceFieldsChange = (e: React.ChangeEvent, index: number) => {
     const target = e.target as HTMLInputElement
     const data = [...experienceFields]
@@ -77,20 +77,34 @@ export default function SellerExperienceFields({ experienceFields, setExperience
 
       {experienceFields?.map((input: IExperience, index) => (
         <div key={`${input.id}`} className="mb-8">
-          <TextInput
-            className="border-grey mb-4 w-full rounded border p-2.5 text-sm font-normal text-gray-600 focus:outline-none"
-            name="title"
-            value={input.title}
-            onChange={(e: React.ChangeEvent) => handleExperienceFieldsChange(e, index)}
-            placeholder="Title (E.g: CEO)"
-          />
-          <TextInput
-            className="border-grey mb-4 w-full rounded border p-2.5 text-sm font-normal text-gray-600 focus:outline-none"
-            placeholder="Company name"
-            name="company"
-            value={input.company}
-            onChange={(e: React.ChangeEvent) => handleExperienceFieldsChange(e, index)}
-          />
+          <div className="mb-4">
+            <TextInput
+              className={classNames('w-full rounded border p-2.5 text-sm font-normal text-gray-600', {
+                'border-grey focus:outline-none': !experienceErrors.title,
+                'border-red-600 bg-red-50 focus:border-red-600': experienceErrors.title
+              })}
+              classNameError="mt-1 min-h-[1rem] text-xs text-red-600"
+              errorMessage={experienceErrors.title}
+              name="title"
+              value={input.title}
+              onChange={(e: React.ChangeEvent) => handleExperienceFieldsChange(e, index)}
+              placeholder="Title (E.g: CEO)"
+            />
+          </div>
+          <div className="mb-4">
+            <TextInput
+              className={classNames('w-full rounded border p-2.5 text-sm font-normal text-gray-600', {
+                'border-grey focus:outline-none': !experienceErrors.company,
+                'border-red-600 bg-red-50 focus:border-red-600': experienceErrors.company
+              })}
+              classNameError="mt-1 min-h-[1rem] text-xs text-red-600"
+              errorMessage={experienceErrors.company}
+              placeholder="Company name"
+              name="company"
+              value={input.company}
+              onChange={(e: React.ChangeEvent) => handleExperienceFieldsChange(e, index)}
+            />
+          </div>
           <div className="mb-16 grid h-1/5 grid-cols-2 gap-x-2 gap-y-3">
             <div className="relative">
               <Dropdown
@@ -101,7 +115,10 @@ export default function SellerExperienceFields({ experienceFields, setExperience
                   setExperienceFields && setExperienceFields(data)
                 }}
                 maxHeight="300"
-                mainClassNames="absolute bg-white"
+                mainClassNames={classNames('absolute border', {
+                  'border-red-600 bg-red-50 focus:border-red-600': experienceErrors.startDate,
+                  'bg-white border-grey focus:outline-none': !experienceErrors.startDate
+                })}
                 values={yearsList(50)}
               />
             </div>
@@ -119,7 +136,10 @@ export default function SellerExperienceFields({ experienceFields, setExperience
                   setExperienceFields && setExperienceFields(data)
                 }}
                 maxHeight="300"
-                mainClassNames="absolute bg-white"
+                mainClassNames={classNames('absolute border', {
+                  'border-red-600 bg-red-50 focus:border-red-600': experienceErrors.endDate,
+                  'bg-white border-grey focus:outline-none': !experienceErrors.endDate
+                })}
                 values={yearsList(50)}
               />
             </div>
@@ -138,9 +158,14 @@ export default function SellerExperienceFields({ experienceFields, setExperience
               I am currently working here
             </label>
           </div>
-          <div className="flex items-center">
+          <div className="flex flex-col">
             <TextAreaInput
-              className="border-grey focus:border-grey block w-full rounded border p-2.5 text-sm text-gray-900 focus:ring-blue-500"
+              className={classNames('block w-full rounded border p-2.5 text-sm text-gray-900', {
+                'border-grey focus:border-grey': !experienceErrors.company,
+                'border-red-600 bg-red-50 focus:border-red-600': experienceErrors.company
+              })}
+              classNameError="mt-1 min-h-[1rem] text-xs text-red-600"
+              errorMessage={experienceErrors.company}
               name="description"
               value={input.description}
               onChange={(e: React.ChangeEvent) => handleExperienceFieldsChange(e, index)}

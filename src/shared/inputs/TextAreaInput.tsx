@@ -7,6 +7,8 @@ interface ITextAreaInputProps {
   type?: string
   placeholder?: string
   className?: string
+  classNameError?: string
+  errorMessage?: string
   style?: CSSProperties
   readOnly?: boolean
   rows?: number
@@ -21,23 +23,26 @@ interface ITextAreaInputProps {
 
 export default function TextAreaInput(props: ITextAreaInputProps) {
   return (
-    <textarea
-      id={props.id}
-      name={props.name}
-      value={props.value}
-      placeholder={props.placeholder}
-      className={props.className}
-      style={props.style}
-      readOnly={props.readOnly}
-      rows={props.rows}
-      maxLength={props.maxLength}
-      onChange={props.onChange}
-      onClick={props.onClick}
-      onFocus={props.onFocus}
-      onBlur={props.onBlur}
-      onKeyUp={props.onKeyUp}
-      onKeyDown={props.onKeyDown}
-      autoComplete="false"
-    />
+    <>
+      <textarea
+        id={props.id}
+        name={props.name}
+        value={props.value}
+        placeholder={props.placeholder}
+        className={props.className}
+        style={props.style}
+        readOnly={props.readOnly}
+        rows={props.rows}
+        maxLength={props.maxLength}
+        onChange={props.onChange}
+        onClick={props.onClick}
+        onFocus={props.onFocus}
+        onBlur={props.onBlur}
+        onKeyUp={props.onKeyUp}
+        onKeyDown={props.onKeyDown}
+        autoComplete="false"
+      />
+      {props.errorMessage && <div className={props.classNameError}>{props.errorMessage}</div>}
+    </>
   )
 }

@@ -92,8 +92,7 @@ export default function Dropdown({
 
       {toggleDropdown && (
         <ul
-          className={`z-40 cursor-pointer overflow-y-scroll py-2 text-sm text-gray-700 dark:text-gray-200
-              ${dropdownClassNames}`}
+          className={`z-40 cursor-pointer overflow-y-scroll py-2 text-sm text-gray-700 dark:text-gray-200 ${dropdownClassNames}`}
           style={{ maxHeight: `${maxHeight}px` }}
         >
           {dropdownItems.map((value: string) => (

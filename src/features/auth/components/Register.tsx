@@ -131,7 +131,7 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
         <div className="px-5">{alertMessage && <Alert type="error" message={alertMessage} />}</div>
 
         {step === 1 && (
-          <div className="relative px-5 py-5">
+          <div className="relative flex flex-col gap-1 px-5 py-5">
             <div>
               <label htmlFor="username" className="text-sm font-bold leading-tight tracking-normal text-gray-800">
                 Username
@@ -145,7 +145,7 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
                   setUserInfo((userInfo) => ({ ...userInfo, username: e.target.value }))
                 }
                 className={classNames(
-                  'mt-2 flex h-10 w-full items-center rounded border pl-3 text-sm font-normal text-gray-600 focus:border focus:outline-none',
+                  'mt-1 flex h-10 w-full items-center rounded border pl-3 text-sm font-normal text-gray-600 focus:border focus:outline-none',
                   {
                     'border-gray-300 focus:border-sky-500/50': !validationErrors.username,
                     'border-red-600 bg-red-50 focus:border-red-600': validationErrors.username
@@ -167,7 +167,7 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
                 value={userInfo.email}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserInfo((userInfo) => ({ ...userInfo, email: e.target.value }))}
                 className={classNames(
-                  'mt-2 flex h-10 w-full items-center rounded border pl-3 text-sm font-normal text-gray-600 focus:border focus:outline-none',
+                  'mt-1 flex h-10 w-full items-center rounded border pl-3 text-sm font-normal text-gray-600 focus:border focus:outline-none',
                   {
                     'border-gray-300 focus:border-sky-500/50': !validationErrors.email,
                     'border-red-600 bg-red-50 focus:border-red-600': validationErrors.email
@@ -182,7 +182,7 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
               <label htmlFor="password" className="text-sm font-bold leading-tight tracking-normal text-gray-800">
                 Password
               </label>
-              <div className="relative mb-5 mt-2">
+              <div className="relative mb-5 mt-1">
                 {passwordType === 'password' ? (
                   <div
                     onClick={() => setPasswordType('text')}

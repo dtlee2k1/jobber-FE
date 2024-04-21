@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { Dispatch, SetStateAction } from 'react'
 import { ILanguage } from 'src/interfaces/seller.interface'
 import Button from 'src/shared/button/Button'
@@ -9,13 +10,13 @@ import { v4 as uuidv4 } from 'uuid'
 interface ILanguageProps {
   languageEdit?: ILanguage
   languageFields: ILanguage[]
-  languagesErrors?: ILanguage[]
+  languagesErrors: Partial<ILanguage>
   setLanguageFields: Dispatch<SetStateAction<ILanguage[]>>
   setShowLanguageEditForm?: Dispatch<SetStateAction<boolean>>
   setShowLanguageAddForm?: Dispatch<SetStateAction<boolean>>
 }
 
-export default function SellerLanguagesFields({ languageFields, setLanguageFields }: ILanguageProps) {
+export default function SellerLanguagesFields({ languageFields, setLanguageFields, languagesErrors }: ILanguageProps) {
   const handleLanguageFieldsChange = (e: React.ChangeEvent, index: number) => {
     const target = e.target as HTMLInputElement
     const data = [...languageFields]
@@ -55,7 +56,12 @@ export default function SellerLanguagesFields({ languageFields, setLanguageField
         <div key={`${field.id}`} className="grid grid-cols-1 gap-y-3 md:grid-cols-2 md:gap-x-2">
           <div>
             <TextInput
-              className="border-grey w-full rounded border p-2.5 text-sm font-normal text-gray-600 focus:outline-none"
+              className={classNames('w-full rounded border p-2.5 text-sm font-normal text-gray-600', {
+                'border-grey focus:outline-none': !languagesErrors.language,
+                'border-red-600 bg-red-50 focus:border-red-600': languagesErrors.language
+              })}
+              classNameError="mt-1 min-h-[1rem] text-xs text-red-600"
+              errorMessage={languagesErrors.language}
               type="text"
               name="language"
               value={field.language}
@@ -66,7 +72,10 @@ export default function SellerLanguagesFields({ languageFields, setLanguageField
           <div className="relative">
             <Dropdown
               maxHeight="300"
-              mainClassNames={`absolute bg-white ${index < languageFields.length - 1 ? 'zIndexDropdown' : ''}`}
+              mainClassNames={classNames(`absolute border ${index < languageFields.length - 1 ? 'z-50' : ''}`, {
+                'border-red-600 bg-red-50 focus:border-red-600': languagesErrors.level,
+                'bg-white border-grey focus:outline-none': !languagesErrors.level
+              })}
               text={field.level}
               values={languageLevel()}
               onClick={(item: string) => {

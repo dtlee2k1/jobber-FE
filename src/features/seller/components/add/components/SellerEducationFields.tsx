@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { Dispatch, SetStateAction } from 'react'
 import { IEducation } from 'src/interfaces/seller.interface'
 import Button from 'src/shared/button/Button'
@@ -9,13 +10,13 @@ import { v4 as uuidv4 } from 'uuid'
 interface IEducationProps {
   selectedField?: IEducation
   educationFields: IEducation[]
-  educationErrors?: IEducation[]
+  educationErrors: Partial<IEducation>
   setEducationFields: Dispatch<SetStateAction<IEducation[]>>
   setShowEducationAddForm?: Dispatch<SetStateAction<boolean>>
   setShowEducationEditForm?: Dispatch<SetStateAction<boolean>>
 }
 
-export default function SellerEducationFields({ educationFields, setEducationFields }: IEducationProps) {
+export default function SellerEducationFields({ educationFields, setEducationFields, educationErrors }: IEducationProps) {
   const handleEducationFieldsChange = (e: React.ChangeEvent, index: number) => {
     const target = e.target as HTMLInputElement
     const data = [...educationFields]
@@ -54,9 +55,14 @@ export default function SellerEducationFields({ educationFields, setEducationFie
 
       {educationFields.map((field, index) => (
         <div key={`${field.id}`} className="mb-8">
-          <div className="relative">
+          <div className="relative mb-4">
             <TextInput
-              className="border-grey mb-4 w-full rounded border p-2.5 text-sm font-normal text-gray-600 focus:outline-none"
+              className={classNames('w-full rounded border p-2.5 text-sm font-normal text-gray-600', {
+                'border-grey focus:outline-none': !educationErrors.university,
+                'border-red-600 bg-red-50 focus:border-red-600': educationErrors.university
+              })}
+              classNameError="mt-1 min-h-[1rem] text-xs text-red-600"
+              errorMessage={educationErrors.university}
               placeholder="University/College Name"
               type="text"
               name="university"
@@ -69,7 +75,10 @@ export default function SellerEducationFields({ educationFields, setEducationFie
               text={field.country}
               maxHeight="300"
               showSearchInput={true}
-              mainClassNames="absolute bg-white z-40"
+              mainClassNames={classNames('absolute border z-40', {
+                'border-red-600 bg-red-50 focus:border-red-600': educationErrors.country,
+                'bg-white border-grey focus:outline-none': !educationErrors.country
+              })}
               values={countriesList()}
               onClick={(item: string) => {
                 const data = [...educationFields]
@@ -83,7 +92,10 @@ export default function SellerEducationFields({ educationFields, setEducationFie
               <Dropdown
                 text={field.title}
                 maxHeight="300"
-                mainClassNames="absolute bg-white z-30"
+                mainClassNames={classNames('absolute border z-30', {
+                  'border-red-600 bg-red-50 focus:border-red-600': educationErrors.title,
+                  'bg-white border-grey focus:outline-none': !educationErrors.title
+                })}
                 values={degreeList()}
                 onClick={(item: string) => {
                   const data = [...educationFields]
@@ -94,7 +106,12 @@ export default function SellerEducationFields({ educationFields, setEducationFie
             </div>
             <div className="col-span-2">
               <TextInput
-                className="border-grey w-full rounded border p-2.5 text-sm font-normal text-gray-600 focus:outline-none"
+                className={classNames('w-full rounded border p-2.5 text-sm font-normal text-gray-600', {
+                  'border-grey focus:outline-none': !educationErrors.major,
+                  'border-red-600 bg-red-50 focus:border-red-600': educationErrors.major
+                })}
+                classNameError="min-h-[1rem] text-xs text-red-600"
+                errorMessage={educationErrors.major}
                 placeholder="Major e.g: Software Engineering"
                 type="text"
                 name="major"
@@ -106,7 +123,10 @@ export default function SellerEducationFields({ educationFields, setEducationFie
               <Dropdown
                 text={field.year}
                 maxHeight="300"
-                mainClassNames="absolute bg-white z-30"
+                mainClassNames={classNames('absolute border z-30', {
+                  'border-red-600 bg-red-50 focus:border-red-600': educationErrors.year,
+                  'bg-white border-grey focus:outline-none': !educationErrors.year
+                })}
                 values={yearsList(30)}
                 onClick={(item: string) => {
                   const data = [...educationFields]
