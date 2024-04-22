@@ -36,6 +36,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
   const authUser = useAppSelector((state: IReduxState) => state.authUser)
   const logout = useAppSelector((state: IReduxState) => state.logout)
   const buyer = useAppSelector((state: IReduxState) => state.buyer)
+  const seller = useAppSelector((state: IReduxState) => state.seller)
 
   const settingsDropdownRef = useRef<HTMLDivElement | null>(null)
   const messageDropdownRef = useRef<HTMLDivElement | null>(null)
@@ -209,7 +210,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                     >
                       <div className="absolute right-0 z-50 mt-5">
                         <SettingsDropdown
-                          seller={{} as ISellerDocument}
+                          seller={seller}
                           buyer={buyer}
                           authUser={authUser}
                           type="buyer"

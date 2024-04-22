@@ -56,7 +56,7 @@ export default function AppRouter() {
       )
     },
     {
-      path: '//seller_profile/:username/:sellerId/edit',
+      path: '/seller_profile/:username/:sellerId/edit',
       element: (
         <ProtectedRoute>
           <Layout backgroundColor="#fff">

@@ -2,6 +2,7 @@ import { Dispatch } from '@reduxjs/toolkit'
 import countries from 'i18n-iso-countries'
 import enLocale from 'i18n-iso-countries/langs/en.json'
 import { filter } from 'lodash'
+import millify from 'millify'
 import { NavigateFunction } from 'react-router-dom'
 import { logout } from 'src/features/auth/reducers/logout.reducer'
 import { IOrderDocument } from 'src/interfaces/order.interface'
@@ -121,4 +122,16 @@ export const yearsList = (maxOffset: number) => {
     years.push(`${year}`)
   }
   return years
+}
+
+export const shortenLargeNumbers = (data: number | undefined) => {
+  return data
+    ? millify(data, {
+        precision: 0
+      })
+    : 0
+}
+
+export const rating = (num: number | undefined) => {
+  return num ? Math.round(num * 10) / 10 : 0.0
 }
