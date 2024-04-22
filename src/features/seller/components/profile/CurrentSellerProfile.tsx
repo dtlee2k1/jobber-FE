@@ -7,11 +7,14 @@ import Button from 'src/shared/button/Button'
 import { useAppSelector } from 'src/store/store'
 
 import ProfileHeader from './components/ProfileHeader'
+import ProfileTabs from './components/ProfileTabs'
 
 export default function CurrentSellerProfile() {
   const seller = useAppSelector((state: IReduxState) => state.seller)
+
   const [sellerProfile, setSellerProfile] = useState<ISellerDocument>(seller)
   const [showEdit, setShowEdit] = useState<boolean>(true)
+  const [type, setType] = useState<string>('Overview')
 
   useEffect(() => {
     const isEqual = equal(seller, sellerProfile)
@@ -23,7 +26,7 @@ export default function CurrentSellerProfile() {
       <Breadcrumb breadCrumbItems={['Seller', `${seller.username}`]} />
 
       <div className="container mx-auto px-2 md:px-0">
-        <div className="my-2 flex h-8 justify-end md:h-10">
+        <div className="my-2 flex h-8 justify-end md:h-10 md:px-6">
           {!showEdit && (
             <div>
               <Button
@@ -43,9 +46,15 @@ export default function CurrentSellerProfile() {
           )}
         </div>
         <ProfileHeader sellerProfile={sellerProfile} setSellerProfile={setSellerProfile} showEditIcons={true} showHeaderInfo={true} />
-        <div className="my-4 cursor-pointer">{/* <!-- Tabs component --> */}</div>
+        <div className="my-4 cursor-pointer">
+          <ProfileTabs type={type} setType={setType} />
+        </div>
 
-        <div className="flex flex-wrap bg-white"></div>
+        <div className="flex flex-wrap bg-white">
+          {type === 'Overview' && <div>Overview</div>}
+          {type === 'Active Gigs' && <div>Active Gigs</div>}
+          {type === 'Ratings & Reviews' && <div>Ratings & Reviews</div>}
+        </div>
       </div>
     </div>
   )

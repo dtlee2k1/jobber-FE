@@ -161,7 +161,7 @@ export default function ProfileHeader({ sellerProfile, setSellerProfile, showHea
                 </div>
               )}
             </div>
-            <div className="mt-2 flex w-full gap-x-1 self-center">
+            <div className="mt-2 flex w-full justify-center gap-x-1 self-center md:justify-start">
               <div className="mt-1 w-20 gap-x-2">
                 {sellerProfile.ratingSum && sellerProfile.ratingsCount ? (
                   <StarRating value={rating(sellerProfile.ratingSum / sellerProfile.ratingsCount)} size={14} />
@@ -174,8 +174,8 @@ export default function ProfileHeader({ sellerProfile, setSellerProfile, showHea
                   <span className="font-bold text-white">5</span>
                 </div>
               ) : (
-                <div className="ml-2 mt-[3px] flex gap-1 rounded px-1 text-xs">
-                  <span className="font-bold text-white"></span>
+                <div className="ml-2 mt-[3px] flex gap-1 rounded bg-orange-400 px-1 text-xs">
+                  <span className="font-bold text-white">5</span>
                 </div>
               )}
             </div>

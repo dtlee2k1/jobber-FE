@@ -109,11 +109,6 @@ export interface ISkillEditProps {
   setShowSkillAddForm?: Dispatch<SetStateAction<boolean>>
 }
 
-export interface IProfileTabsProps {
-  type: string
-  setType?: Dispatch<SetStateAction<string>>
-}
-
 export interface IShowEditItem {
   fullname: boolean
   oneliner: boolean
