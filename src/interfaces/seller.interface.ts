@@ -61,12 +61,6 @@ export interface IReduxSeller {
   payload: ISellerDocument
 }
 
-export interface ISellerContext {
-  showEditIcons: boolean
-  sellerProfile: ISellerDocument
-  setSellerProfile?: Dispatch<SetStateAction<ISellerDocument>>
-}
-
 export interface ILanguageEditFieldsProps {
   type: string
   selectedLanguage?: ILanguage

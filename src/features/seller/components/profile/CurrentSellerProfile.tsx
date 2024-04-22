@@ -8,6 +8,7 @@ import { useAppSelector } from 'src/store/store'
 
 import ProfileHeader from './components/ProfileHeader'
 import ProfileTabs from './components/ProfileTabs'
+import SellerOverview from './components/SellerOverview'
 
 export default function CurrentSellerProfile() {
   const seller = useAppSelector((state: IReduxState) => state.seller)
@@ -51,7 +52,7 @@ export default function CurrentSellerProfile() {
         </div>
 
         <div className="flex flex-wrap bg-white">
-          {type === 'Overview' && <div>Overview</div>}
+          {type === 'Overview' && <SellerOverview sellerProfile={sellerProfile} showEditIcons={true} setSellerProfile={setSellerProfile} />}
           {type === 'Active Gigs' && <div>Active Gigs</div>}
           {type === 'Ratings & Reviews' && <div>Ratings & Reviews</div>}
         </div>

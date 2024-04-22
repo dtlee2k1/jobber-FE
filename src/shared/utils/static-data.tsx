@@ -5,7 +5,44 @@ import create from 'src/assets/create.png'
 import { ISellerGig } from 'src/interfaces/gig.interface'
 import { ICategory } from 'src/interfaces/home.interface'
 import { IRatingTypes } from 'src/interfaces/review.interface'
+import { ISellerDocument } from 'src/interfaces/seller.interface'
 import { ISliderImagesText } from 'src/interfaces/utils.interface'
+
+export const emptySellerData: ISellerDocument = {
+  _id: '',
+  profilePublicId: '',
+  fullName: '',
+  profilePicture: '',
+  username: '',
+  email: '',
+  description: '',
+  country: '',
+  oneliner: '',
+  skills: [],
+  ratingsCount: 0,
+  ratingSum: 0,
+  ratingCategories: {
+    five: { value: 0, count: 0 },
+    four: { value: 0, count: 0 },
+    three: { value: 0, count: 0 },
+    two: { value: 0, count: 0 },
+    one: { value: 0, count: 0 }
+  },
+  recentDelivery: '',
+  languages: [],
+  responseTime: 0,
+  experience: [],
+  education: [],
+  socialLinks: [],
+  certificates: [],
+  ongoingJobs: 0,
+  completedJobs: 0,
+  cancelledJobs: 0,
+  totalEarnings: 0,
+  totalGigs: 0,
+  paypal: '',
+  createdAt: ''
+}
 
 export const emptyGigData: ISellerGig = {
   _id: '',

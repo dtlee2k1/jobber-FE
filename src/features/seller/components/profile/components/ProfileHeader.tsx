@@ -174,8 +174,8 @@ export default function ProfileHeader({ sellerProfile, setSellerProfile, showHea
                   <span className="font-bold text-white">5</span>
                 </div>
               ) : (
-                <div className="ml-2 mt-[3px] flex gap-1 rounded bg-orange-400 px-1 text-xs">
-                  <span className="font-bold text-white">5</span>
+                <div className="ml-2 mt-[3px] flex gap-1 rounded px-1 text-xs">
+                  <span className="font-bold text-white"></span>
                 </div>
               )}
             </div>
