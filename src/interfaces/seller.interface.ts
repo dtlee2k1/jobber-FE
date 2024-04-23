@@ -61,13 +61,6 @@ export interface IReduxSeller {
   payload: ISellerDocument
 }
 
-export interface ISocialEditLinksProps {
-  type: string
-  selectedLink?: string
-  setShowSocialLinksAddForm?: Dispatch<SetStateAction<boolean>>
-  setShowSocialLinksEditForm?: Dispatch<SetStateAction<boolean>>
-}
-
 export interface ICertificateEditProps {
   type: string
   selectedCertificate?: ICertificate
