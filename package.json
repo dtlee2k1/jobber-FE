@@ -16,6 +16,7 @@
     "@headlessui/react": "^1.7.19",
     "@reduxjs/toolkit": "^2.2.3",
     "classnames": "^2.5.1",
+    "date-fns": "^3.6.0",
     "i18n-iso-countries": "^7.11.0",
     "lodash": "^4.17.21",
     "millify": "^6.1.0",

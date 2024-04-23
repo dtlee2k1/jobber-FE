@@ -61,13 +61,6 @@ export interface IReduxSeller {
   payload: ISellerDocument
 }
 
-export interface ILanguageEditFieldsProps {
-  type: string
-  selectedLanguage?: ILanguage
-  setShowLanguageEditForm?: Dispatch<SetStateAction<boolean>>
-  setShowLanguageAddForm?: Dispatch<SetStateAction<boolean>>
-}
-
 export interface ISocialEditLinksProps {
   type: string
   selectedLink?: string
