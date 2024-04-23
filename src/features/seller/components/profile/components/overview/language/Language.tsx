@@ -45,7 +45,7 @@ export default function Language() {
               </div>
             )}
 
-            {showLanguageEditForm && selectedLanguage?._id === lang._id && (
+            {showLanguageEditForm && selectedLanguage?.language === lang.language && (
               <LanguageFields type="edit" setShowLanguageEditForm={setShowLanguageEditForm} selectedLanguage={selectedLanguage} />
             )}
 

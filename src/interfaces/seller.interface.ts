@@ -61,13 +61,6 @@ export interface IReduxSeller {
   payload: ISellerDocument
 }
 
-export interface ICertificateEditProps {
-  type: string
-  selectedCertificate?: ICertificate
-  setShowCertificateAddForm?: Dispatch<SetStateAction<boolean>>
-  setShowCertificateEditForm?: Dispatch<SetStateAction<boolean>>
-}
-
 export interface IExperienceEditProps {
   type: string
   selectedExperience?: IExperience

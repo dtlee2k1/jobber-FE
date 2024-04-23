@@ -65,7 +65,7 @@ export default function SocialLinks() {
           </li>
         ))}
 
-        {!sellerProfile.socialLinks.length && <li className="mb-2 ml-4 flex justify-between">No information</li>}
+        {!sellerProfile.socialLinks.length && !showSocialLinkAddForm && <li className="mb-2 ml-4 flex justify-between">No information</li>}
       </ul>
     </div>
   )

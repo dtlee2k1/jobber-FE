@@ -3,6 +3,7 @@ import { SellerContext } from 'src/features/seller/context/SellerContext'
 import { ISellerDocument } from 'src/interfaces/seller.interface'
 
 import AboutMe from './overview/aboutme/AboutMe'
+import Certificates from './overview/certificates/Certificates'
 import Language from './overview/language/Language'
 import SocialLinks from './overview/sociallinks/SocialLinks'
 
@@ -19,6 +20,7 @@ export default function SellerOverview({ sellerProfile, showEditIcons, setSeller
         <Language />
         <AboutMe />
         <SocialLinks />
+        <Certificates />
       </div>
       <div className="w-full py-4 lg:w-2/3 lg:pl-4">Right Components</div>
     </SellerContext.Provider>
