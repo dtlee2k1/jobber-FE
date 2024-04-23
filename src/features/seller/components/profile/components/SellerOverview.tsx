@@ -2,7 +2,8 @@ import { Dispatch, SetStateAction } from 'react'
 import { SellerContext } from 'src/features/seller/context/SellerContext'
 import { ISellerDocument } from 'src/interfaces/seller.interface'
 
-import Language from './overview/Language'
+import AboutMe from './overview/aboutme/AboutMe'
+import Language from './overview/language/Language'
 
 interface ISellerOverviewProps {
   showEditIcons: boolean
@@ -15,6 +16,7 @@ export default function SellerOverview({ sellerProfile, showEditIcons, setSeller
     <SellerContext.Provider value={{ sellerProfile, showEditIcons, setSellerProfile }}>
       <div className="w-full py-4 lg:w-1/3">
         <Language />
+        <AboutMe />
       </div>
       <div className="w-full py-4 lg:w-2/3 lg:pl-4">Right Components</div>
     </SellerContext.Provider>

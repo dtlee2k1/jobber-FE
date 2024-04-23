@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { IOrderDocument } from 'src/interfaces/order.interface'
+import { dayMonthYear } from 'src/shared/utils/timeago.utils'
 import { lowerCase } from 'src/shared/utils/utils.service'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -50,8 +51,10 @@ export default function BuyerTable({ type, orderTypes, orders }: IOrderTableProp
                       </Link>
                     </div>
                   </td>
-                  <td className="p-3 text-left lg:text-center">18/4/2024</td>
-                  <td className="p-3 text-left lg:text-center">18/4/2025</td>
+                  <td className="p-3 text-left lg:text-center">{dayMonthYear(`${order.dateOrdered}`)}</td>
+                  <td className="p-3 text-left lg:text-center">
+                    {type === 'cancelled' ? dayMonthYear(`${order.approvedAt}`) : dayMonthYear(`${order.offer.newDeliveryDate}`)}
+                  </td>
                   <td className="p-3 text-left lg:text-center">${order.price}</td>
                   <td className="px-3 py-1 text-left lg:p-3 lg:text-center">
                     <span
