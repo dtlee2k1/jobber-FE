@@ -16,7 +16,7 @@ export default function Language() {
     <div className="border-grey border bg-white">
       <div className="mb-1 flex justify-between border-b">
         <h4 className="flex py-2.5 pl-3.5 text-sm font-bold text-[#161c2d] md:text-base">LANGUAGE SKILLS</h4>
-        {showEditIcons && (
+        {showEditIcons && !showLanguageAddForm && (
           <span
             onClick={() => {
               setShowLanguageAddForm(!showLanguageAddForm)

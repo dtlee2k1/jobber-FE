@@ -17,15 +17,17 @@ export default function Experience() {
     <div className="border-grey mt-6 border bg-white">
       <div className="mb-1 flex justify-between border-b">
         <h4 className="flex py-2.5 pl-3.5 text-sm font-bold text-[#161c2d] md:text-base">EXPERIENCE</h4>
-        <span
-          className="flex cursor-pointer items-center pr-3.5 text-sm text-[#00698c] md:text-base"
-          onClick={() => {
-            setShowExperienceAddForm(!showExperienceAddForm)
-            setShowExperienceEditForm(false)
-          }}
-        >
-          Add New
-        </span>
+        {showEditIcons && !showExperienceAddForm && (
+          <span
+            className="flex cursor-pointer items-center pr-3.5 text-sm text-[#00698c] md:text-base"
+            onClick={() => {
+              setShowExperienceAddForm(!showExperienceAddForm)
+              setShowExperienceEditForm(false)
+            }}
+          >
+            Add New
+          </span>
+        )}
       </div>
       <ul className="mb-0 list-none pt-1.5">
         {showExperienceAddForm && (

@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from 'react'
-
 import { ISellerGig } from './gig.interface'
 import { IOrderDocument } from './order.interface'
 import { IRatingCategories } from './review.interface'
@@ -59,13 +57,6 @@ export interface IPersonalInfoData {
 export interface IReduxSeller {
   type?: string
   payload: ISellerDocument
-}
-
-export interface ISkillEditProps {
-  type: string
-  selectedSkill?: string
-  setShowSkillEditForm?: Dispatch<SetStateAction<boolean>>
-  setShowSkillAddForm?: Dispatch<SetStateAction<boolean>>
 }
 
 export interface IShowEditItem {

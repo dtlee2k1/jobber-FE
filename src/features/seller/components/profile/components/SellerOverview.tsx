@@ -8,6 +8,7 @@ import Description from './overview/description/Description'
 import Education from './overview/education/Education'
 import Experience from './overview/experience/Experience'
 import Language from './overview/language/Language'
+import Skills from './overview/skills/Skills'
 import SocialLinks from './overview/sociallinks/SocialLinks'
 
 interface ISellerOverviewProps {
@@ -29,6 +30,7 @@ export default function SellerOverview({ sellerProfile, showEditIcons, setSeller
         <Description />
         <Experience />
         <Education />
+        <Skills />
       </div>
     </SellerContext.Provider>
   )
