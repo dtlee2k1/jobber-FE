@@ -27,7 +27,6 @@ export default function CertificatesEditField({
     from: selectedCertificate && selectedCertificate.from ? selectedCertificate.from : '',
     year: selectedCertificate && selectedCertificate.year ? selectedCertificate.year : 'Year'
   })
-  // const [year, setYear] = useState<string>(selectedCertificate && selectedCertificate.year ? `${selectedCertificate.year}` : 'Year')
 
   const onHandleUpdate = () => {
     if (type === 'add') {

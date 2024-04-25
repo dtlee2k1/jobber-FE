@@ -46,7 +46,7 @@ export default function Certificates() {
               </div>
             )}
 
-            {showCertificateEditForm && selectedCertificate?.name === certificate.name && (
+            {showCertificateEditForm && selectedCertificate?.id === certificate.id && (
               <CertificatesEditField
                 type="edit"
                 setShowCertificateEditForm={setShowCertificateEditForm}
