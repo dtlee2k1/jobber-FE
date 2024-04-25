@@ -4,6 +4,7 @@ import enLocale from 'i18n-iso-countries/langs/en.json'
 import { filter } from 'lodash'
 import millify from 'millify'
 import { NavigateFunction } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { logout } from 'src/features/auth/reducers/logout.reducer'
 import { IOrderDocument } from 'src/interfaces/order.interface'
 import { authApi } from 'src/services/auth.service'
@@ -58,7 +59,7 @@ export const countriesList = (): string[] => {
   return Object.values(countriesObj)
 }
 
-export const saveToSessionStorage = (data: string, username: string): void => {
+export const saveToSessionStorage = (data: string, username: string) => {
   sessionStorage.setItem('isLoggedIn', data)
   sessionStorage.setItem('loggedInUser', username)
 }
@@ -68,7 +69,7 @@ export const getDataFromSessionStorage = (key: string) => {
   return JSON.parse(data)
 }
 
-export const saveToLocalStorage = (key: string, data: string): void => {
+export const saveToLocalStorage = (key: string, data: string) => {
   localStorage.setItem(key, data)
 }
 
@@ -77,7 +78,7 @@ export const getDataFromLocalStorage = (key: string) => {
   return JSON.parse(data)
 }
 
-export const deleteFromLocalStorage = (key: string): void => {
+export const deleteFromLocalStorage = (key: string) => {
   localStorage.removeItem(key)
 }
 
@@ -134,4 +135,30 @@ export const shortenLargeNumbers = (data: number | undefined) => {
 
 export const rating = (num: number | undefined) => {
   return num ? Math.round(num * 10) / 10 : 0.0
+}
+
+export const showSuccessToast = (message: string) => {
+  toast.success(message, {
+    position: 'bottom-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: 'colored'
+  })
+}
+
+export const showErrorToast = (message: string) => {
+  toast.error(message, {
+    position: 'bottom-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: 'colored'
+  })
 }

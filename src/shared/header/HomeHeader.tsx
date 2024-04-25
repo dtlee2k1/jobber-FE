@@ -12,7 +12,7 @@ import { IReduxState } from 'src/interfaces/store.interface'
 import { useResendEmailMutation } from 'src/services/auth.service'
 import Banner from 'src/shared/banner/Banner'
 import Button from 'src/shared/button/Button'
-import { categories, replaceSpacesWithDash } from 'src/shared/utils/utils.service'
+import { categories, replaceSpacesWithDash, showErrorToast, showSuccessToast } from 'src/shared/utils/utils.service'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -61,8 +61,9 @@ export default function HomeHeader(props: IHomeHeaderProps) {
     try {
       const result = await resendEmail({ userId: authUser.id as number, email: `${authUser.email}` }).unwrap()
       dispatch(addAuthUser({ authInfo: result.user }))
+      showSuccessToast('Email sent successfully')
     } catch (error) {
-      console.log(error)
+      showErrorToast('Error sending email')
     }
   }
 
