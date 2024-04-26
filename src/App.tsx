@@ -6,9 +6,9 @@ import AppRouter from './AppRoutes'
 function App() {
   return (
     <BrowserRouter>
-      <div className="relative flex min-h-screen w-screen flex-col ">
+      <div className="relative flex min-h-screen w-screen flex-col">
         <AppRouter />
-        <ToastContainer />
+        <ToastContainer bodyClassName={() => 'text-sm flex p-2 items-center'} />
       </div>
     </BrowserRouter>
   )

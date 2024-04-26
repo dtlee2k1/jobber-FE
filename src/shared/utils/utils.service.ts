@@ -139,7 +139,7 @@ export const rating = (num: number | undefined) => {
 
 export const showSuccessToast = (message: string) => {
   toast.success(message, {
-    position: 'bottom-right',
+    position: 'top-center',
     autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
@@ -152,11 +152,11 @@ export const showSuccessToast = (message: string) => {
 
 export const showErrorToast = (message: string) => {
   toast.error(message, {
-    position: 'bottom-right',
-    autoClose: 3000,
+    position: 'top-center',
+    autoClose: 10000,
     hideProgressBar: false,
     closeOnClick: true,
-    pauseOnHover: false,
+    pauseOnHover: true,
     draggable: false,
     progress: undefined,
     theme: 'colored'
