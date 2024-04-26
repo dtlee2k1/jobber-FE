@@ -193,7 +193,8 @@ export default function ProfileHeader({ sellerProfile, setSellerProfile, showHea
         {gridInfo.map((info) => (
           <div
             key={uuidv4()}
-            className={`col-span-4 flex items-center justify-center p-8 sm:col-span-2 md:col-span-1 bg-[${info.bgColor}]`}
+            style={{ backgroundColor: `${info.bgColor}` }}
+            className={'col-span-4 flex items-center justify-center p-8 sm:col-span-2 md:col-span-1'}
           >
             <div className="flex flex-col">
               <span className="text-center text-base lg:text-xl">{info.total}</span>

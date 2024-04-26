@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { IAuthUser } from 'src/interfaces/auth.interface'
 import { IBuyerDocument } from 'src/interfaces/buyer.interface'
 import { ISellerDocument } from 'src/interfaces/seller.interface'
@@ -37,6 +37,9 @@ export default function SettingsDropdown({ buyer, seller, authUser, type, setIsD
             <Link
               to={`${type === 'buyer' ? `/${lowerCase(`${authUser?.username}`)}/${seller?._id}/seller_dashboard` : '/'}`}
               className="px-4s block w-full cursor-pointer rounded bg-sky-500 py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none"
+              onClick={() => {
+                setIsDropdownOpen && setIsDropdownOpen(false)
+              }}
             >
               {type === 'buyer' ? 'Switch to Selling' : 'Switch to Buying'}
             </Link>
@@ -45,50 +48,62 @@ export default function SettingsDropdown({ buyer, seller, authUser, type, setIsD
 
         {buyer && buyer.isSeller && type === 'buyer' && (
           <li>
-            <Link
+            <NavLink
               to={`/manage_gigs/new/${seller?._id}`}
-              className="block px-4 py-2 hover:text-sky-400"
+              className={({ isActive }) => {
+                const active = isActive ? 'text-sky-400' : ''
+                return `${active} block px-4 py-2 hover:text-sky-400`
+              }}
               onClick={() => {
                 setIsDropdownOpen && setIsDropdownOpen(false)
               }}
             >
               Add a new gig
-            </Link>
+            </NavLink>
           </li>
         )}
 
         {type === 'buyer' && (
           <li>
-            <Link
+            <NavLink
               to={`/users/${buyer?.username}/${buyer?._id}/orders`}
-              className="block px-4 py-2 hover:text-sky-400"
+              className={({ isActive }) => {
+                const active = isActive ? 'text-sky-400' : ''
+                return `${active} block px-4 py-2 hover:text-sky-400`
+              }}
               onClick={() => {
                 setIsDropdownOpen && setIsDropdownOpen(false)
               }}
             >
               Dashboard
-            </Link>
+            </NavLink>
           </li>
         )}
 
         {buyer && buyer.isSeller && type === 'buyer' && (
           <li>
-            <Link
+            <NavLink
               to={`/seller_profile/${lowerCase(`${seller?.username}`)}/${seller?._id}/edit`}
-              className="block px-4 py-2 hover:text-sky-400"
+              className={({ isActive }) => {
+                const active = isActive ? 'text-sky-400' : ''
+                return `${active} block px-4 py-2 hover:text-sky-400`
+              }}
               onClick={() => {
                 setIsDropdownOpen && setIsDropdownOpen(false)
               }}
             >
               Profile
-            </Link>
+            </NavLink>
           </li>
         )}
 
         <li>
-          <Link
+          <NavLink
             to={`${lowerCase(`${buyer?.username}/edit`)}`}
-            className="block px-4 py-2 hover:text-sky-400"
+            className={({ isActive }) => {
+              const active = isActive ? 'text-sky-400' : ''
+              return `${active} block px-4 py-2 hover:text-sky-400`
+            }}
             onClick={() => {
               if (setIsDropdownOpen) {
                 setIsDropdownOpen(false)
@@ -96,7 +111,7 @@ export default function SettingsDropdown({ buyer, seller, authUser, type, setIsD
             }}
           >
             Settings
-          </Link>
+          </NavLink>
         </li>
       </ul>
       <div className="py-1">
