@@ -14,8 +14,8 @@ import { v4 as uuidv4 } from 'uuid'
 interface IProfileHeaderProps {
   showHeaderInfo: boolean
   showEditIcons: boolean
-  sellerProfile: ISellerDocument
-  setSellerProfile: Dispatch<SetStateAction<ISellerDocument>>
+  sellerProfile?: ISellerDocument
+  setSellerProfile?: Dispatch<SetStateAction<ISellerDocument>>
 }
 
 export default function ProfileHeader({ sellerProfile, setSellerProfile, showHeaderInfo, showEditIcons }: IProfileHeaderProps) {
@@ -25,8 +25,8 @@ export default function ProfileHeader({ sellerProfile, setSellerProfile, showHea
   })
 
   const [sellerProfileItem, setSellerProfileItem] = useState<ISellerProfileItem>({
-    fullname: `${sellerProfile.fullName}`,
-    oneliner: `${sellerProfile.oneliner}`
+    fullname: `${sellerProfile?.fullName}`,
+    oneliner: `${sellerProfile?.oneliner}`
   })
 
   const gridInfo: IGigInfo[] = [
@@ -54,10 +54,10 @@ export default function ProfileHeader({ sellerProfile, setSellerProfile, showHea
 
   useEffect(() => {
     setSellerProfileItem({
-      fullname: `${sellerProfile.fullName}`,
-      oneliner: `${sellerProfile.oneliner}`
+      fullname: `${sellerProfile?.fullName}`,
+      oneliner: `${sellerProfile?.oneliner}`
     })
-  }, [sellerProfile.fullName, sellerProfile.oneliner])
+  }, [sellerProfile?.fullName, sellerProfile?.oneliner])
 
   return (
     <>
@@ -65,7 +65,7 @@ export default function ProfileHeader({ sellerProfile, setSellerProfile, showHea
         <div className="relative flex h-56 flex-col gap-x-4 gap-y-3 bg-white px-6 py-4 md:h-52 md:flex-row">
           <div className="flex h-20 w-20 justify-center self-center md:h-24 md:w-24 lg:h-36 lg:w-36">
             <LazyLoadImage
-              src={sellerProfile.profilePicture}
+              src={sellerProfile?.profilePicture}
               alt="Gig Image"
               className="h-full w-full rounded-full object-cover"
               placeholderSrc="https://placehold.co/330x220?text=Profile+Image"
@@ -76,7 +76,7 @@ export default function ProfileHeader({ sellerProfile, setSellerProfile, showHea
           <div className="flex flex-col md:mt-10 lg:mt-6">
             <div className="flex cursor-pointer self-center md:block md:self-start">
               <div className="flex flex-row self-center text-base font-bold lg:text-2xl">
-                {!showEditItem.fullname && sellerProfile.fullName}
+                {!showEditItem.fullname && sellerProfile?.fullName}
                 {showEditIcons && !showEditItem.fullname && (
                   <FaPencilAlt
                     className="ml-1 mt-1.5 text-xs md:text-base lg:ml-2.5 lg:mt-2"
@@ -101,8 +101,10 @@ export default function ProfileHeader({ sellerProfile, setSellerProfile, showHea
                       className="md:text-md rounded bg-sky-500 px-6 py-1 text-center text-sm font-bold text-white hover:bg-sky-400 focus:outline-none md:py-2"
                       label="Update"
                       onClick={() => {
-                        setSellerProfile({ ...sellerProfile, fullName: sellerProfileItem.fullname })
-                        setShowEditItem({ ...showEditItem, fullname: false })
+                        if (sellerProfile && setSellerProfile) {
+                          setSellerProfile({ ...sellerProfile, fullName: sellerProfileItem.fullname })
+                          setShowEditItem({ ...showEditItem, fullname: false })
+                        }
                       }}
                     />
                     &nbsp;&nbsp;
@@ -110,18 +112,20 @@ export default function ProfileHeader({ sellerProfile, setSellerProfile, showHea
                       className="md:text-md rounded bg-red-500 px-6 py-1 text-center text-sm font-bold text-white hover:bg-red-500 focus:outline-none md:py-2"
                       label="Cancel"
                       onClick={() => {
-                        setSellerProfileItem({ ...sellerProfileItem, fullname: sellerProfile.fullName })
-                        setShowEditItem({ ...showEditItem, fullname: false })
+                        if (sellerProfile) {
+                          setSellerProfileItem({ ...sellerProfileItem, fullname: sellerProfile.fullName })
+                          setShowEditItem({ ...showEditItem, fullname: false })
+                        }
                       }}
                     />
                   </div>
                 </div>
               )}
             </div>
-            <span className="flex self-center text-sm md:block md:self-start md:text-base">@{lowerCase(`${sellerProfile.username}`)}</span>
+            <span className="flex self-center text-sm md:block md:self-start md:text-base">@{lowerCase(`${sellerProfile?.username}`)}</span>
             <div className="flex cursor-pointer flex-row self-center text-center text-sm md:text-base lg:self-start">
               <div className="flex">
-                {!showEditItem.oneliner && sellerProfile.oneliner}
+                {!showEditItem.oneliner && sellerProfile?.oneliner}
                 {showEditIcons && !showEditItem.oneliner && (
                   <FaPencilAlt className="mx-1 mt-1 lg:ml-2.5" onClick={() => setShowEditItem({ ...showEditItem, oneliner: true })} />
                 )}
@@ -144,8 +148,10 @@ export default function ProfileHeader({ sellerProfile, setSellerProfile, showHea
                       className="md:text-md rounded bg-sky-500 px-6 py-1 text-center text-sm font-bold text-white hover:bg-sky-400 focus:outline-none md:py-2"
                       label="Update"
                       onClick={() => {
-                        setSellerProfile({ ...sellerProfile, oneliner: sellerProfileItem.oneliner })
-                        setShowEditItem({ ...showEditItem, oneliner: false })
+                        if (sellerProfile && setSellerProfile) {
+                          setSellerProfile({ ...sellerProfile, oneliner: sellerProfileItem.oneliner })
+                          setShowEditItem({ ...showEditItem, oneliner: false })
+                        }
                       }}
                     />
                     &nbsp;&nbsp;
@@ -153,7 +159,7 @@ export default function ProfileHeader({ sellerProfile, setSellerProfile, showHea
                       className="md:text-md rounded bg-red-500 px-6 py-1 text-center text-sm font-bold text-white hover:bg-red-500 focus:outline-none md:py-2"
                       label="Cancel"
                       onClick={() => {
-                        setSellerProfileItem({ ...sellerProfileItem, oneliner: sellerProfile.oneliner })
+                        setSellerProfileItem({ ...sellerProfileItem, oneliner: `${sellerProfile?.oneliner}` })
                         setShowEditItem({ ...showEditItem, oneliner: false })
                       }}
                     />
@@ -163,13 +169,13 @@ export default function ProfileHeader({ sellerProfile, setSellerProfile, showHea
             </div>
             <div className="mt-2 flex w-full justify-center gap-x-1 self-center md:justify-start">
               <div className="mt-1 w-20 gap-x-2">
-                {sellerProfile.ratingSum && sellerProfile.ratingsCount ? (
+                {sellerProfile?.ratingSum && sellerProfile.ratingsCount ? (
                   <StarRating value={rating(sellerProfile.ratingSum / sellerProfile.ratingsCount)} size={14} />
                 ) : (
                   <StarRating value={0} size={14} />
                 )}
               </div>
-              {sellerProfile.ratingSum && sellerProfile.ratingsCount ? (
+              {sellerProfile?.ratingSum && sellerProfile.ratingsCount ? (
                 <div className="ml-2 mt-[3px] flex gap-1 rounded bg-orange-400 px-1 text-xs">
                   <span className="font-bold text-white">5</span>
                 </div>

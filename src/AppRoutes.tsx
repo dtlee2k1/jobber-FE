@@ -9,6 +9,7 @@ import Home from './features/home/Home'
 import ProtectedRoute from './features/ProtectedRoute'
 import AddSeller from './features/seller/components/add/AddSeller'
 import CurrentSellerProfile from './features/seller/components/profile/CurrentSellerProfile'
+import SellerProfile from './features/seller/components/profile/SellerProfile'
 import Layout from './layouts/Layout'
 
 export default function AppRouter() {
@@ -61,6 +62,16 @@ export default function AppRouter() {
         <ProtectedRoute>
           <Layout backgroundColor="#fff">
             <CurrentSellerProfile />
+          </Layout>
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: '/seller_profile/:username/:sellerId/view',
+      element: (
+        <ProtectedRoute>
+          <Layout backgroundColor="#fff">
+            <SellerProfile />
           </Layout>
         </ProtectedRoute>
       )

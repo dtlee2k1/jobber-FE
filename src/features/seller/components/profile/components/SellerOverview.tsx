@@ -14,7 +14,7 @@ import SocialLinks from './overview/sociallinks/SocialLinks'
 interface ISellerOverviewProps {
   showEditIcons: boolean
   sellerProfile: ISellerDocument
-  setSellerProfile: Dispatch<SetStateAction<ISellerDocument>>
+  setSellerProfile?: Dispatch<SetStateAction<ISellerDocument>>
 }
 
 export default function SellerOverview({ sellerProfile, showEditIcons, setSellerProfile }: ISellerOverviewProps) {
