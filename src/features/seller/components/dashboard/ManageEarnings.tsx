@@ -4,6 +4,8 @@ import { IOrderDocument } from 'src/interfaces/order.interface'
 import { SellerContextType } from 'src/interfaces/seller.interface'
 import { shortenLargeNumbers } from 'src/shared/utils/utils.service'
 
+import ManageEarningsTable from './components/ManageEarningsTable'
+
 export default function ManageEarnings() {
   const { seller, orders } = useOutletContext<SellerContextType>()
 
@@ -36,7 +38,7 @@ export default function ManageEarnings() {
           </div>
         </div>
 
-        {/* <!-- ManageEarningsTable --> */}
+        <ManageEarningsTable type="active" orders={completedOrders} orderTypes={completedOrders.length} />
       </div>
     </div>
   )
