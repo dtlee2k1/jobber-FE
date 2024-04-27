@@ -7,6 +7,8 @@ import authReducer from 'src/features/auth/reducers/auth.reducer'
 import logoutReducer from 'src/features/auth/reducers/logout.reducer'
 import buyerReducer from 'src/features/buyer/reducers/buyer.reducer'
 import sellerReducer from 'src/features/seller/reducers/seller.reducer'
+import categoryReducer from 'src/shared/header/reducers/category.reducer'
+import headerReducer from 'src/shared/header/reducers/header.reducer'
 
 import { api } from './api'
 
@@ -21,7 +23,9 @@ export const combineReducer = combineReducers({
   authUser: authReducer,
   logout: logoutReducer,
   buyer: buyerReducer,
-  seller: sellerReducer
+  seller: sellerReducer,
+  header: headerReducer,
+  showCategoryContainer: categoryReducer
 })
 
 export const rootReducers = (state: any, action: any) => {

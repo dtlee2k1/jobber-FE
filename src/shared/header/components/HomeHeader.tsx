@@ -17,6 +17,8 @@ import { useAppDispatch, useAppSelector } from 'src/store/store'
 import { v4 as uuidv4 } from 'uuid'
 
 import SettingsDropdown from './SettingsDropdown'
+import { updateHeader } from '../reducers/header.reducer'
+import { updateCategoryContainer } from '../reducers/category.reducer'
 
 export interface IHomeHeaderProps {
   buyer?: IBuyerDocument
@@ -97,6 +99,10 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                   <Link
                     to="/"
                     className="relative z-10 flex cursor-pointer justify-center self-center text-2xl font-semibold text-black lg:text-3xl"
+                    onClick={() => {
+                      dispatch(updateHeader('home'))
+                      dispatch(updateCategoryContainer(true))
+                    }}
                   >
                     Jobber
                   </Link>

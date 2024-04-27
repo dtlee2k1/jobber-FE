@@ -5,7 +5,7 @@ import Layout from 'src/layouts/Layout'
 import { useCheckCurrentUserQuery } from 'src/services/auth.service'
 import { useGetCurrentBuyerByUsernameQuery } from 'src/services/buyer.service'
 import { useGetSellerByUsernameQuery } from 'src/services/seller.service'
-import HomeHeader from 'src/shared/header/HomeHeader'
+import HomeHeader from 'src/shared/header/components/HomeHeader'
 import { applicationLogout, saveToSessionStorage } from 'src/shared/utils/utils.service'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 
@@ -18,7 +18,8 @@ import { addSeller } from './seller/reducers/seller.reducer'
 export default function AppPage() {
   const authUser = useAppSelector((state: IReduxState) => state.authUser)
   const appLogout = useAppSelector((state: IReduxState) => state.logout)
-  const showCategoryContainer = true
+  const showCategoryContainer = useAppSelector((state: IReduxState) => state.showCategoryContainer)
+
   const [isValidToken, setIsValidToken] = useState<boolean>(false)
 
   const { data: currentUserData, isError } = useCheckCurrentUserQuery(undefined, { skip: authUser.id === null })

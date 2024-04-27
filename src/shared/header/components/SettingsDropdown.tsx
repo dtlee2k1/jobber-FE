@@ -5,7 +5,9 @@ import { IBuyerDocument } from 'src/interfaces/buyer.interface'
 import { ISellerDocument } from 'src/interfaces/seller.interface'
 import { useAppDispatch } from 'src/store/store'
 
-import { applicationLogout, lowerCase } from '../utils/utils.service'
+import { applicationLogout, lowerCase } from '../../utils/utils.service'
+import { updateCategoryContainer } from '../reducers/category.reducer'
+import { updateHeader } from '../reducers/header.reducer'
 
 export interface IHomeHeaderProps {
   buyer?: IBuyerDocument
@@ -39,6 +41,9 @@ export default function SettingsDropdown({ buyer, seller, authUser, type, setIsD
               className="px-4s block w-full cursor-pointer rounded bg-sky-500 py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none"
               onClick={() => {
                 setIsDropdownOpen && setIsDropdownOpen(false)
+
+                dispatch(updateHeader('sellerDashboard'))
+                dispatch(updateCategoryContainer(true))
               }}
             >
               {type === 'buyer' ? 'Switch to Selling' : 'Switch to Buying'}
@@ -73,6 +78,9 @@ export default function SettingsDropdown({ buyer, seller, authUser, type, setIsD
               }}
               onClick={() => {
                 setIsDropdownOpen && setIsDropdownOpen(false)
+
+                dispatch(updateHeader('home'))
+                dispatch(updateCategoryContainer(true))
               }}
             >
               Dashboard
@@ -90,6 +98,7 @@ export default function SettingsDropdown({ buyer, seller, authUser, type, setIsD
               }}
               onClick={() => {
                 setIsDropdownOpen && setIsDropdownOpen(false)
+                dispatch(updateCategoryContainer(true))
               }}
             >
               Profile
@@ -108,6 +117,8 @@ export default function SettingsDropdown({ buyer, seller, authUser, type, setIsD
               if (setIsDropdownOpen) {
                 setIsDropdownOpen(false)
               }
+              dispatch(updateHeader('home'))
+              dispatch(updateCategoryContainer(false))
             }}
           >
             Settings

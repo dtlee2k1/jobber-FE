@@ -2,7 +2,7 @@ import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { IReduxState } from 'src/interfaces/store.interface'
 import { useCheckCurrentUserQuery } from 'src/services/auth.service'
-import HomeHeader from 'src/shared/header/HomeHeader'
+import HomeHeader from 'src/shared/header/components/HomeHeader'
 import { applicationLogout, saveToSessionStorage } from 'src/shared/utils/utils.service'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 
@@ -14,6 +14,9 @@ interface IProtectedRouteProps {
 
 export default function ProtectedRoute({ children }: IProtectedRouteProps) {
   const authUser = useAppSelector((state: IReduxState) => state.authUser)
+  const header = useAppSelector((state: IReduxState) => state.header)
+  const showCategoryContainer = useAppSelector((state: IReduxState) => state.showCategoryContainer)
+
   const [tokenIsValid, setTokenIsValid] = useState<boolean>(false)
 
   const dispatch = useAppDispatch()
@@ -40,7 +43,7 @@ export default function ProtectedRoute({ children }: IProtectedRouteProps) {
   if ((data && data.user) || authUser) {
     return tokenIsValid ? (
       <>
-        <HomeHeader showCategoryContainer={true} />
+        {header === 'home' && <HomeHeader showCategoryContainer={showCategoryContainer} />}
         {children}
       </>
     ) : null

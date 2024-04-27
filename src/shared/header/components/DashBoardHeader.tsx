@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom'
 import { IReduxState } from 'src/interfaces/store.interface'
 import { useAppSelector } from 'src/store/store'
 
-import Button from '../button/Button'
-import { lowerCase } from '../utils/utils.service'
+import Button from '../../button/Button'
+import { lowerCase } from '../../utils/utils.service'
 import SettingsDropdown from './SettingsDropdown'
 
 export default function DashBoardHeader() {

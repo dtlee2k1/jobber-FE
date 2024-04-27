@@ -4,10 +4,10 @@ import { ISellerDocument } from './seller.interface'
 
 export interface IReduxState {
   authUser: IAuthUser
-  // header: string
+  header: string
   logout: boolean
   buyer: IBuyerDocument
   seller: ISellerDocument
-  // showCategoryContainer: boolean
+  showCategoryContainer: boolean
   // notification: object
 }

@@ -8,6 +8,8 @@ import { loginUserSchema } from 'src/schemes/auth.scheme'
 import { useSignInMutation } from 'src/services/auth.service'
 import Alert from 'src/shared/alert/Alert'
 import Button from 'src/shared/button/Button'
+import { updateCategoryContainer } from 'src/shared/header/reducers/category.reducer'
+import { updateHeader } from 'src/shared/header/reducers/header.reducer'
 import TextInput from 'src/shared/inputs/TextInput'
 import ModalBg from 'src/shared/modals/ModalBg'
 import { saveToSessionStorage } from 'src/shared/utils/utils.service'
@@ -40,6 +42,8 @@ export default function LoginModal({ onClose, onToggle, onTogglePassword }: IMod
 
         dispatch(addAuthUser({ authInfo: result.user }))
         dispatch(updateLogout(false))
+        dispatch(updateHeader('home'))
+        dispatch(updateCategoryContainer(true))
 
         saveToSessionStorage(JSON.stringify(true), JSON.stringify(result.user?.username))
       }

@@ -10,6 +10,8 @@ import { useSignUpMutation } from 'src/services/auth.service'
 import Alert from 'src/shared/alert/Alert'
 import Button from 'src/shared/button/Button'
 import Dropdown from 'src/shared/dropdown/Dropdown'
+import { updateCategoryContainer } from 'src/shared/header/reducers/category.reducer'
+import { updateHeader } from 'src/shared/header/reducers/header.reducer'
 import TextInput from 'src/shared/inputs/TextInput'
 import ModalBg from 'src/shared/modals/ModalBg'
 import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service'
@@ -66,6 +68,8 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
 
         dispatch(addAuthUser({ authInfo: result.user }))
         dispatch(updateLogout(false))
+        dispatch(updateHeader('home'))
+        dispatch(updateCategoryContainer(true))
 
         saveToSessionStorage(JSON.stringify(true), JSON.stringify(result.user?.username))
       }
