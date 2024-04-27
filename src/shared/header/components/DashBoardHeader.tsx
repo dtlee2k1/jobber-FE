@@ -2,7 +2,7 @@ import { Transition } from '@headlessui/react'
 import { useState } from 'react'
 import { FaBars } from 'react-icons/fa'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { IReduxState } from 'src/interfaces/store.interface'
 import { useAppSelector } from 'src/store/store'
 
@@ -26,13 +26,13 @@ export default function DashBoardHeader() {
                 <label htmlFor="hbr" className="peer-checked:hamburger relative z-20 -ml-4 block cursor-pointer p-6 lg:hidden">
                   <Button
                     className="m-auto flex h-0.5 w-5 items-center rounded transition duration-300"
-                    label={<FaBars className="h-6 w-6 text-sky-500" />}
+                    label={<FaBars className="h-5 w-5 text-sky-500" />}
                   />
                 </label>
                 <div className="w-full gap-x-4 md:flex">
                   <Link
                     to={`/${lowerCase(`${seller.username}`)}/${seller._id}/seller_dashboard`}
-                    className="relative z-10 flex cursor-pointer justify-center self-center text-2xl font-semibold text-black lg:text-3xl"
+                    className="relative z-10 flex h-full cursor-pointer items-center justify-center self-center text-2xl font-semibold text-black lg:text-3xl"
                   >
                     Jobber
                   </Link>
@@ -43,14 +43,26 @@ export default function DashBoardHeader() {
               <div className="text-[#74767e] lg:pr-4">
                 <ul className="flex text-base font-medium">
                   <li className="relative flex items-center">
-                    <Link to={`/${lowerCase(`${seller.username}`)}/${seller._id}/manage_orders`} className="px-3">
+                    <NavLink
+                      to={`/${lowerCase(`${seller.username}`)}/${seller._id}/manage_orders`}
+                      className={({ isActive }) => {
+                        const active = isActive ? 'text-slate-900' : ''
+                        return `${active} px-3 hover:text-slate-900`
+                      }}
+                    >
                       <span>Orders</span>
-                    </Link>
+                    </NavLink>
                   </li>
                   <li className="relative flex items-center">
-                    <Link to={`/${lowerCase(`${seller.username}`)}/${seller._id}/manage_earnings`} className="px-3">
+                    <NavLink
+                      to={`/${lowerCase(`${seller.username}`)}/${seller._id}/manage_earnings`}
+                      className={({ isActive }) => {
+                        const active = isActive ? 'text-slate-900' : ''
+                        return `${active} px-3 hover:text-slate-900`
+                      }}
+                    >
                       <span>Earnings</span>
-                    </Link>
+                    </NavLink>
                   </li>
                   <li className="relative flex cursor-pointer items-center">
                     <Button

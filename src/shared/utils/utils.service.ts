@@ -130,7 +130,7 @@ export const shortenLargeNumbers = (data: number | undefined) => {
     ? millify(data, {
         precision: 0
       })
-    : 0
+    : '0'
 }
 
 export const rating = (num: number | undefined) => {

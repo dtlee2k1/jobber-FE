@@ -98,6 +98,8 @@ export default function SettingsDropdown({ buyer, seller, authUser, type, setIsD
               }}
               onClick={() => {
                 setIsDropdownOpen && setIsDropdownOpen(false)
+
+                dispatch(updateHeader('home'))
                 dispatch(updateCategoryContainer(true))
               }}
             >
