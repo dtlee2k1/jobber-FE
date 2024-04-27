@@ -20,7 +20,7 @@ export default function ManageEarningsTable({ type, orders, orderTypes }: IManag
         <div className="text-xs font-bold uppercase sm:text-sm md:text-base">Payouts</div>
       </div>
       <table className="border-grey flex-no-wrap flex w-full table-auto flex-row overflow-hidden border text-sm text-gray-500 sm:inline-table">
-        {orderTypes && (
+        {orderTypes > 0 && (
           <>
             <thead className="border-grey border-b text-xs uppercase text-gray-700 sm:[&>*:not(:first-child)]:hidden">
               {orders.map(() => (
