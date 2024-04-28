@@ -6,7 +6,8 @@ import { useCheckCurrentUserQuery } from 'src/services/auth.service'
 import { useGetCurrentBuyerByUsernameQuery } from 'src/services/buyer.service'
 import { useGetSellerByUsernameQuery } from 'src/services/seller.service'
 import HomeHeader from 'src/shared/header/components/HomeHeader'
-import { applicationLogout, saveToSessionStorage } from 'src/shared/utils/utils.service'
+import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader'
+import { applicationLogout, getDataFromLocalStorage, saveToSessionStorage } from 'src/shared/utils/utils.service'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 
 import { addAuthUser } from './auth/reducers/auth.reducer'
@@ -23,8 +24,8 @@ export default function AppPage() {
   const [isValidToken, setIsValidToken] = useState<boolean>(false)
 
   const { data: currentUserData, isError } = useCheckCurrentUserQuery(undefined, { skip: authUser.id === null })
-  const { data: buyerData } = useGetCurrentBuyerByUsernameQuery(undefined, { skip: authUser.id === null })
-  const { data: sellerData } = useGetSellerByUsernameQuery(`${authUser.username}`, {
+  const { data: buyerData, isLoading: isBuyerLoading } = useGetCurrentBuyerByUsernameQuery(undefined, { skip: authUser.id === null })
+  const { data: sellerData, isLoading: isSellerLoading } = useGetSellerByUsernameQuery(`${authUser.username}`, {
     skip: authUser.id === null
   })
 
@@ -40,11 +41,16 @@ export default function AppPage() {
         dispatch(addSeller(sellerData?.seller))
 
         saveToSessionStorage(JSON.stringify(true), JSON.stringify(currentUserData.user.username))
+
+        const becomeASeller: boolean = getDataFromLocalStorage('becomeASeller')
+        if (becomeASeller) {
+          navigate('/seller_onboarding')
+        }
       }
     } catch (error) {
       console.log(error)
     }
-  }, [appLogout, currentUserData, dispatch, buyerData, sellerData])
+  }, [appLogout, currentUserData, buyerData, sellerData, dispatch, navigate])
 
   const logoutUser = useCallback(async () => {
     if ((!currentUserData && appLogout) || isError) {
@@ -62,10 +68,16 @@ export default function AppPage() {
     <Index />
   ) : (
     <>
-      <HomeHeader showCategoryContainer={showCategoryContainer} />
-      <Layout backgroundColor="#fff">
-        <Home />
-      </Layout>
+      {isBuyerLoading && isSellerLoading ? (
+        <CircularPageLoader />
+      ) : (
+        <>
+          <HomeHeader showCategoryContainer={showCategoryContainer} />
+          <Layout backgroundColor="#fff">
+            <Home />
+          </Layout>
+        </>
+      )}
     </>
   )
 }

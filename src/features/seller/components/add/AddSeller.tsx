@@ -1,5 +1,5 @@
 import { filter, omit } from 'lodash'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { addBuyer } from 'src/features/buyer/reducers/buyer.reducer'
 import { useSellerSchema } from 'src/hooks/useSellerSchema'
@@ -11,7 +11,7 @@ import { useCreateSellerMutation } from 'src/services/seller.service'
 import Breadcrumb from 'src/shared/breadcrumb/Breadcrumb'
 import Button from 'src/shared/button/Button'
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader'
-import { lowerCase } from 'src/shared/utils/utils.service'
+import { deleteFromLocalStorage, lowerCase } from 'src/shared/utils/utils.service'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -136,6 +136,17 @@ export default function AddSeller() {
       console.log(error)
     }
   }
+
+  useEffect(() => {
+    if (buyer && buyer.isSeller) {
+      navigate('/')
+    }
+
+    return () => {
+      // delete `becomeASeller` key from LS when user leaves page
+      deleteFromLocalStorage('becomeASeller')
+    }
+  }, [buyer, navigate])
 
   return (
     <div className="relative w-full">

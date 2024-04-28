@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaEye, FaEyeSlash, FaTimes } from 'react-icons/fa'
 import { useAuthSchema } from 'src/hooks/useAuthSchema'
 import { ISignInPayload } from 'src/interfaces/auth.interface'
@@ -12,7 +12,7 @@ import { updateCategoryContainer } from 'src/shared/header/reducers/category.red
 import { updateHeader } from 'src/shared/header/reducers/header.reducer'
 import TextInput from 'src/shared/inputs/TextInput'
 import ModalBg from 'src/shared/modals/ModalBg'
-import { saveToSessionStorage } from 'src/shared/utils/utils.service'
+import { deleteFromLocalStorage, saveToSessionStorage } from 'src/shared/utils/utils.service'
 import { useAppDispatch } from 'src/store/store'
 
 import { addAuthUser } from '../reducers/auth.reducer'
@@ -52,6 +52,13 @@ export default function LoginModal({ onClose, onToggle, onTogglePassword }: IMod
       setAlertMessage(error?.data.message)
     }
   }
+
+  useEffect(() => {
+    return () => {
+      // delete `becomeASeller` key from LS when user leaves page
+      deleteFromLocalStorage('becomeASeller')
+    }
+  }, [])
 
   return (
     <ModalBg>

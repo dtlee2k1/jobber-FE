@@ -74,7 +74,6 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
         saveToSessionStorage(JSON.stringify(true), JSON.stringify(result.user?.username))
       }
     } catch (error) {
-      console.log(error)
       setAlertMessage(error?.data.message)
     }
   }

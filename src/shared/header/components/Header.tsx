@@ -5,6 +5,7 @@ import LoginModal from 'src/features/auth/components/Login'
 import RegisterModal from 'src/features/auth/components/Register'
 import { IHeaderModalProps } from 'src/interfaces/header.interface'
 import Button from 'src/shared/button/Button'
+import { saveToLocalStorage } from 'src/shared/utils/utils.service'
 
 interface IHeaderProps {
   navClass: string
@@ -54,7 +55,13 @@ export default function Header({ navClass }: IHeaderProps) {
                 <div className="text-gray-600 dark:text-gray-300 lg:pr-4">
                   <ul className="space-y-6 text-base font-medium tracking-wide lg:flex lg:space-y-0 lg:text-sm">
                     <li>
-                      <div className="block transition hover:text-sky-500 dark:hover:text-white md:px-4">
+                      <div
+                        className="block transition hover:text-sky-500 dark:hover:text-white md:px-4"
+                        onClick={() => {
+                          setShowModal((item) => ({ ...item, register: true }))
+                          saveToLocalStorage('becomeASeller', JSON.stringify(true))
+                        }}
+                      >
                         <span>Become a Seller</span>
                       </div>
                     </li>
