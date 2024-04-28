@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ISellerDocument } from 'src/interfaces/seller.interface'
 import StarRating from 'src/shared/rating/StarRating'
-import { lowerCase } from 'src/shared/utils/utils.service'
+import { lowerCase, rating } from 'src/shared/utils/utils.service'
 import { v4 as uuidv4 } from 'uuid'
 
 export interface IFeaturedExpertProps {
@@ -17,27 +17,27 @@ export default function FeaturedExperts({ sellers }: IFeaturedExpertProps) {
       </div>
       <div className="mt-6">
         <div className="grid grid-cols-1 gap-8 pt-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {[sellers, 1, 2, 3, 4, 5].map(() => (
+          {sellers.map((seller: ISellerDocument) => (
             <div key={uuidv4()} className="border-grey w-full rounded-lg border bg-white shadow">
               <div className="flex flex-col items-center pb-10 pt-5">
-                <img
-                  className="mb-3 h-24 w-24 rounded-full shadow-lg"
-                  src="https://placehold.co/330x220?text=Profile+Image"
-                  alt="Profile image"
-                />
-                <h5 className="mb-1 font-medium text-gray-900 xl:text-xl ">Danny</h5>
-                <span className="mb-1 w-[90%] text-center text-sm text-gray-500 dark:text-gray-500">This is what i do</span>
+                <img className="mb-3 h-24 w-24 rounded-full object-cover shadow-lg" src={seller.profilePicture} alt="Profile image" />
+                <h5 className="mb-1 font-medium text-gray-900 xl:text-xl ">{seller.username}</h5>
+                <span className="mb-1 w-[90%] text-center text-sm text-gray-500 dark:text-gray-500">{seller.oneliner}</span>
                 <div className="flex h-6 w-full justify-center gap-x-1 self-center">
                   <div className="mt-1 w-20 gap-x-2">
-                    <StarRating value={5} size={14} />
+                    <StarRating value={rating(parseInt(`${seller.ratingSum}`) / parseInt(`${seller.ratingsCount}`))} size={14} />
                   </div>
-                  <div className="ml-2 flex gap-1 self-center rounded bg-orange-400 px-1 text-xs">
-                    <span className="font-bold text-white">5</span>
-                  </div>
+                  {parseInt(`${seller.ratingsCount}`) > 0 && (
+                    <div className="ml-2 flex gap-1 self-center rounded bg-orange-400 px-1 text-xs">
+                      <span className="font-bold text-white">
+                        {rating(parseInt(`${seller.ratingSum}`) / parseInt(`${seller.ratingsCount}`))}
+                      </span>
+                    </div>
+                  )}
                 </div>
                 <div className="mt-4 flex space-x-3 md:mt-6">
                   <Link
-                    to={`/seller_profile/${lowerCase('dtlee')}/123456/view`}
+                    to={`/seller_profile/${lowerCase(`${seller.username}`)}/${seller._id}/view`}
                     className="rounded bg-sky-500 px-6 py-3 text-center text-sm font-bold text-white hover:bg-sky-400 focus:outline-none md:px-4 md:py-2 md:text-base"
                   >
                     View Profile
