@@ -5,6 +5,7 @@ import ConfirmEmail from './features/auth/components/ConfirmEmail'
 import ResetPassword from './features/auth/components/ResetPassword'
 import BuyerDashboard from './features/buyer/components/BuyerDashboard'
 import PageNotFound from './features/error/PageNotFound'
+import AddGig from './features/gigs/components/gig/AddGig'
 import Home from './features/home/Home'
 import ProtectedRoute from './features/ProtectedRoute'
 import AddSeller from './features/seller/components/add/AddSeller'
@@ -107,6 +108,16 @@ export default function AppRouter() {
           element: <ManageEarnings />
         }
       ]
+    },
+    {
+      path: '/manage_gigs/new/:sellerId',
+      element: (
+        <ProtectedRoute>
+          <Layout backgroundColor="#fff">
+            <AddGig />
+          </Layout>
+        </ProtectedRoute>
+      )
     },
     {
       path: '*',

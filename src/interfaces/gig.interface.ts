@@ -3,20 +3,6 @@ import { Dispatch, SetStateAction } from 'react'
 import { IRatingCategories, IReviewDocument } from './review.interface'
 import { ISellerDocument } from './seller.interface'
 
-export interface ITagsInputProps {
-  title: string
-  placeholder: string
-  gigInfo: ICreateGig
-  tags: string[]
-  itemName: string
-  itemInput: string
-  inputErrorMessage: boolean
-  counterText: string
-  setItem: Dispatch<SetStateAction<string[]>>
-  setItemInput: Dispatch<SetStateAction<string>>
-  setGigInfo: Dispatch<SetStateAction<ICreateGig>>
-}
-
 export interface IGigPaginateProps {
   gigs: ISellerGig[]
   totalGigs: number
