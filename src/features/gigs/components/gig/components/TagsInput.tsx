@@ -10,7 +10,9 @@ interface ITagsInputProps {
   tags: string[]
   itemName: string
   itemInput: string
-  inputErrorMessage: boolean
+  className: string
+  classNameError?: string
+  errorMessage?: string
   counterText: string
   setItems: Dispatch<SetStateAction<string[]>>
   setItemInput: Dispatch<SetStateAction<string>>
@@ -25,6 +27,9 @@ export default function TagsInput({
   itemName,
   itemInput,
   counterText,
+  className,
+  classNameError,
+  errorMessage,
   setItems,
   setItemInput,
   setGigInfo
@@ -83,13 +88,16 @@ export default function TagsInput({
           type="text"
           name={title}
           value={itemInput}
-          className="border-grey mb-1 w-full rounded border p-2.5 text-sm font-normal text-gray-600 focus:outline-none"
+          className={className}
           placeholder={placeholder}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChange(event)}
           onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => onKeyDown(event, itemInput, tags)}
         />
-        <span className="flex justify-end text-xs text-[#95979d]">
-          {maxTagCount - tags.length} {counterText}
+        <span className="flex text-xs text-[#95979d]">
+          {errorMessage && <div className={classNameError}>{errorMessage}</div>}
+          <span className="ml-auto">
+            {maxTagCount - tags.length} {counterText}
+          </span>
         </span>
       </div>
     </div>

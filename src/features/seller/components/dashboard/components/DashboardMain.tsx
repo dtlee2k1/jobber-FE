@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { filter } from 'lodash'
 import { useState } from 'react'
 import { FaMapMarkerAlt, FaRegClock, FaUserAlt } from 'react-icons/fa'

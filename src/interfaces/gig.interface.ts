@@ -48,10 +48,8 @@ export interface IGigsProps {
   gig?: ISellerGig
 }
 
-export type GigType = string | string[] | number | unknown | undefined
-
-export interface ICreateGig extends Record<string, GigType> {
-  // [key: string]: string | string[] | number | undefined;
+export interface ICreateGig {
+  [key: string]: string | string[] | number | undefined
   sellerId?: string
   profilePicture?: string
   title: string

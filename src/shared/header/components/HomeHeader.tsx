@@ -16,9 +16,9 @@ import { categories, replaceSpacesWithDash, showErrorToast, showSuccessToast } f
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import { v4 as uuidv4 } from 'uuid'
 
-import SettingsDropdown from './SettingsDropdown'
-import { updateHeader } from '../reducers/header.reducer'
 import { updateCategoryContainer } from '../reducers/category.reducer'
+import { updateHeader } from '../reducers/header.reducer'
+import SettingsDropdown from './SettingsDropdown'
 
 export interface IHomeHeaderProps {
   buyer?: IBuyerDocument

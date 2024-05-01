@@ -1,22 +1,38 @@
+import classNames from 'classnames'
 import { useRef, useState } from 'react'
 import { FaCamera } from 'react-icons/fa'
 import ReactQuill, { UnprivilegedEditor } from 'react-quill'
+import { useNavigate, useParams } from 'react-router-dom'
+import { addSeller } from 'src/features/seller/reducers/seller.reducer'
+import { useGigSchema } from 'src/hooks/useGigSchema'
 import { GIG_MAX_LENGTH, IAllowedGigItem, ICreateGig, IShowGigModal } from 'src/interfaces/gig.interface'
+import { ISellerDocument } from 'src/interfaces/seller.interface'
 import { IReduxState } from 'src/interfaces/store.interface'
+import { IResponse } from 'src/interfaces/utils.interface'
+import { gigInfoSchema } from 'src/schemes/gig.scheme'
+import { useCreateGigMutation } from 'src/services/gig.service'
 import Breadcrumb from 'src/shared/breadcrumb/Breadcrumb'
 import Button from 'src/shared/button/Button'
 import Dropdown from 'src/shared/dropdown/Dropdown'
 import TextAreaInput from 'src/shared/inputs/TextAreaInput'
 import TextInput from 'src/shared/inputs/TextInput'
+import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader'
 import { checkImage, readAsBase64 } from 'src/shared/utils/image-utils.service'
-import { categories, expectedGigDelivery, reactQuillUtils } from 'src/shared/utils/utils.service'
-import { useAppSelector } from 'src/store/store'
+import {
+  categories,
+  expectedGigDelivery,
+  lowerCase,
+  reactQuillUtils,
+  replaceSpacesWithDash,
+  showErrorToast
+} from 'src/shared/utils/utils.service'
+import { useAppDispatch, useAppSelector } from 'src/store/store'
 
 import TagsInput from './components/TagsInput'
 
 const defaultGigInfo: ICreateGig = {
   title: '',
-  categories: '',
+  categories: 'Select a category',
   description: '',
   subCategories: [],
   tags: [],
@@ -29,6 +45,11 @@ const defaultGigInfo: ICreateGig = {
 
 export default function AddGig() {
   const authUser = useAppSelector((state: IReduxState) => state.authUser)
+  const seller = useAppSelector((state: IReduxState) => state.seller)
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
+  const { sellerId } = useParams()
 
   const [gigInfo, setGigInfo] = useState<ICreateGig>(defaultGigInfo)
   const [allowedGigItemLength, setAllowedGigItemLength] = useState<IAllowedGigItem>({
@@ -49,6 +70,10 @@ export default function AddGig() {
   const reactQuillRef = useRef<ReactQuill | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const { schemaValidation, validationErrors } = useGigSchema({ schema: gigInfoSchema, gigInfo })
+
+  const [createGig, { isLoading }] = useCreateGigMutation()
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target
     if (target.files) {
@@ -62,12 +87,43 @@ export default function AddGig() {
     }
   }
 
-  console.log(gigInfo)
+  const onCreateGig = async (): Promise<void> => {
+    try {
+      console.log(validationErrors)
+      const isValid: boolean = await schemaValidation()
+      console.log(gigInfo)
+      return
+      if (isValid) {
+        const gig: ICreateGig = {
+          profilePicture: `${authUser.profilePicture}`,
+          sellerId,
+          title: gigInfo.title,
+          categories: gigInfo.categories,
+          description: gigInfo.description,
+          subCategories,
+          tags,
+          price: gigInfo.price,
+          coverImage: gigInfo.coverImage,
+          expectedDelivery: gigInfo.expectedDelivery,
+          basicTitle: gigInfo.basicTitle,
+          basicDescription: gigInfo.basicDescription
+        }
+        const response: IResponse = await createGig(gig).unwrap()
+        const updatedSeller: ISellerDocument = { ...seller, totalGigs: (seller.totalGigs as number) + 1 }
+        dispatch(addSeller(updatedSeller))
+        const title = replaceSpacesWithDash(gig.title)
+        navigate(`/gig/${lowerCase(`${authUser.username}`)}/${title}/${response?.gig?.sellerId}/${response?.gig?.id}/view`)
+      }
+    } catch (error) {
+      showErrorToast('Error creating gig')
+    }
+  }
+
   return (
     <div className="relative w-screen">
       <Breadcrumb breadCrumbItems={['Seller', 'Create new gig']} />
       <div className="container relative mx-auto my-5 px-2 pb-12">
-        {/* <!-- CircularPageLoader --> */}
+        {isLoading && <CircularPageLoader />}
         {!authUser.emailVerified && (
           <div className="absolute left-0 top-0 z-[80] flex h-full w-full justify-center bg-white/[0.8] text-sm font-bold md:text-base lg:text-xl">
             <span className="mt-40">Please verify your email</span>
@@ -81,7 +137,12 @@ export default function AddGig() {
             </div>
             <div className="col-span-4 md:w-11/12 lg:w-8/12">
               <TextInput
-                className="border-grey mb-1 w-full rounded border p-2.5 text-sm font-normal text-gray-600 focus:outline-none"
+                className={classNames('mb-1 w-full rounded border p-2.5 text-sm font-normal text-gray-600', {
+                  'border-grey focus:outline-none': !validationErrors.title,
+                  'border-red-600 bg-red-50 focus:border-red-600': validationErrors.title
+                })}
+                classNameError="mt-1 min-h-[1rem] text-xs text-red-600"
+                errorMessage={validationErrors.title}
                 type="text"
                 name="gigTitle"
                 value={gigInfo.title}
@@ -103,7 +164,12 @@ export default function AddGig() {
             </div>
             <div className="col-span-4 md:w-11/12 lg:w-8/12">
               <TextInput
-                className="border-grey mb-1 w-full rounded border p-2.5 text-sm font-normal text-gray-600 focus:outline-none"
+                className={classNames('mb-1 w-full rounded border p-2.5 text-sm font-normal text-gray-600', {
+                  'border-grey focus:outline-none': !validationErrors.basicTitle,
+                  'border-red-600 bg-red-50 focus:border-red-600': validationErrors.basicTitle
+                })}
+                classNameError="mt-1 min-h-[1rem] text-xs text-red-600"
+                errorMessage={validationErrors.basicTitle}
                 placeholder="Write what exactly you'll do in short"
                 type="text"
                 name="basicTitle"
@@ -125,7 +191,12 @@ export default function AddGig() {
             </div>
             <div className="col-span-4 md:w-11/12 lg:w-8/12">
               <TextAreaInput
-                className="border-grey mb-1 w-full rounded border p-2.5 text-sm font-normal text-gray-600 focus:outline-none"
+                className={classNames('mb-1 w-full rounded border p-2.5 text-sm font-normal text-gray-600', {
+                  'border-grey focus:outline-none': !validationErrors.basicDescription,
+                  'border-red-600 bg-red-50 focus:border-red-600': validationErrors.basicDescription
+                })}
+                classNameError="mt-1 min-h-[1rem] text-xs text-red-600"
+                errorMessage={validationErrors.basicDescription}
                 placeholder="Write a brief description..."
                 name="basicDescription"
                 value={gigInfo.basicDescription}
@@ -167,7 +238,10 @@ export default function AddGig() {
                   setAllowedGigItemLength({ ...allowedGigItemLength, descriptionCharacters: `${counter}/1200` })
                 }}
               />
-              <span className="flex justify-end text-xs text-[#95979d]">{allowedGigItemLength.descriptionCharacters} Characters</span>
+              <div className="flex text-xs text-[#95979d]">
+                {validationErrors.description && <div className="min-h-[1rem] text-xs text-red-600">{validationErrors.description}</div>}
+                <span className="ml-auto">{allowedGigItemLength.descriptionCharacters} Characters</span>
+              </div>
             </div>
           </div>
           <div className="mb-12 grid md:grid-cols-5">
@@ -178,7 +252,10 @@ export default function AddGig() {
               <Dropdown
                 text={gigInfo.categories}
                 maxHeight="300"
-                mainClassNames="absolute bg-white"
+                mainClassNames={classNames('absolute border', {
+                  'border-red-600 bg-red-50 focus:border-red-600': validationErrors.categories,
+                  'bg-white border-grey focus:outline-none': !validationErrors.categories
+                })}
                 values={categories()}
                 onClick={(item) => {
                   setGigInfo({ ...gigInfo, categories: item })
@@ -196,7 +273,12 @@ export default function AddGig() {
             itemInput={subCategoryInput}
             itemName="subCategories"
             counterText="SubCategories"
-            inputErrorMessage={false}
+            className={classNames('mb-1 w-full rounded border p-2.5 text-sm font-normal text-gray-600 focus:outline-none', {
+              'border-grey focus:outline-none': !validationErrors.subCategories,
+              'border-red-600 bg-red-50 focus:border-red-600': validationErrors.subCategories
+            })}
+            classNameError=" min-h-[1rem] text-xs text-red-600"
+            errorMessage={validationErrors.subCategories as any}
             setItems={setSubCategories}
             setItemInput={setSubCategoryInput}
           />
@@ -210,7 +292,12 @@ export default function AddGig() {
             itemInput={tagsInput}
             itemName="tags"
             counterText="Tags"
-            inputErrorMessage={false}
+            className={classNames('mb-1 w-full rounded border p-2.5 text-sm font-normal text-gray-600 focus:outline-none', {
+              'border-grey focus:outline-none': !validationErrors.tags,
+              'border-red-600 bg-red-50 focus:border-red-600': validationErrors.tags
+            })}
+            classNameError=" min-h-[1rem] text-xs text-red-600"
+            errorMessage={validationErrors.tags as any}
             setItems={setTags}
             setItemInput={setTagsInput}
           />
@@ -222,7 +309,12 @@ export default function AddGig() {
             <div className="col-span-4 md:w-11/12 lg:w-8/12">
               <TextInput
                 type="number"
-                className="border-grey mb-1 w-full rounded border p-3.5 text-sm font-normal text-gray-600 focus:outline-none"
+                className={classNames('mb-1 w-full rounded border p-2.5 text-sm font-normal text-gray-600', {
+                  'border-grey focus:outline-none': !validationErrors.price,
+                  'border-red-600 bg-red-50 focus:border-red-600': validationErrors.price
+                })}
+                classNameError="mt-1 min-h-[1rem] text-xs text-red-600"
+                errorMessage={validationErrors.price as any}
                 placeholder="Enter minimum price"
                 name="price"
                 value={gigInfo.price}
@@ -238,7 +330,10 @@ export default function AddGig() {
               <Dropdown
                 text={gigInfo.expectedDelivery}
                 maxHeight="300"
-                mainClassNames="absolute bg-white z-40"
+                mainClassNames={classNames('absolute border z-40', {
+                  'border-red-600 bg-red-50 focus:border-red-600': validationErrors.expectedDelivery,
+                  'bg-white border-grey focus:outline-none': !validationErrors.expectedDelivery
+                })}
                 values={expectedGigDelivery()}
                 onClick={(item) => {
                   setGigInfo({ ...gigInfo, expectedDelivery: item })
@@ -275,6 +370,8 @@ export default function AddGig() {
                 type="file"
                 ref={fileInputRef}
                 className="mt-4 hidden"
+                classNameError="mt-1 min-h-[1rem] text-xs text-red-600"
+                errorMessage={validationErrors.coverImage}
                 onClick={() => {
                   if (fileInputRef.current) {
                     fileInputRef.current.value = ''
@@ -288,12 +385,13 @@ export default function AddGig() {
             <div className="pb-2 text-base font-medium lg:mt-0"></div>
             <div className="col-span-4 flex gap-x-4 md:w-11/12 lg:w-8/12">
               <Button
-                disabled={false}
+                disabled={isLoading}
                 className="rounded bg-sky-500 px-8 py-3 text-center text-sm font-bold text-white hover:bg-sky-400 focus:outline-none md:py-3 md:text-base"
                 label="Create Gig"
+                onClick={onCreateGig}
               />
               <Button
-                disabled={false}
+                disabled={isLoading}
                 className="rounded bg-red-500 px-8 py-3 text-center text-sm font-bold text-white hover:bg-red-400 focus:outline-none md:py-3 md:text-base"
                 label="Cancel"
               />
