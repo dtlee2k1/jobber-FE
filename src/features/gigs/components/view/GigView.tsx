@@ -11,6 +11,7 @@ import { emptyGigData, emptySellerData } from 'src/shared/utils/static-data'
 import { rating, shortenLargeNumbers } from 'src/shared/utils/utils.service'
 
 import { GigContext } from '../../context/GigContext'
+import GigViewRight from './components/GigViewRight'
 
 export default function GigView() {
   const { gigId, sellerId } = useParams<string>()
@@ -37,7 +38,7 @@ export default function GigView() {
         <main className="max-w-8xl container mx-auto mt-8">
           <h2 className="mb-4 px-4 text-xl font-bold text-[#404145] lg:text-3xl">{gig.current.title}</h2>
           <div className="mb-4 flex flex-row gap-x-2 px-4">
-            <img className="flex h-8 w-8 self-center rounded-full object-cover" src={gig.current.coverImage} alt={gig.current.title} />
+            <img className="flex h-8 w-8 self-center rounded-full object-cover" src={gig.current.profilePicture} alt={gig.current.title} />
             <span className="flex self-center font-extrabold">{gig.current.username}</span>
             <>
               {gig.current.ratingSum && gig.current.ratingsCount && gig.current.ratingSum >= 1 && gig.current.ratingsCount >= 1 ? (
@@ -64,7 +65,7 @@ export default function GigView() {
 
               <div className="w-full p-4 lg:w-1/3 ">
                 <StickyBox offsetTop={10} offsetBottom={10}>
-                  {/* <!-- GigViewRight --> */}
+                  <GigViewRight />
                 </StickyBox>
               </div>
             </div>

@@ -7,7 +7,7 @@ interface IApprovalModalProps {
   approvalModalContent?: IApprovalModalContent
   hideCancel?: boolean
   onClick: () => void
-  onClose: () => void
+  onClose?: () => void
 }
 
 export default function ApprovalModal({ approvalModalContent, hideCancel = false, onClick, onClose }: IApprovalModalProps) {
