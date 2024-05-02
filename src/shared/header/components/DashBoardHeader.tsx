@@ -1,8 +1,9 @@
 import { Transition } from '@headlessui/react'
-import { useState } from 'react'
+import { useRef } from 'react'
 import { FaBars } from 'react-icons/fa'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { Link, NavLink } from 'react-router-dom'
+import useDetectOutsideClick from 'src/hooks/useDetectOutsideClick'
 import { IReduxState } from 'src/interfaces/store.interface'
 import { useAppSelector } from 'src/store/store'
 
@@ -15,7 +16,10 @@ export default function DashBoardHeader() {
   const buyer = useAppSelector((state: IReduxState) => state.buyer)
   const seller = useAppSelector((state: IReduxState) => state.seller)
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
+  const dropdownOpenRef = useRef<HTMLDivElement | null>(null)
+
+  const { isActive: isDropdownOpen, setIsActive: setIsDropdownOpen } = useDetectOutsideClick(dropdownOpenRef, false)
+
   return (
     <header>
       <nav className="navbar peer-checked:navbar-active relative z-20 w-full border-b bg-white shadow-2xl shadow-gray-600/5 backdrop-blur dark:shadow-none">
@@ -81,6 +85,7 @@ export default function DashBoardHeader() {
                       }
                     />
                     <Transition
+                      ref={dropdownOpenRef}
                       show={isDropdownOpen}
                       enter="transition ease-out duration-200"
                       enterFrom="opacity-0 translate-y-1"
@@ -89,7 +94,7 @@ export default function DashBoardHeader() {
                       leaveFrom="opacity-100 translate-y-0"
                       leaveTo="opacity-0 translate-y-1"
                     >
-                      <div className="absolute -right-48 z-50 mt-5 w-96">
+                      <div className="absolute right-0 z-50 mt-5">
                         <SettingsDropdown
                           authUser={authUser}
                           buyer={buyer}
