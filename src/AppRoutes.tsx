@@ -6,6 +6,7 @@ import ResetPassword from './features/auth/components/ResetPassword'
 import BuyerDashboard from './features/buyer/components/BuyerDashboard'
 import PageNotFound from './features/error/PageNotFound'
 import AddGig from './features/gigs/components/gig/AddGig'
+import GigView from './features/gigs/components/view/GigView'
 import Home from './features/home/Home'
 import ProtectedRoute from './features/ProtectedRoute'
 import AddSeller from './features/seller/components/add/AddSeller'
@@ -115,6 +116,16 @@ export default function AppRouter() {
         <ProtectedRoute>
           <Layout backgroundColor="#fff">
             <AddGig />
+          </Layout>
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: '/gig/:username/:title/:sellerId/:gigId/view',
+      element: (
+        <ProtectedRoute>
+          <Layout backgroundColor="#fff">
+            <GigView />
           </Layout>
         </ProtectedRoute>
       )
