@@ -10,6 +10,8 @@ import StarRating from 'src/shared/rating/StarRating'
 import { emptyGigData, emptySellerData } from 'src/shared/utils/static-data'
 import { rating, shortenLargeNumbers } from 'src/shared/utils/utils.service'
 
+import { GigContext } from '../../context/GigContext'
+
 export default function GigView() {
   const { gigId, sellerId } = useParams<string>()
   const { data: gigData, isSuccess: isGigDataSuccess, isLoading: isGigLoading } = useGetGigByIdQuery(`${gigId}`)
@@ -56,15 +58,18 @@ export default function GigView() {
               )}
             </>
           </div>
-          <div className="flex flex-wrap">
-            <div className="order-last w-full p-4 lg:order-first lg:w-2/3">{/* <!-- GigViewLeft --> */}</div>
+          <GigContext.Provider value={{ gig: gig.current, seller: seller.current, isLoading: isGigLoading, isSuccess: isGigDataSuccess }}>
+            <div className="flex flex-wrap">
+              <div className="order-last w-full p-4 lg:order-first lg:w-2/3">{/* <!-- GigViewLeft --> */}</div>
 
-            <div className="w-full p-4 lg:w-1/3 ">
-              <StickyBox offsetTop={10} offsetBottom={10}>
-                {/* <!-- GigViewRight --> */}
-              </StickyBox>
+              <div className="w-full p-4 lg:w-1/3 ">
+                <StickyBox offsetTop={10} offsetBottom={10}>
+                  {/* <!-- GigViewRight --> */}
+                </StickyBox>
+              </div>
             </div>
-          </div>
+          </GigContext.Provider>
+
           <div className="m-auto px-6 xl:container md:px-12 lg:px-6">{/* <!-- TopGigsView --> */}</div>
         </main>
       )}

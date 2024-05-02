@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from 'react'
 
 import { IRatingCategories, IReviewDocument } from './review.interface'
-import { ISellerDocument } from './seller.interface'
 
 export interface IGigPaginateProps {
   gigs: ISellerGig[]
@@ -98,13 +97,6 @@ export interface IGigViewReviewsProps {
   showRatings: boolean
   reviews?: IReviewDocument[]
   hasFetchedReviews?: boolean
-}
-
-export interface IGigContext {
-  gig: ISellerGig
-  seller: ISellerDocument
-  isSuccess?: boolean
-  isLoading?: boolean
 }
 
 export interface IGigInfo {
