@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { GigContext } from 'src/features/gigs/context/GigContext'
+import HtmlParser from 'src/shared/html-parser/HtmlParser'
 import { v4 as uuidv4 } from 'uuid'
 
 export default function GigLeftAbout() {
@@ -9,8 +10,7 @@ export default function GigLeftAbout() {
     <>
       <div className="mt-10 pb-6 text-lg font-semibold">About This Gig</div>
       <div className="pb-6">
-        {/* <HtmlParser input={gig.description} /> */}
-        {gig.description}
+        <HtmlParser htmlString={gig.description} />
       </div>
       <hr className="border-grey my-3" />
       <div className="grid grid-cols-1 gap-y-4 lg:grid-cols-2">

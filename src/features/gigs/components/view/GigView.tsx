@@ -11,6 +11,7 @@ import { emptyGigData, emptySellerData } from 'src/shared/utils/static-data'
 import { rating, shortenLargeNumbers } from 'src/shared/utils/utils.service'
 
 import { GigContext } from '../../context/GigContext'
+import GigViewLeft from './components/GigViewLeft'
 import GigViewRight from './components/GigViewRight'
 
 export default function GigView() {
@@ -61,7 +62,9 @@ export default function GigView() {
           </div>
           <GigContext.Provider value={{ gig: gig.current, seller: seller.current, isLoading: isGigLoading, isSuccess: isGigDataSuccess }}>
             <div className="flex flex-wrap">
-              <div className="order-last w-full p-4 lg:order-first lg:w-2/3">{/* <!-- GigViewLeft --> */}</div>
+              <div className="order-last w-full p-4 lg:order-first lg:w-2/3">
+                <GigViewLeft />
+              </div>
 
               <div className="w-full p-4 lg:w-1/3 ">
                 <StickyBox offsetTop={10} offsetBottom={10}>
