@@ -105,12 +105,6 @@ export interface IGigInfo {
   bgColor: string
 }
 
-export interface IGigCardItems {
-  gig: ISellerGig
-  linkTarget: boolean
-  showEditIcon: boolean
-}
-
 export interface IGigTopProps {
   gigs: ISellerGig[]
   title?: string
