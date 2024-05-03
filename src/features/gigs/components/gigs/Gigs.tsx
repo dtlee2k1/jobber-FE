@@ -1,6 +1,7 @@
 import { ISellerGig } from 'src/interfaces/gig.interface'
 
 import BudgetDropdown from './components/BudgetDropdown'
+import DeliveryTimeDropdown from './components/DeliveryTimeDropdown'
 
 interface IGigsProps {
   type: string
@@ -17,7 +18,7 @@ export default function Gigs({ type }: IGigsProps) {
       </h3>
       <div className="mb-4 flex gap-4">
         <BudgetDropdown />
-        {/* <!-- DeliveryTimeDropdown --> */}
+        <DeliveryTimeDropdown />
       </div>
       <div className="my-5">
         <div className="">
