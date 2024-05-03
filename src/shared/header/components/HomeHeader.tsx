@@ -18,6 +18,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { updateCategoryContainer } from '../reducers/category.reducer'
 import { updateHeader } from '../reducers/header.reducer'
+import HeaderSearchInput from './HeaderSearchInput'
 import SettingsDropdown from './SettingsDropdown'
 
 export interface IHomeHeaderProps {
@@ -106,7 +107,8 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                   >
                     Jobber
                   </Link>
-                  {/* <!-- Add HeaderSearchInput component --> */}
+
+                  <HeaderSearchInput />
                 </div>
               </div>
               {/* <!-- Add MobileHeaderSearchInput component here --> */}
