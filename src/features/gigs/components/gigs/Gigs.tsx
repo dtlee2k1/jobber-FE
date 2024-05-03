@@ -1,10 +1,13 @@
 import { ISellerGig } from 'src/interfaces/gig.interface'
 
+import BudgetDropdown from './components/BudgetDropdown'
+
 interface IGigsProps {
   type: string
   gig?: ISellerGig
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function Gigs({ type }: IGigsProps) {
   return (
     <div className="container mx-auto items-center p-5">
@@ -13,7 +16,7 @@ export default function Gigs({ type }: IGigsProps) {
         <strong className="text-black">category</strong>
       </h3>
       <div className="mb-4 flex gap-4">
-        {/* <!-- BudgetDropdown --> */}
+        <BudgetDropdown />
         {/* <!-- DeliveryTimeDropdown --> */}
       </div>
       <div className="my-5">
