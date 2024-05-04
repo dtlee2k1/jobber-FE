@@ -24,7 +24,7 @@ export default function DeliveryTimeDropdown() {
   const [searchParams, setSearchParams] = useSearchParams({})
   const [toggleDropdown, setToggleDropdown] = useState<boolean>(false)
   const [selectedTime, setSelectedTime] = useState<string>('Anytime')
-  console.log(selectedTime)
+
   return (
     <div className="flex flex-col">
       <div className="relative">
@@ -85,6 +85,7 @@ export default function DeliveryTimeDropdown() {
                 onClick={() => {
                   const updatedSearchParams = new URLSearchParams(searchParams.toString())
                   updatedSearchParams.set('delivery_time', selectedTime)
+                  updatedSearchParams.set('page', '1')
                   setSearchParams(updatedSearchParams)
                   setToggleDropdown(false)
                 }}

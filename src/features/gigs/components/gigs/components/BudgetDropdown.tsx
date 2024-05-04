@@ -94,6 +94,7 @@ export default function BudgetDropdown() {
                   const updatedSearchParams = new URLSearchParams(searchParams.toString())
                   updatedSearchParams.set('minPrice', selectedBudget.minPrice)
                   updatedSearchParams.set('maxPrice', selectedBudget.maxPrice)
+                  updatedSearchParams.set('page', '1')
                   setSearchParams(updatedSearchParams)
                   setToggleDropdown(false)
                 }}
