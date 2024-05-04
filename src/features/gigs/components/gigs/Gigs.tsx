@@ -4,6 +4,7 @@ import { useLocation, useParams, useSearchParams } from 'react-router-dom'
 import { ISellerGig } from 'src/interfaces/gig.interface'
 import { useSearchGigsQuery } from 'src/services/search.service'
 import GigCardDisplayItem from 'src/shared/gigs/GigCardDisplayItem'
+import GigPaginate from 'src/shared/gigs/GigPaginate'
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader'
 import PageMessage from 'src/shared/page-message/PageMessage'
 import {
@@ -88,8 +89,16 @@ export default function Gigs({ type }: IGigsProps) {
           )}
 
           {isError && <PageMessage header="Services issue" body="A network issue occurred. Try again later" />}
-          {isSuccess && gigs.current.length > 0 && <></>}
-          {/* <!-- GigPaginate --> */}
+          {isSuccess && gigs.current.length > 0 && (
+            <GigPaginate
+              gigs={gigs.current}
+              totalGigs={totalGigs}
+              itemsPerPage={ITEMS_PER_PAGE}
+              showNumbers={true}
+              setItemFrom={setItemFrom}
+              setPaginationType={setPaginationType}
+            />
+          )}
         </div>
       )}
     </>

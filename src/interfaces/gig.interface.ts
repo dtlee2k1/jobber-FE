@@ -1,15 +1,4 @@
-import { Dispatch, SetStateAction } from 'react'
-
 import { IRatingCategories, IReviewDocument } from './review.interface'
-
-export interface IGigPaginateProps {
-  gigs: ISellerGig[]
-  totalGigs: number
-  itemsPerPage: number
-  showNumbers: boolean
-  setItemFrom: Dispatch<SetStateAction<string>>
-  setPaginationType: Dispatch<SetStateAction<string>>
-}
 
 export interface IAllowedGigItem {
   gigTitle: string
