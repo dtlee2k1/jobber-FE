@@ -3,7 +3,6 @@ import { FaChevronDown, FaChevronUp, FaTimes } from 'react-icons/fa'
 import { useSearchParams } from 'react-router-dom'
 import Button from 'src/shared/button/Button'
 import TextInput from 'src/shared/inputs/TextInput'
-import { saveToLocalStorage } from 'src/shared/utils/utils.service'
 import { v4 as uuidv4 } from 'uuid'
 
 const deliveryTime = [
@@ -12,8 +11,12 @@ const deliveryTime = [
   { label: 'Up to 3 days', value: '3' },
   { label: 'Up to 4 days', value: '4' },
   { label: 'Up to 5 days', value: '5' },
-  { label: 'Up to 6 days', value: '6' },
   { label: 'Up to 7 days', value: '7' },
+  { label: 'Up to 10 days', value: '10' },
+  { label: 'Up to 14 days', value: '14' },
+  { label: 'Up to 30 days', value: '30' },
+  { label: 'Up to 60 days', value: '60' },
+  { label: 'Up to 90 days', value: '90' },
   { label: 'Anytime', value: 'Anytime' }
 ]
 
@@ -21,7 +24,7 @@ export default function DeliveryTimeDropdown() {
   const [searchParams, setSearchParams] = useSearchParams({})
   const [toggleDropdown, setToggleDropdown] = useState<boolean>(false)
   const [selectedTime, setSelectedTime] = useState<string>('Anytime')
-
+  console.log(selectedTime)
   return (
     <div className="flex flex-col">
       <div className="relative">
@@ -44,7 +47,7 @@ export default function DeliveryTimeDropdown() {
             <ul className="space-y-1 p-3 text-sm text-gray-700 dark:text-gray-200">
               {deliveryTime.map((time) => (
                 <li key={uuidv4()} className="cursor-pointer" onClick={() => setSelectedTime(time.value)}>
-                  <div className="flex rounded p-2">
+                  <div className="flex rounded p-1.5">
                     <div className="flex h-5 items-center">
                       <TextInput
                         checked={time.value === selectedTime}
@@ -67,7 +70,7 @@ export default function DeliveryTimeDropdown() {
                 </li>
               ))}
             </ul>
-            <div className="my-4 flex cursor-pointer justify-evenly pt-3">
+            <div className="mb-4 flex cursor-pointer justify-evenly">
               <div
                 className="px-4 py-2 text-sm font-medium text-slate-900"
                 onClick={() => {
@@ -84,7 +87,6 @@ export default function DeliveryTimeDropdown() {
                   updatedSearchParams.set('delivery_time', selectedTime)
                   setSearchParams(updatedSearchParams)
                   setToggleDropdown(false)
-                  saveToLocalStorage('filterApplied', JSON.stringify(true))
                 }}
               >
                 Apply

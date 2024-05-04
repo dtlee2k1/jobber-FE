@@ -190,6 +190,7 @@ export const expectedGigDelivery = (): string[] => {
     '45 Days Delivery',
     '60 Days Delivery',
     '75 Days Delivery',
-    '90 Days Delivery'
+    '90 Days Delivery',
+    'Anytime'
   ]
 }

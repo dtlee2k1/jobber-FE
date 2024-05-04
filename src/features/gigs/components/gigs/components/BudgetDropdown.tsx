@@ -4,7 +4,6 @@ import { useSearchParams } from 'react-router-dom'
 import { ISelectedBudget } from 'src/interfaces/gig.interface'
 import Button from 'src/shared/button/Button'
 import TextInput from 'src/shared/inputs/TextInput'
-import { saveToLocalStorage } from 'src/shared/utils/utils.service'
 
 export default function BudgetDropdown() {
   const [searchParams, setSearchParams] = useSearchParams({})
@@ -29,7 +28,7 @@ export default function BudgetDropdown() {
           onClick={() => setToggleDropdown(!toggleDropdown)}
         />
         {toggleDropdown && (
-          <div className="absolute mt-2 w-96 divide-y divide-gray-100 rounded-lg border border-slate-100 bg-white drop-shadow-md sm:w-72">
+          <div className="absolute z-10 mt-2 w-96 divide-y divide-gray-100 rounded-lg border border-slate-100 bg-white drop-shadow-md sm:w-72">
             <ul className="space-y-1 p-3 text-sm text-gray-700 dark:text-gray-200">
               <li>
                 <div className="grid grid-cols-2 gap-4">
@@ -97,7 +96,6 @@ export default function BudgetDropdown() {
                   updatedSearchParams.set('maxPrice', selectedBudget.maxPrice)
                   setSearchParams(updatedSearchParams)
                   setToggleDropdown(false)
-                  saveToLocalStorage('filterApplied', JSON.stringify(true))
                 }}
               >
                 Apply
