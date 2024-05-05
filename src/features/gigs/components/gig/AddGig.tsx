@@ -32,6 +32,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 
 import TagsInput from './components/TagsInput'
+import { updateHeader } from 'src/shared/header/reducers/header.reducer'
 
 const defaultGigInfo: ICreateGig = {
   title: '',
@@ -92,7 +93,7 @@ export default function AddGig() {
     }
   }
 
-  const onCreateGig = async (): Promise<void> => {
+  const onCreateGig = async () => {
     try {
       const isValid: boolean = await schemaValidation()
 
@@ -115,6 +116,7 @@ export default function AddGig() {
         const response: IResponse = await createGig(gig).unwrap()
         const updatedSeller: ISellerDocument = { ...seller, totalGigs: (seller.totalGigs as number) + 1 }
         dispatch(addSeller(updatedSeller))
+        dispatch(updateHeader('home'))
         const title = replaceSpacesWithDash(gig.title)
         navigate(`/gig/${lowerCase(`${authUser.username}`)}/${title}/${response?.gig?.sellerId}/${response?.gig?.id}/view`)
       }

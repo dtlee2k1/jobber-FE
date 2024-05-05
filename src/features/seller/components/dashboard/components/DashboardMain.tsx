@@ -1,14 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { filter } from 'lodash'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { FaMapMarkerAlt, FaRegClock, FaUserAlt } from 'react-icons/fa'
 import { useOutletContext } from 'react-router-dom'
 import StickyBox from 'react-sticky-box'
 import { ISellerGig } from 'src/interfaces/gig.interface'
 import { SellerContextType } from 'src/interfaces/seller.interface'
+import GigCardItem from 'src/shared/gigs/GigCardItem'
 import StarRating from 'src/shared/rating/StarRating'
 import { dateInDays, formatDateToMonthAndYear } from 'src/shared/utils/timeago.utils'
 import { rating, sellerOrderList } from 'src/shared/utils/utils.service'
+import { v4 as uuidv4 } from 'uuid'
 
 import ActiveOrderTable from './ActiveOrderTable'
 
@@ -117,8 +118,30 @@ export default function DashboardMain() {
           </ul>
         </div>
         <div className="my-3">
-          {type === 'active' && <div className="grid gap-x-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>}
-          {type === 'paused' && <div className="grid gap-x-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>}
+          {type === 'active' &&
+            (activeGigs.length > 0 ? (
+              <div className="grid gap-x-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {activeGigs.map((gig: ISellerGig) => (
+                  <Fragment key={uuidv4()}>
+                    <GigCardItem gig={gig} />
+                  </Fragment>
+                ))}
+              </div>
+            ) : (
+              <span className="border-grey flex border px-4 py-2 text-sm">No active gigs to show</span>
+            ))}
+          {type === 'paused' &&
+            (pausedGigs.length > 0 ? (
+              <div className="grid gap-x-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {pausedGigs.map((gig: ISellerGig) => (
+                  <Fragment key={uuidv4()}>
+                    <GigCardItem gig={gig} />
+                  </Fragment>
+                ))}
+              </div>
+            ) : (
+              <span className="border-grey flex border px-4 py-2 text-sm">No paused gigs to show</span>
+            ))}
           {type === 'orders' && <ActiveOrderTable activeOrders={sellerOrderList('in progress', orders)} />}
         </div>
       </div>
