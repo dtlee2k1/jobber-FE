@@ -69,8 +69,6 @@ export interface ISellerProfileItem {
   oneliner: string
 }
 
-// By extending ISellerDocument with the Record<string, any> you allow an object to contain other
-// string keys with any values along with those defined in the interface.
 export type SellerType =
   | string
   | string[]
@@ -114,6 +112,6 @@ export interface ISellerDocument extends Record<string, SellerType> {
   cancelledJobs?: number
   totalEarnings?: number
   totalGigs?: number
-  paypal?: string // not needed
+  paypal?: string
   createdAt?: Date | string
 }

@@ -1,18 +1,20 @@
 import classNames from 'classnames'
 import { useState } from 'react'
+import { ISellerGig } from 'src/interfaces/gig.interface'
+import TopGigsView from 'src/shared/gigs/TopGigsView'
 import { categories, replaceSpacesWithDash } from 'src/shared/utils/utils.service'
 import { v4 as uuidv4 } from 'uuid'
 
 export default function GigTabs() {
   const [activeTab, setActiveTab] = useState<string>('Graphics & Design')
-  const categoryGigs = []
+  const categoryGigs = [] as ISellerGig[]
 
   return (
     <div className="relative m-auto mt-8 w-screen px-6 xl:container md:px-12 lg:px-6">
       <div className="mx-auto flex flex-col px-4 py-8 lg:px-6 lg:py-10">
         <div className="flex flex-col text-left">
           <h2 className="mb-3 text-3xl font-bold text-black">A broad selection of services</h2>
-          <h4>Choose from a broad selection of services from expert freelancers for your next project.</h4>
+          <h4>Choose from a broad selection of services from expert freelancers for your next project</h4>
         </div>
         <div className="mt-6">
           <ul className="relative inline-block h-72 gap-5 overflow-x-auto scroll-smooth whitespace-nowrap lg:flex lg:h-auto lg:justify-between">
@@ -39,9 +41,10 @@ export default function GigTabs() {
               >
                 Explore
               </a>
+              <TopGigsView gigs={categoryGigs} category="" subTitle="" title="" type="index" width="w-72" />
             </>
           ) : (
-            <div className="flex h-96 items-center justify-center text-lg">Information not available at the moment.</div>
+            <div className="flex h-96 items-center justify-center text-lg">Information not available at the moment</div>
           )}
         </div>
       </div>

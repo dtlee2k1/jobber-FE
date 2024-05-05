@@ -49,9 +49,7 @@ export default function Hero() {
         </h1>
         <div className="lg:flex">
           <div className="relative mt-8 space-y-8 text-center sm:mx-auto sm:w-10/12 md:mt-16 md:w-2/3 lg:ml-0 lg:mr-auto lg:w-7/12 lg:text-left">
-            <p className="text-gray-700 dark:text-gray-300 sm:text-lg lg:w-11/12">
-              Find the right freelance service for your next project.
-            </p>
+            <p className="text-gray-700 dark:text-gray-300 sm:text-lg lg:w-11/12">Find the right freelance service for your next project</p>
 
             <div className="flex w-full justify-between gap-6 lg:gap-12">
               <form

@@ -93,12 +93,3 @@ export interface IGigInfo {
   title: string
   bgColor: string
 }
-
-export interface IGigTopProps {
-  gigs: ISellerGig[]
-  title?: string
-  subTitle?: string
-  category?: string
-  width: string
-  type: string
-}

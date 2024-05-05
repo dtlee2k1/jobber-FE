@@ -3,8 +3,9 @@ import { useParams } from 'react-router-dom'
 import StickyBox from 'react-sticky-box'
 import { ISellerGig } from 'src/interfaces/gig.interface'
 import { ISellerDocument } from 'src/interfaces/seller.interface'
-import { useGetGigByIdQuery } from 'src/services/gig.service'
+import { useGetGigByIdQuery, useGetMoreGigsLikeThisQuery } from 'src/services/gig.service'
 import { useGetSellerByIdQuery } from 'src/services/seller.service'
+import TopGigsView from 'src/shared/gigs/TopGigsView'
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader'
 import StarRating from 'src/shared/rating/StarRating'
 import { emptyGigData, emptySellerData } from 'src/shared/utils/static-data'
@@ -18,11 +19,13 @@ export default function GigView() {
   const { gigId, sellerId } = useParams<string>()
   const { data: gigData, isSuccess: isGigDataSuccess, isLoading: isGigLoading } = useGetGigByIdQuery(`${gigId}`)
   const { data: sellerData, isSuccess: isSellerDataSuccess, isLoading: isSellerLoading } = useGetSellerByIdQuery(`${sellerId}`)
+  const { data: moreGigsData, isSuccess: moreGigsDataSuccess, isLoading: isMoreGigsLoading } = useGetMoreGigsLikeThisQuery(`${gigId}`)
 
-  const isLoading = isGigLoading && isSellerLoading
+  const isLoading = isGigLoading && isSellerLoading && isMoreGigsLoading
 
   const gig = useRef<ISellerGig>(emptyGigData)
   const seller = useRef<ISellerDocument>(emptySellerData)
+  const moreGigs = useRef<ISellerGig[]>([])
 
   if (isGigDataSuccess) {
     gig.current = gigData.gig as ISellerGig
@@ -30,6 +33,10 @@ export default function GigView() {
 
   if (isSellerDataSuccess) {
     seller.current = sellerData.seller as ISellerDocument
+  }
+
+  if (moreGigsDataSuccess) {
+    moreGigs.current = moreGigsData.gigs as ISellerGig[]
   }
 
   return (
@@ -73,8 +80,11 @@ export default function GigView() {
               </div>
             </div>
           </GigContext.Provider>
-
-          <div className="m-auto px-6 xl:container md:px-12 lg:px-6">{/* <!-- TopGigsView --> */}</div>
+          {moreGigs.current.length > 0 && (
+            <div className="m-auto px-6 xl:container md:px-12 lg:px-6">
+              <TopGigsView gigs={moreGigs.current} title="Recommended for you" subTitle="" width="w-60" type="home" />
+            </div>
+          )}
         </main>
       )}
     </>
