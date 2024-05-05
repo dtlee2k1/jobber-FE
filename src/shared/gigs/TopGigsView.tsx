@@ -27,6 +27,23 @@ export default function TopGigsView({ gigs, title, subTitle, category, type, wid
     start: false,
     end: false
   })
+  const slideLeft = () => {
+    if (navElement.current) {
+      const maxScrollLeft = navElement.current.scrollWidth + navElement.current.clientWidth
+      navElement.current.scrollLeft = navElement.current.scrollLeft < maxScrollLeft ? navElement.current.scrollLeft - 1000 : maxScrollLeft
+      const maxWidth = navElement.current.scrollLeft + navElement.current.clientWidth
+      setScroll({ start: maxWidth === navElement.current.scrollWidth, end: false })
+    }
+  }
+
+  const slideRight = () => {
+    if (navElement.current) {
+      const maxScrollLeft = navElement.current.scrollWidth - navElement.current.clientWidth
+      navElement.current.scrollLeft = navElement.current.scrollLeft < maxScrollLeft ? navElement.current.scrollLeft + 1000 : maxScrollLeft
+      const maxWidth = navElement.current.scrollLeft + navElement.current.clientWidth - 1000
+      setScroll({ start: true, end: maxWidth === navElement.current.clientWidth })
+    }
+  }
 
   return (
     <div className="mx-auto my-8 flex flex-col overflow-hidden rounded-lg">
@@ -45,8 +62,11 @@ export default function TopGigsView({ gigs, title, subTitle, category, type, wid
       </div>
 
       <div className="m-auto flex h-96 w-full overflow-x-auto" ref={navElement}>
-        {scroll.start && gigs.length > 5 && (
-          <span className="absolute left-2 z-50 flex cursor-pointer justify-start self-center rounded-full bg-sky-400 sm:left-3 md:left-7 lg:left-0">
+        {scroll.start && gigs.length > 2 && (
+          <span
+            onClick={slideLeft}
+            className="absolute left-2 z-50 flex cursor-pointer justify-start self-center rounded-full bg-sky-400 sm:left-3 md:left-7 lg:left-0"
+          >
             <FaAngleLeft className="text-3xl text-white sm:text-3xl md:text-4xl lg:text-4xl" />
           </span>
         )}
@@ -61,8 +81,11 @@ export default function TopGigsView({ gigs, title, subTitle, category, type, wid
           ))}
         </div>
 
-        {scroll.end && gigs.length > 5 && (
-          <span className="absolute right-2 flex max-w-4xl cursor-pointer justify-end self-center rounded-full bg-sky-400 sm:right-3 md:right-7 lg:right-0">
+        {!scroll.end && gigs.length > 2 && (
+          <span
+            onClick={slideRight}
+            className="absolute right-2 flex max-w-4xl cursor-pointer justify-end self-center rounded-full bg-sky-400 sm:right-3 md:right-7 lg:right-0"
+          >
             <FaAngleRight className="text-3xl text-white sm:text-3xl md:text-4xl lg:text-4xl" />
           </span>
         )}
