@@ -3,16 +3,14 @@ import { useRef, useState } from 'react'
 import equal from 'react-fast-compare'
 import { FaCamera } from 'react-icons/fa'
 import ReactQuill, { UnprivilegedEditor } from 'react-quill'
-import { useNavigate, useParams } from 'react-router-dom'
-import { addSeller } from 'src/features/seller/reducers/seller.reducer'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useGigSchema } from 'src/hooks/useGigSchema'
-import { GIG_MAX_LENGTH, IAllowedGigItem, ICreateGig, IShowGigModal } from 'src/interfaces/gig.interface'
+import { GIG_MAX_LENGTH, IAllowedGigItem, ICreateGig, ISellerGig, IShowGigModal } from 'src/interfaces/gig.interface'
 import { IApprovalModalContent } from 'src/interfaces/modal.interface'
-import { ISellerDocument } from 'src/interfaces/seller.interface'
 import { IReduxState } from 'src/interfaces/store.interface'
 import { IResponse } from 'src/interfaces/utils.interface'
 import { gigInfoSchema } from 'src/schemes/gig.scheme'
-import { useCreateGigMutation } from 'src/services/gig.service'
+import { useUpdateGigMutation } from 'src/services/gig.service'
 import Breadcrumb from 'src/shared/breadcrumb/Breadcrumb'
 import Button from 'src/shared/button/Button'
 import Dropdown from 'src/shared/dropdown/Dropdown'
@@ -28,43 +26,44 @@ import {
   lowerCase,
   reactQuillUtils,
   replaceSpacesWithDash,
-  showErrorToast
+  showErrorToast,
+  showSuccessToast
 } from 'src/shared/utils/utils.service'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 
 import TagsInput from './components/TagsInput'
 
-const defaultGigInfo: ICreateGig = {
-  title: '',
-  categories: 'Select a category',
-  description: '',
-  subCategories: [],
-  tags: [],
-  price: 0,
-  coverImage: 'https://placehold.co/330x220?text=Cover+Image',
-  expectedDelivery: 'Expected delivery',
-  basicTitle: '',
-  basicDescription: ''
-}
-
-export default function AddGig() {
+export default function EditGig() {
   const authUser = useAppSelector((state: IReduxState) => state.authUser)
-  const seller = useAppSelector((state: IReduxState) => state.seller)
+
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const { gigId } = useParams<string>()
+  const { state }: { state: ISellerGig } = useLocation()
 
-  const { sellerId } = useParams()
+  const defaultGigInfo: ICreateGig = {
+    title: state?.title,
+    categories: state?.categories,
+    description: state?.description,
+    subCategories: state?.subCategories,
+    tags: state?.tags,
+    price: state?.price,
+    coverImage: state?.coverImage,
+    expectedDelivery: state?.expectedDelivery,
+    basicTitle: state?.basicTitle,
+    basicDescription: state?.basicDescription
+  }
 
   const [gigInfo, setGigInfo] = useState<ICreateGig>(defaultGigInfo)
   const [allowedGigItemLength, setAllowedGigItemLength] = useState<IAllowedGigItem>({
-    gigTitle: '80/80',
-    basicTitle: '40/40',
-    basicDescription: '100/100',
-    descriptionCharacters: '1200/1200'
+    gigTitle: `${GIG_MAX_LENGTH.gigTitle - state?.title.length}/80`,
+    basicTitle: `${GIG_MAX_LENGTH.basicTitle - state?.basicTitle.length}/40`,
+    basicDescription: `${GIG_MAX_LENGTH.basicDescription - state?.basicDescription.length}/100`,
+    descriptionCharacters: `${GIG_MAX_LENGTH.fullDescription - state?.description.length}/1200`
   })
-  const [subCategories, setSubCategories] = useState<string[]>([])
+  const [subCategories, setSubCategories] = useState<string[]>(state?.subCategories)
   const [subCategoryInput, setSubCategoryInput] = useState<string>('')
-  const [tags, setTags] = useState<string[]>([])
+  const [tags, setTags] = useState<string[]>(state?.tags)
   const [tagsInput, setTagsInput] = useState<string>('')
   const [showGigModal, setShowGigModal] = useState<IShowGigModal>({
     image: false,
@@ -78,7 +77,7 @@ export default function AddGig() {
 
   const { schemaValidation, validationErrors } = useGigSchema({ schema: gigInfoSchema, gigInfo })
 
-  const [createGig, { isLoading }] = useCreateGigMutation()
+  const [updateGig, { isLoading }] = useUpdateGigMutation()
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target
@@ -93,14 +92,12 @@ export default function AddGig() {
     }
   }
 
-  const onCreateGig = async () => {
+  const onUpdateGig = async () => {
     try {
       const isValid: boolean = await schemaValidation()
 
       if (isValid) {
         const gig: ICreateGig = {
-          profilePicture: `${authUser.profilePicture}`,
-          sellerId,
           title: gigInfo.title,
           categories: gigInfo.categories,
           description: gigInfo.description,
@@ -113,20 +110,20 @@ export default function AddGig() {
           basicDescription: gigInfo.basicDescription
         }
 
-        const response: IResponse = await createGig(gig).unwrap()
-        const updatedSeller: ISellerDocument = { ...seller, totalGigs: (seller.totalGigs as number) + 1 }
-        dispatch(addSeller(updatedSeller))
+        const response: IResponse = await updateGig({ gigId: `${gigId}`, gig }).unwrap()
         dispatch(updateHeader('home'))
-        const title = replaceSpacesWithDash(gig.title)
+
+        const title: string = replaceSpacesWithDash(gig.title)
+        showSuccessToast('Updated gig successfully')
         navigate(`/gig/${lowerCase(`${authUser.username}`)}/${title}/${response?.gig?.sellerId}/${response?.gig?.id}/view`)
       }
     } catch (error) {
-      showErrorToast('Error creating gig')
+      showErrorToast('Error updating gig')
     }
   }
 
-  const onCancelCreate = () => {
-    navigate(`/seller_profile/${lowerCase(`${authUser.username}/${sellerId}/edit`)}`)
+  const onCancelEdit = () => {
+    navigate(`/seller_profile/${lowerCase(`${authUser.username}/${state.sellerId}/edit`)}`)
   }
 
   return (
@@ -135,18 +132,13 @@ export default function AddGig() {
         <ApprovalModal
           approvalModalContent={approvalModalContent}
           onClose={() => setShowGigModal({ ...showGigModal, cancel: false })}
-          onClick={onCancelCreate}
+          onClick={onCancelEdit}
         />
       )}
       <div className="relative w-screen">
         <Breadcrumb breadCrumbItems={['Seller', 'Create new gig']} />
         <div className="container relative mx-auto my-5 px-2 pb-12">
           {isLoading && <CircularPageLoader />}
-          {!authUser.emailVerified && (
-            <div className="absolute left-0 top-0 z-[80] flex h-full w-full justify-center bg-white/[0.8] text-sm font-bold md:text-base lg:text-xl">
-              <span className="mt-40">Please verify your email</span>
-            </div>
-          )}
 
           <div className="border-grey left-0 top-0 z-10 mt-4 block rounded border bg-white p-6">
             <div className="mb-6 grid md:grid-cols-5">
@@ -407,8 +399,8 @@ export default function AddGig() {
                 <Button
                   disabled={isLoading}
                   className="rounded bg-sky-500 px-8 py-3 text-center text-sm font-bold text-white hover:bg-sky-400 focus:outline-none md:py-3 md:text-base"
-                  label="Create Gig"
-                  onClick={onCreateGig}
+                  label="Update Gig"
+                  onClick={onUpdateGig}
                 />
                 <Button
                   disabled={isLoading}
@@ -418,14 +410,14 @@ export default function AddGig() {
                     const isEqual: boolean = equal(gigInfo, gigInfoRef.current)
                     if (!isEqual) {
                       setApprovalModalContent({
-                        header: 'Cancel Gig Creation',
+                        header: 'Cancel Gig Edit',
                         body: 'Are you sure you want to cancel?',
                         btnText: 'Yes, Cancel',
                         btnColor: 'bg-red-500 hover:bg-red-400'
                       })
                       setShowGigModal({ ...showGigModal, cancel: true })
                     } else {
-                      onCancelCreate()
+                      onCancelEdit()
                     }
                   }}
                 />
