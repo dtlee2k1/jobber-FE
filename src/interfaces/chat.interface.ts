@@ -51,13 +51,6 @@ export interface IMessageDocument {
   createdAt?: Date | string
 }
 
-export interface IChatBoxProps {
-  seller: IChatSellerProps
-  buyer: IChatBuyerProps
-  gigId: string
-  onClose: () => void
-}
-
 export interface IChatSellerProps {
   _id: string
   username: string

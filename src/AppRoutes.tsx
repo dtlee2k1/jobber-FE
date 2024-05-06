@@ -19,6 +19,7 @@ import SellerDashboard from './features/seller/components/dashboard/SellerDashbo
 import CurrentSellerProfile from './features/seller/components/profile/CurrentSellerProfile'
 import SellerProfile from './features/seller/components/profile/SellerProfile'
 import Layout from './layouts/Layout'
+import Chat from './features/chat/components/Chat'
 
 export default function AppRouter() {
   const routeElements = useRoutes([
@@ -158,6 +159,26 @@ export default function AppRouter() {
         <ProtectedRoute>
           <Layout backgroundColor="#fff">
             <Gigs type="search" />
+          </Layout>
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: '/inbox',
+      element: (
+        <ProtectedRoute>
+          <Layout backgroundColor="#fff">
+            <Chat />
+          </Layout>
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: '/inbox/:username/:conversationId',
+      element: (
+        <ProtectedRoute>
+          <Layout backgroundColor="#fff">
+            <Chat />
           </Layout>
         </ProtectedRoute>
       )

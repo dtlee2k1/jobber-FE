@@ -1,7 +1,9 @@
 import { useContext, useState } from 'react'
 import { FaArrowRight } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import ChatBox from 'src/features/chat/components/chatbox/ChatBox'
 import { GigContext } from 'src/features/gigs/context/GigContext'
+import { IChatSellerProps } from 'src/interfaces/chat.interface'
 import { IApprovalModalContent } from 'src/interfaces/modal.interface'
 import { ILanguage } from 'src/interfaces/seller.interface'
 import { IReduxState } from 'src/interfaces/store.interface'
@@ -15,13 +17,26 @@ import { v4 as uuidv4 } from 'uuid'
 
 export default function GigSeller() {
   const authUser = useAppSelector((state: IReduxState) => state.authUser)
+  const buyer = useAppSelector((state: IReduxState) => state.buyer)
+
   const { gig, seller } = useContext(GigContext)
 
   const [approvalModalContent, setApprovalModalContent] = useState<IApprovalModalContent>()
   const [showModal, setShowModal] = useState<boolean>(false)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showChatBox, setShowChatBox] = useState<boolean>(false)
 
+  const chatSeller: IChatSellerProps = {
+    _id: `${seller._id}`,
+    username: `${seller.username}`,
+    profilePicture: `${seller.profilePicture}`,
+    responseTime: parseInt(`${seller.responseTime}`)
+  }
+
+  const chatBuyer: IChatBuyerProps = {
+    _id: `${buyer._id}`,
+    username: `${buyer.username}`,
+    profilePicture: `${buyer.profilePicture}`
+  }
   return (
     <>
       {showModal && <ApprovalModal approvalModalContent={approvalModalContent} hideCancel={true} onClick={() => setShowModal(false)} />}
@@ -111,7 +126,7 @@ export default function GigSeller() {
             />
           </div>
         </div>
-        {/* <!-- ChatBox --> */}
+        {showChatBox && <ChatBox seller={chatSeller} buyer={chatBuyer} gigId={`${gig._id}`} onClose={() => setShowChatBox(false)} />}
       </div>
     </>
   )
