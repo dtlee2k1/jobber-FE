@@ -3,12 +3,17 @@ import { FaSearch } from 'react-icons/fa'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import Button from 'src/shared/button/Button'
 import TextInput from 'src/shared/inputs/TextInput'
+import { useAppDispatch } from 'src/store/store'
+
+import { updateHeader } from '../reducers/header.reducer'
 
 export default function HeaderSearchInput() {
   const [searchTerm, setSearchTerm] = useState<string>('')
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   const navigateToSearchPage = () => {
+    dispatch(updateHeader('home'))
     navigate({
       pathname: '/search/gigs',
       search: createSearchParams({ query: searchTerm.trim() }).toString()

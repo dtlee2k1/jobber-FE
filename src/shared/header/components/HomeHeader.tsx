@@ -246,7 +246,14 @@ export default function HomeHeader(props: IHomeHeaderProps) {
               >
                 {categories().map((category: string) => (
                   <span key={uuidv4()} className="mx-4 cursor-pointer first:ml-0 hover:text-sky-400 lg:mx-0">
-                    <Link to={`/categories/${replaceSpacesWithDash(category)}`}>{category}</Link>
+                    <Link
+                      to={`/categories/${replaceSpacesWithDash(category)}`}
+                      onClick={() => {
+                        dispatch(updateHeader('home'))
+                      }}
+                    >
+                      {category}
+                    </Link>
                   </span>
                 ))}
               </div>

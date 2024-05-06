@@ -41,8 +41,8 @@ export default function SettingsDropdown({ buyer, seller, authUser, type, setIsD
               className="px-4s block w-full cursor-pointer rounded bg-sky-500 py-2 text-center font-bold text-white hover:bg-sky-400 focus:outline-none"
               onClick={() => {
                 setIsDropdownOpen && setIsDropdownOpen(false)
-
-                dispatch(updateHeader('sellerDashboard'))
+                type === 'buyer' && dispatch(updateHeader('sellerDashboard'))
+                type === 'seller' && dispatch(updateHeader('home'))
                 dispatch(updateCategoryContainer(true))
               }}
             >

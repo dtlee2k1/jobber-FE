@@ -124,7 +124,7 @@ export default function GigCardItem({ gig }: IGigCardItemProps) {
               to={`/gig/${lowerCase(`${gig.username}`)}/${title}/${gig.sellerId}/${gig.id}/view`}
               onClick={() => dispatch(updateHeader('home'))}
             >
-              <p className="line-clamp-2 text-[#404145] hover:text-sky-500">{gig.basicDescription}</p>
+              <p className="line-clamp-2 min-h-12 text-[#404145] hover:text-sky-500">{gig.basicDescription}</p>
             </Link>
           </div>
           <div className="flex items-center gap-2 px-2 text-orange-400">
