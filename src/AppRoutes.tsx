@@ -4,6 +4,7 @@ import AppPage from './features/AppPage'
 import ConfirmEmail from './features/auth/components/ConfirmEmail'
 import ResetPassword from './features/auth/components/ResetPassword'
 import BuyerDashboard from './features/buyer/components/BuyerDashboard'
+import Chat from './features/chat/components/Chat'
 import PageNotFound from './features/error/PageNotFound'
 import AddGig from './features/gigs/components/gig/AddGig'
 import EditGig from './features/gigs/components/gig/EditGig'
@@ -19,7 +20,6 @@ import SellerDashboard from './features/seller/components/dashboard/SellerDashbo
 import CurrentSellerProfile from './features/seller/components/profile/CurrentSellerProfile'
 import SellerProfile from './features/seller/components/profile/SellerProfile'
 import Layout from './layouts/Layout'
-import Chat from './features/chat/components/Chat'
 
 export default function AppRouter() {
   const routeElements = useRoutes([
