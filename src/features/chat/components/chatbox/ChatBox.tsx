@@ -110,7 +110,10 @@ export default function ChatBox({ seller, buyer, gigId, onClose }: IChatBoxProps
                   key={uuidv4()}
                   className={`my-2 flex max-w-[300px] gap-y-6 text-sm ${msg.senderUsername !== buyer.username ? 'self-start' : 'self-end'}`}
                 >
-                  <img src={buyer.profilePicture} className="h-8 w-8 rounded-full object-cover" alt={buyer.username} />
+                  {msg.senderUsername !== buyer.username && (
+                    <img src={seller.profilePicture} className="h-8 w-8 rounded-full object-cover" alt={buyer.username} />
+                  )}
+
                   <p
                     className={`ml-2 max-w-[200px] rounded-[10px] px-4 py-2 text-start text-sm font-normal md:max-w-[220px] ${
                       msg.senderUsername !== buyer.username ? 'max-w-[200px] rounded-[10px] bg-sky-500 text-white' : 'bg-[#e4e6eb]'

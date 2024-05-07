@@ -19,6 +19,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { updateCategoryContainer } from '../reducers/category.reducer'
 import { updateHeader } from '../reducers/header.reducer'
 import HeaderSearchInput from './HeaderSearchInput'
+import MessageDropdown from './MessageDropdown'
 import SettingsDropdown from './SettingsDropdown'
 
 export interface IHomeHeaderProps {
@@ -72,6 +73,10 @@ export default function HomeHeader(props: IHomeHeaderProps) {
 
   const toggleDropdown = () => {
     setIsSettingsDropdown(!isSettingsDropdown)
+  }
+
+  const toggleMessageDropdown = () => {
+    setIsMessageDropdownOpen(!isMessageDropdownOpen)
   }
 
   return (
@@ -148,6 +153,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                           <span className="absolute -top-1 right-0 mr-2 inline-flex h-[6px] w-[6px] items-center justify-center rounded-full bg-[#ff62ab]"></span>
                         </>
                       }
+                      onClick={toggleMessageDropdown}
                     />
                     <Transition
                       ref={messageDropdownRef}
@@ -159,7 +165,9 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                       leaveFrom="opacity-100 translate-y-0"
                       leaveTo="opacity-0 translate-y-1"
                     >
-                      <div className="absolute right-0 mt-5 w-96">{/* <!-- MessageDropdown --> */}</div>
+                      <div className="absolute right-0 mt-5 w-96">
+                        <MessageDropdown setIsMessageDropdownOpen={setIsMessageDropdownOpen} />
+                      </div>
                     </Transition>
                   </li>
                   <li className="relative z-50 flex cursor-pointer items-center">

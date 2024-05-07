@@ -9,19 +9,15 @@ import { applicationLogout, lowerCase } from '../../utils/utils.service'
 import { updateCategoryContainer } from '../reducers/category.reducer'
 import { updateHeader } from '../reducers/header.reducer'
 
-export interface IHomeHeaderProps {
-  buyer?: IBuyerDocument
-  seller?: ISellerDocument
-  authUser?: IAuthUser
-  type?: string
-  showCategoryContainer?: boolean
-  setIsDropdownOpen?: Dispatch<SetStateAction<boolean>>
-  setIsOrderDropdownOpen?: Dispatch<SetStateAction<boolean>>
-  setIsMessageDropdownOpen?: Dispatch<SetStateAction<boolean>>
-  setIsNotificationDropdownOpen?: Dispatch<SetStateAction<boolean>>
+export interface ISettingsDropdownProps {
+  buyer: IBuyerDocument
+  seller: ISellerDocument
+  authUser: IAuthUser
+  type: string
+  setIsDropdownOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export default function SettingsDropdown({ buyer, seller, authUser, type, setIsDropdownOpen }: IHomeHeaderProps) {
+export default function SettingsDropdown({ buyer, seller, authUser, type, setIsDropdownOpen }: ISettingsDropdownProps) {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 

@@ -30,7 +30,6 @@ export default function GigView() {
   if (isGigDataSuccess) {
     gig.current = gigData.gig as ISellerGig
   }
-
   if (isSellerDataSuccess) {
     seller.current = sellerData.seller as ISellerDocument
   }

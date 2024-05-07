@@ -126,7 +126,7 @@ export default function GigSeller() {
             />
           </div>
         </div>
-        {showChatBox && <ChatBox seller={chatSeller} buyer={chatBuyer} gigId={`${gig._id}`} onClose={() => setShowChatBox(false)} />}
+        {showChatBox && <ChatBox seller={chatSeller} buyer={chatBuyer} gigId={`${gig.id}`} onClose={() => setShowChatBox(false)} />}
       </div>
     </>
   )

@@ -16,11 +16,11 @@ export default function ChatBoxSkeleton() {
       <div className="h-[500px] overflow-y-scroll md:h-full">
         <div className="my-2 flex h-[280px] animate-pulse flex-col overflow-hidden px-4 md:h-[72%]">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((msg: number) => (
-            <div key={uuidv4()} className={`my-2 flex max-w-[300px] gap-y-6 text-sm ${msg % 2 === 0 ? 'flex-row-reverse self-end' : ''}`}>
-              <div className={`h-10 w-10 rounded-full bg-gray-200 ${msg % 2 === 0 ? 'hidden' : ''}`}></div>
+            <div key={uuidv4()} className={`my-2 flex max-w-[300px] gap-y-6 text-sm ${msg % 2 === 0 ? 'self-start' : 'self-end'}`}>
+              <div className={`h-10 w-10 rounded-full bg-gray-200 ${msg % 2 === 0 ? '' : 'hidden'}`}></div>
               <p
                 className={`ml-2 w-[200px] rounded-[10px] bg-gray-200 px-4 py-2 text-start text-sm font-normal
-                    md:w-[220px] ${msg % 2 === 0 ? 'w-[200px] rounded-[10px] bg-gray-200 py-5 text-white' : ''}`}
+                    md:w-[220px] ${msg % 2 === 0 ? '' : 'w-[200px] rounded-[10px] bg-gray-200 py-5 text-white'}`}
               ></p>
             </div>
           ))}
