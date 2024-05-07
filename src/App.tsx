@@ -1,9 +1,15 @@
+import { useEffect } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
 import AppRouter from './AppRoutes'
+import { socketService } from './sockets/socket.service'
 
 function App() {
+  useEffect(() => {
+    socketService.setupSocketConnection()
+  }, [])
+
   return (
     <BrowserRouter>
       <div className="relative flex min-h-screen w-screen flex-col">

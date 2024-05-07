@@ -1,10 +1,11 @@
 import { Transition } from '@headlessui/react'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FaBars } from 'react-icons/fa'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { Link, NavLink } from 'react-router-dom'
 import useDetectOutsideClick from 'src/hooks/useDetectOutsideClick'
 import { IReduxState } from 'src/interfaces/store.interface'
+import { socket, socketService } from 'src/sockets/socket.service'
 import { useAppSelector } from 'src/store/store'
 
 import Button from '../../button/Button'
@@ -16,9 +17,18 @@ export default function DashBoardHeader() {
   const buyer = useAppSelector((state: IReduxState) => state.buyer)
   const seller = useAppSelector((state: IReduxState) => state.seller)
 
+  const [authUsername, setAuthUsername] = useState<string>('')
   const dropdownOpenRef = useRef<HTMLDivElement | null>(null)
 
   const { isActive: isDropdownOpen, setIsActive: setIsDropdownOpen } = useDetectOutsideClick(dropdownOpenRef, false)
+
+  useEffect(() => {
+    socketService.setupSocketConnection()
+    socket.emit('online', (data: string[]) => {
+      const username = data.find((username: string) => username === authUser.username)
+      setAuthUsername(`${username}`)
+    })
+  }, [authUser.username])
 
   return (
     <header>
@@ -84,6 +94,9 @@ export default function DashBoardHeader() {
                         </>
                       }
                     />
+                    {authUsername === authUser.username && (
+                      <span className="absolute bottom-1 left-8 h-2.5 w-2.5 rounded-full border-2 border-white bg-green-400"></span>
+                    )}
                     <Transition
                       ref={dropdownOpenRef}
                       show={isDropdownOpen}

@@ -1,7 +1,8 @@
 import classNames from 'classnames'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IOrderDocument } from 'src/interfaces/order.interface'
 import { orderTypes } from 'src/shared/utils/utils.service'
+import { socket, socketService } from 'src/sockets/socket.service'
 
 import BuyerTable from './BuyerTable'
 
@@ -17,6 +18,11 @@ export default function BuyerDashboard() {
   const [type, setType] = useState<string>(BUYER_GIG_STATUS.ACTIVE)
 
   const orders: IOrderDocument[] = []
+
+  useEffect(() => {
+    socketService.setupSocketConnection()
+    socket.emit('getLoggedInUsers')
+  }, [])
 
   return (
     <div className="container mx-auto mt-8 px-6 md:px-12 lg:px-6">

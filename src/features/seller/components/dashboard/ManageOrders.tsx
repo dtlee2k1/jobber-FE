@@ -1,8 +1,11 @@
 import classNames from 'classnames'
-import { useMemo, useState } from 'react'
+import { findIndex } from 'lodash'
+import { useEffect, useMemo, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
+import { IOrderDocument } from 'src/interfaces/order.interface'
 import { SellerContextType } from 'src/interfaces/seller.interface'
 import { orderTypes, sellerOrderList, shortenLargeNumbers } from 'src/shared/utils/utils.service'
+import { socket } from 'src/sockets/socket.service'
 
 import ManageOrdersTable from './components/ManageOrdersTable'
 
@@ -18,6 +21,15 @@ export default function ManageOrders() {
   const [type, setType] = useState<string>(SELLER_GIG_STATUS.ACTIVE)
   const { orders } = useOutletContext<SellerContextType>()
   const ordersRef = useMemo(() => [...orders], [orders])
+
+  useEffect(() => {
+    socket.on('order_notification', (order: IOrderDocument) => {
+      const index = findIndex(ordersRef, ['orderId', order.orderId])
+      if (index !== -1) {
+        ordersRef.splice(index, 1, order)
+      }
+    })
+  }, [ordersRef])
 
   return (
     <div className="container mx-auto mt-8 px-6 md:px-12 lg:px-6">

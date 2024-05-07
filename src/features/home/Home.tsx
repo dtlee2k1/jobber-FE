@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { ISellerGig } from 'src/interfaces/gig.interface'
 import { ISellerDocument } from 'src/interfaces/seller.interface'
 import { IReduxState } from 'src/interfaces/store.interface'
@@ -6,6 +7,7 @@ import { useGetGigsByCategoryQuery, useGetTopRatedGigsByCategoryQuery } from 'sr
 import { useGetRandomSellersQuery } from 'src/services/seller.service'
 import TopGigsView from 'src/shared/gigs/TopGigsView'
 import { lowerCase } from 'src/shared/utils/utils.service'
+import { socketService } from 'src/sockets/socket.service'
 import { useAppSelector } from 'src/store/store'
 
 import FeaturedExperts from './FeaturedExperts'
@@ -39,6 +41,11 @@ export default function Home() {
   // if (isSellerDataSuccess1 && isSellerDataSuccess2) {
   //   topGigs = [...(sellerData1.gigs as ISellerGig[]), ...(sellerData2.gigs as ISellerGig[])] as ISellerGig[]
   // }
+
+  useEffect(() => {
+    socketService.setupSocketConnection()
+  }, [])
+
   return (
     <div className="relative m-auto min-h-screen w-screen px-6 xl:container md:px-12 lg:px-6">
       <HomeSlider />
