@@ -1,11 +1,13 @@
+import { useEffect, useRef } from 'react'
 import { FaPencilAlt, FaRegStar, FaStar } from 'react-icons/fa'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { Link, useNavigate } from 'react-router-dom'
 import { ISellerGig } from 'src/interfaces/gig.interface'
 import { IReduxState } from 'src/interfaces/store.interface'
+import { socket, socketService } from 'src/sockets/socket.service'
 import { useAppSelector } from 'src/store/store'
 
-import { lowerCase, rating, replaceSpacesWithDash } from '../utils/utils.service'
+import { lowerCase, rating, replaceAmpersandAndDashWithSpace, replaceSpacesWithDash } from '../utils/utils.service'
 
 export interface IGigCardItemProps {
   gig: ISellerGig
@@ -15,8 +17,8 @@ export interface IGigCardItemProps {
 
 export default function GigCardDisplayItem({ gig, linkTarget, showEditIcon }: IGigCardItemProps) {
   const seller = useAppSelector((state: IReduxState) => state.seller)
-  // const authUser = useAppSelector((state: IReduxState) => state.authUser)
-  // const sellerUsername = useRef<string>('')
+  const authUser = useAppSelector((state: IReduxState) => state.authUser)
+  const sellerUsername = useRef<string>('')
   const title = replaceSpacesWithDash(gig.title)
   const navigate = useNavigate()
 
@@ -24,11 +26,26 @@ export default function GigCardDisplayItem({ gig, linkTarget, showEditIcon }: IG
     navigate(`/manage_gigs/edit/${gigId}`, { state: gig })
   }
 
+  const saveGigCategory = (gig: ISellerGig) => {
+    if (authUser.username) {
+      const category = replaceAmpersandAndDashWithSpace(gig.categories)
+      socket.emit('category', category, authUser.username)
+    }
+  }
+
+  useEffect(() => {
+    socketService.setupSocketConnection()
+    socket.emit('getLoggedInUsers')
+    socket.on('online', (data: string[]) => {
+      sellerUsername.current = data.find((username: string) => username === gig.username) as string
+    })
+  }, [authUser.username, gig.username])
+
   return (
     <div className="z-[1] h-full overflow-visible rounded bg-white text-black/[.87] shadow transition-transform duration-150 hover:translate-y-[-.0625rem] hover:shadow-md">
       <div className="mb-8 flex cursor-pointer flex-col gap-2">
         <div className="relative w-full pt-[50%]">
-          <Link to={`/gig/${lowerCase(`${gig.username}`)}/${title}/${gig.sellerId}/${gig.id}/view`}>
+          <Link to={`/gig/${lowerCase(`${gig.username}`)}/${title}/${gig.sellerId}/${gig.id}/view`} onClick={() => saveGigCategory(gig)}>
             <LazyLoadImage
               src={gig.coverImage}
               alt="Gig cover image"
@@ -49,7 +66,9 @@ export default function GigCardDisplayItem({ gig, linkTarget, showEditIcon }: IG
               placeholderSrc="https://placehold.co/330x220?text=Profile+Image"
               effect="opacity"
             />
-            {/* <span className="absolute bottom-0 left-5 h-2.5 w-2.5 rounded-full border-2 border-white bg-green-400"></span> */}
+            {sellerUsername.current === gig.username && (
+              <span className="absolute bottom-0 left-5 h-2.5 w-2.5 rounded-full border-2 border-white bg-green-400"></span>
+            )}
             <div className="flex w-full justify-between">
               <span className="text-md hover:underline">
                 {linkTarget ? (
@@ -68,7 +87,7 @@ export default function GigCardDisplayItem({ gig, linkTarget, showEditIcon }: IG
             </div>
           </div>
           <div>
-            <Link to={`/gig/${lowerCase(`${gig.username}`)}/${title}/${gig.sellerId}/${gig.id}/view`}>
+            <Link to={`/gig/${lowerCase(`${gig.username}`)}/${title}/${gig.sellerId}/${gig.id}/view`} onClick={() => saveGigCategory(gig)}>
               <p className="line-clamp-2 min-h-[3rem] break-words text-sm text-[#404145] hover:underline md:text-base">
                 {gig.basicDescription}
               </p>

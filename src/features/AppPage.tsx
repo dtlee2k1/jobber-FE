@@ -8,6 +8,7 @@ import { useGetSellerByUsernameQuery } from 'src/services/seller.service'
 import HomeHeader from 'src/shared/header/components/HomeHeader'
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader'
 import { applicationLogout, getDataFromLocalStorage, saveToSessionStorage } from 'src/shared/utils/utils.service'
+import { socket } from 'src/sockets/socket.service'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 
 import { addAuthUser } from './auth/reducers/auth.reducer'
@@ -46,11 +47,14 @@ export default function AppPage() {
         if (becomeASeller) {
           navigate('/seller_onboarding')
         }
+        if (authUser.username !== null) {
+          socket.emit('saveLoggedInUser', authUser.username)
+        }
       }
     } catch (error) {
       console.log(error)
     }
-  }, [appLogout, currentUserData, buyerData, sellerData, dispatch, navigate])
+  }, [appLogout, currentUserData, buyerData, sellerData, dispatch, navigate, authUser.username])
 
   const logoutUser = useCallback(async () => {
     if ((!currentUserData && appLogout) || isError) {

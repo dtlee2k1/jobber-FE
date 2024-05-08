@@ -24,12 +24,12 @@ export default function DashBoardHeader() {
 
   useEffect(() => {
     socketService.setupSocketConnection()
-    socket.emit('online', (data: string[]) => {
+    socket.emit('getLoggedInUsers')
+    socket.on('online', (data: string[]) => {
       const username = data.find((username: string) => username === authUser.username)
       setAuthUsername(`${username}`)
     })
   }, [authUser.username])
-
   return (
     <header>
       <nav className="navbar peer-checked:navbar-active relative z-20 w-full border-b bg-white shadow-2xl shadow-gray-600/5 backdrop-blur dark:shadow-none">

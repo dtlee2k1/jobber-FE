@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { ISellerGig } from 'src/interfaces/gig.interface'
+import { socket } from 'src/sockets/socket.service'
 import { v4 as uuidv4 } from 'uuid'
 
 import { replaceSpacesWithDash } from '../utils/utils.service'
@@ -53,7 +54,9 @@ export default function TopGigsView({ gigs, title, subTitle, category, type, wid
             <h2 className="text-base font-bold md:text-lg lg:text-2xl">{title}</h2>
             {category && (
               <span className="flex cursor-pointer self-center text-base font-bold text-sky-500 hover:text-sky-400 hover:underline md:text-lg lg:text-2xl">
-                <Link to={`/categories/${replaceSpacesWithDash(category)}`}>{category}</Link>
+                <Link to={`/categories/${replaceSpacesWithDash(category)}`} onClick={() => socket.emit('getLoggedInUsers')}>
+                  {category}
+                </Link>
               </span>
             )}
           </div>
@@ -75,8 +78,6 @@ export default function TopGigsView({ gigs, title, subTitle, category, type, wid
           {gigs.map((gig: ISellerGig) => (
             <div key={uuidv4()} className={`${gigs.length === 5 ? 'w-[20%]' : width}`}>
               {type === 'home' && <GigCardDisplayItem gig={gig} linkTarget={false} showEditIcon={false} />}
-
-              {/* <!-- GigItem --> */}
             </div>
           ))}
         </div>

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { ISellerGig } from 'src/interfaces/gig.interface'
 import GigCardDisplayItem from 'src/shared/gigs/GigCardDisplayItem'
 import { replaceSpacesWithDash } from 'src/shared/utils/utils.service'
+import { socket } from 'src/sockets/socket.service'
 import { v4 as uuidv4 } from 'uuid'
 
 interface IHomeProps {
@@ -20,7 +21,9 @@ export default function HomeGigsView({ gigs, title, category, subTitle }: IHomeP
             <h2 className="flex self-center text-base font-bold md:text-lg lg:text-2xl">{title}</h2>
             {category && (
               <span className="flex cursor-pointer self-center text-base font-bold text-sky-500 hover:text-sky-400 hover:underline md:text-lg lg:text-2xl">
-                <Link to={`/categories/${replaceSpacesWithDash(category)}`}>{category}</Link>
+                <Link to={`/categories/${replaceSpacesWithDash(category)}`} onClick={() => socket.emit('getLoggedInUsers')}>
+                  {category}
+                </Link>
               </span>
             )}
           </div>
