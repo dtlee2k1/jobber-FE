@@ -9,7 +9,7 @@ export default function Chat() {
 
       <div className="relative hidden w-full overflow-hidden md:w-2/3 lg:flex">
         {/* <!-- ChatWindow --> */}
-        <div className="flex w-full items-center justify-center">Select a user to chat with.</div>
+        <div className="flex w-full items-center justify-center">Select a user to chat with</div>
       </div>
     </div>
   )
