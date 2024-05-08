@@ -19,7 +19,7 @@ export const chatMessageReceived = (
       chatMessages.push(data)
       // Filter to remove duplicates chat messages
       const uniqueMessages = chatMessages.filter((msg: IMessageDocument, index: number, list: IMessageDocument[]) => {
-        const itemIndex = list.findIndex((listMsg: IMessageDocument) => listMsg._id === msg._id)
+        const itemIndex = list.findIndex((item: IMessageDocument) => item._id === msg._id)
         return itemIndex === index
       })
       setChatMessagesData(uniqueMessages)

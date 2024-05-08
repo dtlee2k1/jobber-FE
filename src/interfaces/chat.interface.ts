@@ -1,15 +1,8 @@
-import { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react'
+import { ChangeEvent, FormEvent } from 'react'
 
 import { ISellerGig } from './gig.interface'
 import { IOffer } from './order.interface'
 import { ISellerDocument } from './seller.interface'
-
-export interface IChatWindowProps {
-  chatMessages: IMessageDocument[]
-  isError: boolean
-  isLoading: boolean
-  setSkip?: Dispatch<SetStateAction<boolean>>
-}
 
 export interface IFilePreviewProps {
   image: string
