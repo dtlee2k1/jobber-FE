@@ -1,18 +1,6 @@
-import { ChangeEvent, FormEvent } from 'react'
-
 import { ISellerGig } from './gig.interface'
 import { IOffer } from './order.interface'
 import { ISellerDocument } from './seller.interface'
-
-export interface IFilePreviewProps {
-  image: string
-  file: File
-  isLoading: boolean
-  message: string
-  handleChange: (event: ChangeEvent) => void
-  onSubmit: (event: FormEvent) => void
-  onRemoveImage: () => void
-}
 
 export interface IConversationDocument {
   _id: string

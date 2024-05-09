@@ -91,3 +91,15 @@ export const readAsBase64 = (file: File): Promise<string | ArrayBuffer | null> =
   })
   return fileValue
 }
+
+export const bytesToSize = (bytes: number): string => {
+  const sizes: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+  if (bytes === 0) {
+    return '0 Byte'
+  }
+  const i = parseInt(`${Math.floor(Math.log(bytes) / Math.log(1024))}`, 10)
+  if (i === 0) {
+    return `${bytes} ${sizes[i]}`
+  }
+  return `${(bytes / 1024 ** i).toFixed(1)} ${sizes[i]}`
+}
