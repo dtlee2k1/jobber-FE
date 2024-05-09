@@ -20,8 +20,7 @@ export default function Home() {
   const { data: sellersData, isSuccess: isSellersDataSuccess } = useGetRandomSellersQuery('8')
   const { data: categoryData, isSuccess: isCategoryDataSuccess } = useGetGigsByCategoryQuery(`${authUser.username}`)
   const { data: topGigsData, isSuccess: isTopGigsSuccess } = useGetTopRatedGigsByCategoryQuery(`${authUser.username}`)
-  // const { data: sellerData1, isSuccess: isSellerDataSuccess1 } = useGetMoreGigsLikeThisQuery('6547ee5f5c323d4335dfcc1b')
-  // const { data: sellerData2, isSuccess: isSellerDataSuccess2 } = useGetMoreGigsLikeThisQuery('6547ee735c323d4335dfcc27')
+
   let sellers: ISellerDocument[] = []
   let categoryGigs: ISellerGig[] = []
   let topGigs: ISellerGig[] = []
@@ -37,10 +36,6 @@ export default function Home() {
   if (isTopGigsSuccess) {
     topGigs = topGigsData.gigs as ISellerGig[]
   }
-
-  // if (isSellerDataSuccess1 && isSellerDataSuccess2) {
-  //   topGigs = [...(sellerData1.gigs as ISellerGig[]), ...(sellerData2.gigs as ISellerGig[])] as ISellerGig[]
-  // }
 
   useEffect(() => {
     socketService.setupSocketConnection()
