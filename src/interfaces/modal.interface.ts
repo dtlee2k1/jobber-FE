@@ -7,21 +7,6 @@ export interface IModalBgProps {
   onTogglePassword?: Dispatch<SetStateAction<boolean>>
 }
 
-export interface IModalProps {
-  header?: string
-  gigTitle?: string
-  // singleMessage?: IMessageDocument
-  // order?: IOrderDocument
-  // receiver?: IBuyerDocument
-  // authUser?: IAuthUser
-  type?: string
-  approvalModalContent?: IApprovalModalContent
-  hideCancel?: boolean
-  cancelBtnHandler?: () => void
-  onClick?: () => void
-  onClose?: () => void
-}
-
 export interface IApprovalModalContent {
   header: string
   body: string

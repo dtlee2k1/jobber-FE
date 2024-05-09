@@ -33,7 +33,7 @@ export default function ChatImagePreview({ image, file, isLoading, message, hand
             </div>
             <div className="border-grey absolute flex w-full cursor-pointer justify-between border-t bg-white p-2">
               {validateImage(file, 'image') ? (
-                <img className="h-24 w-40 rounded object-cover" src={image} alt="" />
+                <img className="h-24 w-40 rounded object-contain" src={image} alt="" />
               ) : (
                 <div className="border-grey flex h-24 w-40 flex-col items-center justify-center truncate rounded border p-2">
                   <FaRegFileArchive className="text-xs md:text-sm" size={25} />

@@ -1,5 +1,5 @@
 import { find } from 'lodash'
-import { Dispatch, RefObject, SetStateAction, useEffect, useRef, useState } from 'react'
+import { Dispatch, RefObject, SetStateAction, useEffect, useMemo, useRef, useState } from 'react'
 import { FaPaperclip, FaPaperPlane } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
 import useChatScrollToBottom from 'src/hooks/useChatScrollToBottom'
@@ -17,18 +17,13 @@ import { socket, socketService } from 'src/sockets/socket.service'
 import { useAppSelector } from 'src/store/store'
 
 import ChatImagePreview from './ChatImagePreview'
+import OfferModal from 'src/shared/modals/OfferModal'
 
 interface IChatWindowProps {
   chatMessages: IMessageDocument[]
   isError: boolean
   isLoading: boolean
   setSkip: Dispatch<SetStateAction<boolean>>
-}
-
-const MESSAGE_STATUS = {
-  EMPTY: '',
-  IS_LOADING: false,
-  LOADING: true
 }
 
 const NOT_EXISTING_ID = '66336c910a7a25e81c6e8ce6'
@@ -38,14 +33,18 @@ export default function ChatWindow({ chatMessages, isLoading, setSkip }: IChatWi
   const seller = useAppSelector((state: IReduxState) => state.seller)
 
   const { username } = useParams<string>()
-  const receiverUsername = useRef<string>(MESSAGE_STATUS.EMPTY)
+  const receiverUsername = useRef<string>('')
   const receiverRef = useRef<IBuyerDocument>()
   const singleMessageRef = useRef<IMessageDocument>()
   const fileRef = useRef<HTMLInputElement>(null)
 
-  const [message, setMessage] = useState<string>(MESSAGE_STATUS.EMPTY)
+  const [message, setMessage] = useState<string>('')
   const [showImagePreview, setShowImagePreview] = useState<boolean>(false)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const previewImage = useMemo(() => {
+    return selectedFile ? URL.createObjectURL(selectedFile) : ''
+  }, [selectedFile])
+  const [displayCustomOffer, setDisplayCustomOffer] = useState<boolean>(false)
 
   const scrollRef: RefObject<HTMLDivElement> = useChatScrollToBottom([])
 
@@ -63,11 +62,11 @@ export default function ChatWindow({ chatMessages, isLoading, setSkip }: IChatWi
     const target = e.target
     if (target.files) {
       const file: File = target.files[0]
-      const isValid = checkFile(file)
-      if (isValid) {
+      const isInvalid = checkFile(file)
+      if (!isInvalid) {
         setSelectedFile(file)
+        setShowImagePreview(true)
       }
-      setShowImagePreview(MESSAGE_STATUS.IS_LOADING)
     }
   }
 
@@ -87,6 +86,16 @@ export default function ChatWindow({ chatMessages, isLoading, setSkip }: IChatWi
 
   return (
     <>
+      {!isLoading && displayCustomOffer && (
+        <OfferModal
+          header="Create Custom Offer"
+          gigTitle={gigData && gigData?.gig?.title ? gigData?.gig?.title : ''}
+          singleMessage={singleMessageRef.current}
+          receiver={receiverRef.current}
+          authUser={authUser}
+          cancelBtnHandler={() => setDisplayCustomOffer(false)}
+        />
+      )}
       {!isLoading && (
         <div className="flex min-h-full w-full flex-col">
           <div className="border-grey flex w-full flex-col border-b px-5 py-0.5 ">
@@ -131,7 +140,7 @@ export default function ChatWindow({ chatMessages, isLoading, setSkip }: IChatWi
           <div className="relative z-10 flex flex-col">
             {showImagePreview && (
               <ChatImagePreview
-                image={URL.createObjectURL(selectedFile as File)}
+                image={previewImage}
                 file={selectedFile as File}
                 isLoading={false}
                 message={message}
@@ -139,7 +148,7 @@ export default function ChatWindow({ chatMessages, isLoading, setSkip }: IChatWi
                 onSubmit={sendMessage}
                 onRemoveImage={() => {
                   setSelectedFile(null)
-                  setShowImagePreview(MESSAGE_STATUS.IS_LOADING)
+                  setShowImagePreview(false)
                 }}
               />
             )}
@@ -163,6 +172,7 @@ export default function ChatWindow({ chatMessages, isLoading, setSkip }: IChatWi
                         className="rounded bg-sky-500 px-6 py-3 text-center text-sm font-bold text-white hover:bg-sky-400 focus:outline-none md:px-4 md:py-2 md:text-base"
                         disabled={false}
                         label="Add Offer"
+                        onClick={() => setDisplayCustomOffer(true)}
                       />
                     )}
                     <TextInput
