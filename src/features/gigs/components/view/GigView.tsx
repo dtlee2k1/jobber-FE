@@ -72,7 +72,7 @@ export default function GigView() {
                 <GigViewLeft />
               </div>
 
-              <div className="w-full p-4 lg:w-1/3 ">
+              <div className="z-10 w-full p-4 lg:w-1/3">
                 <StickyBox offsetTop={10} offsetBottom={10}>
                   <GigViewRight />
                 </StickyBox>

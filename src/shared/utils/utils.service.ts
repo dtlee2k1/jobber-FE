@@ -1,4 +1,5 @@
 import { Dispatch } from '@reduxjs/toolkit'
+import axios, { AxiosResponse } from 'axios'
 import countries from 'i18n-iso-countries'
 import enLocale from 'i18n-iso-countries/langs/en.json'
 import { filter } from 'lodash'
@@ -197,4 +198,23 @@ export const expectedGigDelivery = (): string[] => {
 
 export const generateRandomNumber = (length: number) => {
   return Math.floor(Math.random() * (9 * Math.pow(10, length - 1))) + Math.pow(10, length - 1)
+}
+
+export const getFileBlob = async (url: string) => {
+  const response: AxiosResponse = await axios.get(url, { responseType: 'blob' })
+  return response
+}
+
+export const downloadFile = (blobUrl: string, fileName: string) => {
+  const link: HTMLAnchorElement = document.createElement('a')
+  link.href = blobUrl
+  link.setAttribute('download', `${fileName}`)
+  // Append to html link element page
+  document.body.appendChild(link)
+  // Start download
+  link.click()
+  // Clean up and remove link
+  if (link.parentNode) {
+    link.parentNode.removeChild(link)
+  }
 }

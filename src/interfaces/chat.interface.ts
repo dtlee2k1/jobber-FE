@@ -1,6 +1,4 @@
-import { ISellerGig } from './gig.interface'
 import { IOffer } from './order.interface'
-import { ISellerDocument } from './seller.interface'
 
 export interface IConversationDocument {
   _id: string
@@ -43,10 +41,4 @@ export interface IChatBuyerProps {
   _id: string
   username: string
   profilePicture: string
-}
-
-export interface IChatMessageProps {
-  message: IMessageDocument
-  seller?: ISellerDocument
-  gig?: ISellerGig
 }

@@ -14,8 +14,7 @@ export default function Chat() {
   const [skip, setSkip] = useState<boolean>(false)
   const [chatMessagesData, setChatMessagesData] = useState<IMessageDocument[]>([])
   const chatMessages = useRef<IMessageDocument[]>([])
-
-  const { data, isSuccess, isLoading, isError } = useGetUserMessagesQuery(`${conversationId}`, { skip }) // skip while the user types a message in the input field
+  const { data, isSuccess, isLoading, isError } = useGetUserMessagesQuery(`${conversationId}`, { skip }) // only get messages in the first time rendering
 
   useEffect(() => {
     if (isSuccess) {
@@ -23,6 +22,7 @@ export default function Chat() {
     }
   }, [isSuccess, data?.messages])
 
+  // update chat messages in real time by websocket
   useEffect(() => {
     chatMessageReceived(`${conversationId}`, chatMessagesData, chatMessages.current, setChatMessagesData)
   }, [chatMessagesData, conversationId])

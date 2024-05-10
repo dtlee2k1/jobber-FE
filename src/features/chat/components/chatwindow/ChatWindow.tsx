@@ -1,5 +1,5 @@
 import { find } from 'lodash'
-import { Dispatch, RefObject, SetStateAction, useEffect, useMemo, useRef, useState } from 'react'
+import { Dispatch, FormEvent, RefObject, SetStateAction, useEffect, useMemo, useRef, useState } from 'react'
 import { FaPaperclip, FaPaperPlane } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
 import useChatScrollToBottom from 'src/hooks/useChatScrollToBottom'
@@ -7,17 +7,20 @@ import { IBuyerDocument } from 'src/interfaces/buyer.interface'
 import { IMessageDocument } from 'src/interfaces/chat.interface'
 import { IReduxState } from 'src/interfaces/store.interface'
 import { useGetBuyerByUsernameQuery } from 'src/services/buyer.service'
+import { useSaveChatMessageMutation } from 'src/services/chat.service'
 import { useGetGigByIdQuery } from 'src/services/gig.service'
 import Button from 'src/shared/button/Button'
 import TextInput from 'src/shared/inputs/TextInput'
-import { checkFile } from 'src/shared/utils/image-utils.service'
+import OfferModal from 'src/shared/modals/OfferModal'
+import { checkFile, fileType, readAsBase64 } from 'src/shared/utils/image-utils.service'
 import { dayMonthYear } from 'src/shared/utils/timeago.utils'
-import { firstLetterUppercase } from 'src/shared/utils/utils.service'
+import { firstLetterUppercase, showErrorToast } from 'src/shared/utils/utils.service'
 import { socket, socketService } from 'src/sockets/socket.service'
 import { useAppSelector } from 'src/store/store'
 
+import ChatFile from './ChatFile'
 import ChatImagePreview from './ChatImagePreview'
-import OfferModal from 'src/shared/modals/OfferModal'
+import ChatOffer from './ChatOffer'
 
 interface IChatWindowProps {
   chatMessages: IMessageDocument[]
@@ -45,11 +48,14 @@ export default function ChatWindow({ chatMessages, isLoading, setSkip }: IChatWi
     return selectedFile ? URL.createObjectURL(selectedFile) : ''
   }, [selectedFile])
   const [displayCustomOffer, setDisplayCustomOffer] = useState<boolean>(false)
+  const [isUploadingFile, setIsUploadingFile] = useState<boolean>(false)
 
   const scrollRef: RefObject<HTMLDivElement> = useChatScrollToBottom([])
 
   const { data: buyerData, isSuccess: isBuyerSuccess } = useGetBuyerByUsernameQuery(`${firstLetterUppercase(`${username}`)}`)
   const { data: gigData } = useGetGigByIdQuery(singleMessageRef.current ? `${singleMessageRef.current.gigId}` : NOT_EXISTING_ID)
+
+  const [saveChatMessage] = useSaveChatMessageMutation()
 
   if (isBuyerSuccess) {
     receiverRef.current = buyerData.buyer
@@ -58,6 +64,7 @@ export default function ChatWindow({ chatMessages, isLoading, setSkip }: IChatWi
   if (chatMessages.length) {
     singleMessageRef.current = chatMessages[chatMessages.length - 1]
   }
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target
     if (target.files) {
@@ -74,7 +81,51 @@ export default function ChatWindow({ chatMessages, isLoading, setSkip }: IChatWi
     setMessage(e.target.value)
   }
 
-  const sendMessage = () => {}
+  const sendMessage = async (event: FormEvent) => {
+    event.preventDefault()
+    if (setSkip) {
+      setSkip(true)
+    }
+
+    if (!message && !selectedFile) {
+      return
+    }
+
+    try {
+      setIsUploadingFile(true)
+      const messageBody: IMessageDocument = {
+        conversationId: singleMessageRef?.current?.conversationId,
+        hasConversationId: true,
+        body: message,
+        gigId: singleMessageRef?.current?.gigId,
+        sellerId: singleMessageRef?.current?.sellerId,
+        buyerId: singleMessageRef?.current?.buyerId,
+        senderUsername: `${authUser?.username}`,
+        senderPicture: `${authUser?.profilePicture}`,
+        receiverUsername: receiverRef?.current?.username,
+        receiverPicture: receiverRef?.current?.profilePicture,
+        isRead: false,
+        hasOffer: false
+      }
+      if (selectedFile) {
+        const dataImage: string | ArrayBuffer | null = await readAsBase64(selectedFile)
+        messageBody.file = dataImage as string
+        messageBody.body = messageBody.body ? messageBody.body : '1 file sent'
+        messageBody.fileType = fileType(selectedFile)
+        messageBody.fileName = selectedFile.name
+        messageBody.fileSize = `${selectedFile.size}`
+      }
+      await saveChatMessage(messageBody).unwrap()
+      setSelectedFile(null)
+      setMessage('')
+      setShowImagePreview(false)
+      setIsUploadingFile(false)
+    } catch (error) {
+      setMessage('')
+      setIsUploadingFile(false)
+      showErrorToast('Error sending message')
+    }
+  }
 
   useEffect(() => {
     socketService.setupSocketConnection()
@@ -129,7 +180,8 @@ export default function ChatWindow({ chatMessages, isLoading, setSkip }: IChatWi
                       </div>
                       <div className="flex flex-col text-[#777d74]">
                         <span>{msg.body}</span>
-                        {/* ChatOffer ChatFile */}
+                        {msg.hasOffer && <ChatOffer message={msg} gig={gigData?.gig} seller={seller} />}
+                        {msg.file && <ChatFile message={msg} />}
                       </div>
                     </div>
                   </div>
@@ -142,19 +194,19 @@ export default function ChatWindow({ chatMessages, isLoading, setSkip }: IChatWi
               <ChatImagePreview
                 image={previewImage}
                 file={selectedFile as File}
-                isLoading={false}
+                isLoading={isUploadingFile}
                 message={message}
                 handleChange={setChatMessage}
-                onSubmit={sendMessage}
                 onRemoveImage={() => {
                   setSelectedFile(null)
                   setShowImagePreview(false)
                 }}
+                onSubmit={sendMessage}
               />
             )}
             {!showImagePreview && (
               <div className="bottom-0 left-0 right-0 z-0 h-28 px-4 ">
-                <form className="mb-1 w-full">
+                <form className="mb-1 w-full" onSubmit={sendMessage}>
                   <TextInput
                     type="text"
                     name="message"
@@ -193,6 +245,7 @@ export default function ChatWindow({ chatMessages, isLoading, setSkip }: IChatWi
                       className="rounded bg-sky-500 px-6 py-3 text-center text-sm font-bold text-white hover:bg-sky-400 focus:outline-none md:px-4 md:py-2 md:text-base"
                       disabled={false}
                       label={<FaPaperPlane className="self-center" />}
+                      onClick={sendMessage}
                     />
                   </div>
                 </div>
