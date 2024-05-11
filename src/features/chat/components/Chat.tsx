@@ -14,7 +14,7 @@ export default function Chat() {
   const [skip, setSkip] = useState<boolean>(false)
   const [chatMessagesData, setChatMessagesData] = useState<IMessageDocument[]>([])
   const chatMessages = useRef<IMessageDocument[]>([])
-  const { data, isSuccess, isLoading, isError } = useGetUserMessagesQuery(`${conversationId}`, { skip }) // only get messages in the first time rendering
+  const { data, isSuccess, isLoading, isError } = useGetUserMessagesQuery(`${conversationId}`) // only get messages in the first time rendering
 
   useEffect(() => {
     if (isSuccess) {

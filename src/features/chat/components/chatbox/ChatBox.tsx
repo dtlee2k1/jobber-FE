@@ -1,4 +1,4 @@
-import { FormEvent, RefObject, useRef, useState } from 'react'
+import { FormEvent, RefObject, useEffect, useRef, useState } from 'react'
 import { FaPaperPlane, FaTimes } from 'react-icons/fa'
 import useChatScrollToBottom from 'src/hooks/useChatScrollToBottom'
 import { IChatBuyerProps, IChatSellerProps, IConversationDocument, IMessageDocument } from 'src/interfaces/chat.interface'
@@ -7,6 +7,7 @@ import { IResponse } from 'src/interfaces/utils.interface'
 import { useGetConversationQuery, useGetMessagesQuery, useSaveChatMessageMutation } from 'src/services/chat.service'
 import Button from 'src/shared/button/Button'
 import TextInput from 'src/shared/inputs/TextInput'
+import { chatMessageReceived } from 'src/shared/utils/chat.utils'
 import { generateRandomNumber, showErrorToast } from 'src/shared/utils/utils.service'
 import { useAppSelector } from 'src/store/store'
 import { v4 as uuidv4 } from 'uuid'
@@ -23,7 +24,10 @@ interface IChatBoxProps {
 export default function ChatBox({ seller, buyer, gigId, onClose }: IChatBoxProps) {
   const authUser = useAppSelector((state: IReduxState) => state.authUser)
 
+  const [skip, setSkip] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
+  const [chatMessagesData, setChatMessagesData] = useState<IMessageDocument[]>([])
+  const chatMessages = useRef<IMessageDocument[]>([])
   const conversationIdRef = useRef<string>(`${generateRandomNumber(15)}`)
 
   const { data: conversationData, isSuccess: isConversationSuccess } = useGetConversationQuery({
@@ -31,23 +35,15 @@ export default function ChatBox({ seller, buyer, gigId, onClose }: IChatBoxProps
     receiverUsername: `${buyer.username}`
   })
   const {
-    data: messageData,
-    isLoading: isMessageLoading,
-    isSuccess: isMessageSuccess
-  } = useGetMessagesQuery(
-    { senderUsername: `${seller.username}`, receiverUsername: `${buyer.username}` },
-    { refetchOnMountOrArgChange: true }
-  )
-
-  let chatMessages: IMessageDocument[] = []
+    data: messagesData,
+    isLoading: isMessagesLoading,
+    isSuccess: isMessagesSuccess
+  } = useGetMessagesQuery({ senderUsername: `${seller.username}`, receiverUsername: `${buyer.username}` }, { skip }) // only get messages in the first time rendering
 
   if (isConversationSuccess && conversationData.conversations && conversationData.conversations.length) {
     conversationIdRef.current = (conversationData.conversations[0] as IConversationDocument).conversationId
   }
-  if (isMessageSuccess) {
-    chatMessages = messageData.messages as IMessageDocument[]
-  }
-  const scrollRef: RefObject<HTMLDivElement> = useChatScrollToBottom(chatMessages)
+  const scrollRef: RefObject<HTMLDivElement> = useChatScrollToBottom(chatMessagesData)
 
   const [saveChatMessage] = useSaveChatMessageMutation()
 
@@ -56,6 +52,7 @@ export default function ChatBox({ seller, buyer, gigId, onClose }: IChatBoxProps
     if (!message) {
       return
     }
+    setSkip(true)
     try {
       const messageBody: IMessageDocument = {
         conversationId: conversationIdRef.current,
@@ -80,9 +77,20 @@ export default function ChatBox({ seller, buyer, gigId, onClose }: IChatBoxProps
     }
   }
 
+  useEffect(() => {
+    if (isMessagesSuccess) {
+      setChatMessagesData(messagesData?.messages as IMessageDocument[])
+    }
+  }, [isMessagesSuccess, messagesData?.messages])
+
+  // update chat messages in real time by websocket
+  useEffect(() => {
+    chatMessageReceived(`${conversationIdRef.current}`, chatMessagesData, chatMessages.current, setChatMessagesData)
+  }, [chatMessagesData])
+
   return (
     <>
-      {isMessageLoading && !chatMessages ? (
+      {isMessagesLoading && !chatMessagesData ? (
         <ChatBoxSkeleton />
       ) : (
         <div className="border-grey fixed bottom-0 left-2 right-2 h-[400px] max-h-[500px] w-auto border bg-white md:left-8 md:h-96 md:max-h-[500px] md:w-96">
@@ -105,7 +113,7 @@ export default function ChatBox({ seller, buyer, gigId, onClose }: IChatBoxProps
 
           <div className="h-[500px] overflow-y-scroll md:h-full">
             <div className="my-2 flex h-[280px] flex-col overflow-y-scroll px-4 md:h-[72%]" ref={scrollRef}>
-              {chatMessages.map((msg: IMessageDocument) => (
+              {chatMessagesData.map((msg: IMessageDocument) => (
                 <div
                   key={uuidv4()}
                   className={`my-2 flex max-w-[300px] gap-y-6 text-sm ${msg.senderUsername !== buyer.username ? 'self-start' : 'self-end'}`}
