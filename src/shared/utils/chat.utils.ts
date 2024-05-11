@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction } from 'react'
 import { IMessageDocument } from 'src/interfaces/chat.interface'
 import { socket } from 'src/sockets/socket.service'
 
+import { updateNotification } from '../header/reducers/notification.reducer'
 import { lowerCase } from './utils.service'
 
 export const chatMessageReceived = (
@@ -54,8 +55,7 @@ export const chatListMessageReceived = (
           conversationListRef,
           (msg: IMessageDocument) => !msg.isRead && msg.receiverUsername === username
         )
-        console.log(list)
-        // dispatch(updateNotification({ hasUnreadMessage: list.length > 0 }))
+        dispatch(updateNotification({ hasUnreadMessage: list.length > 0 }) as UnknownAction)
       }
       setChatList(conversationListRef)
     }
@@ -84,8 +84,7 @@ export const chatListMessageUpdated = (
           conversationListRef,
           (msg: IMessageDocument) => !msg.isRead && msg.receiverUsername === username
         )
-        console.log(list)
-        // dispatch(updateNotification({ hasUnreadMessage: list.length > 0 }))
+        dispatch(updateNotification({ hasUnreadMessage: list.length > 0 }) as UnknownAction)
       }
       setChatList(conversationListRef)
     }

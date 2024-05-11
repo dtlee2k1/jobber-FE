@@ -1,4 +1,4 @@
-import { find } from 'lodash'
+import { filter, find } from 'lodash'
 import { Dispatch, FormEvent, RefObject, SetStateAction, useEffect, useMemo, useRef, useState } from 'react'
 import { FaPaperclip, FaPaperPlane } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
@@ -10,13 +10,14 @@ import { useGetBuyerByUsernameQuery } from 'src/services/buyer.service'
 import { useSaveChatMessageMutation } from 'src/services/chat.service'
 import { useGetGigByIdQuery } from 'src/services/gig.service'
 import Button from 'src/shared/button/Button'
+import { updateNotification } from 'src/shared/header/reducers/notification.reducer'
 import TextInput from 'src/shared/inputs/TextInput'
 import OfferModal from 'src/shared/modals/OfferModal'
 import { checkFile, fileType, readAsBase64 } from 'src/shared/utils/image-utils.service'
 import { dayMonthYear } from 'src/shared/utils/timeago.utils'
 import { firstLetterUppercase, showErrorToast } from 'src/shared/utils/utils.service'
 import { socket, socketService } from 'src/sockets/socket.service'
-import { useAppSelector } from 'src/store/store'
+import { useAppDispatch, useAppSelector } from 'src/store/store'
 
 import ChatFile from './ChatFile'
 import ChatImagePreview from './ChatImagePreview'
@@ -34,6 +35,8 @@ const NOT_EXISTING_ID = '66336c910a7a25e81c6e8ce6'
 export default function ChatWindow({ chatMessages, isLoading, setSkip }: IChatWindowProps) {
   const authUser = useAppSelector((state: IReduxState) => state.authUser)
   const seller = useAppSelector((state: IReduxState) => state.seller)
+
+  const dispatch = useAppDispatch()
 
   const { username } = useParams<string>()
   const receiverUsername = useRef<string>('')
@@ -134,6 +137,11 @@ export default function ChatWindow({ chatMessages, isLoading, setSkip }: IChatWi
       receiverUsername.current = find(data, (username: string) => username === receiverRef?.current?.username) as string
     })
   }, [])
+
+  useEffect(() => {
+    const list: IMessageDocument[] = filter(chatMessages, (item: IMessageDocument) => !item.isRead && item.receiverUsername === username)
+    dispatch(updateNotification({ hasUnreadMessage: list.length > 0 }))
+  }, [chatMessages, dispatch, username])
 
   return (
     <>

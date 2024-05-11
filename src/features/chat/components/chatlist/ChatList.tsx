@@ -7,6 +7,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { IMessageDocument } from 'src/interfaces/chat.interface'
 import { IReduxState } from 'src/interfaces/store.interface'
 import { useGetConversationListQuery, useMarkMultipleMessagesAsReadMutation } from 'src/services/chat.service'
+import { updateNotification } from 'src/shared/header/reducers/notification.reducer'
 import { chatListMessageReceived, chatListMessageUpdated } from 'src/shared/utils/chat.utils'
 import { transform } from 'src/shared/utils/timeago.utils'
 import { lowerCase, showErrorToast } from 'src/shared/utils/utils.service'
@@ -58,8 +59,11 @@ export default function ChatList() {
   useEffect(() => {
     if (isSuccess) {
       setChatList(data.conversations as IMessageDocument[])
+      if (data.conversations?.length) {
+        dispatch(updateNotification({ hasUnreadMessage: false }))
+      }
     }
-  }, [isSuccess, data?.conversations])
+  }, [isSuccess, data?.conversations, dispatch, username])
 
   useEffect(() => {
     chatListMessageReceived(`${authUser.username}`, chatList, conversationsListRef.current, dispatch, setChatList)

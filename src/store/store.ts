@@ -9,6 +9,7 @@ import buyerReducer from 'src/features/buyer/reducers/buyer.reducer'
 import sellerReducer from 'src/features/seller/reducers/seller.reducer'
 import categoryReducer from 'src/shared/header/reducers/category.reducer'
 import headerReducer from 'src/shared/header/reducers/header.reducer'
+import notificationReducer from 'src/shared/header/reducers/notification.reducer'
 
 import { api } from './api'
 
@@ -25,6 +26,7 @@ export const combineReducer = combineReducers({
   buyer: buyerReducer,
   seller: sellerReducer,
   header: headerReducer,
+  notification: notificationReducer,
   showCategoryContainer: categoryReducer
 })
 

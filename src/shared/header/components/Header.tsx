@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { FaBars, FaTimes } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import ForgotPasswordModal from 'src/features/auth/components/ForgotPassword'
 import LoginModal from 'src/features/auth/components/Login'
@@ -6,6 +7,8 @@ import RegisterModal from 'src/features/auth/components/Register'
 import { IHeaderModalProps } from 'src/interfaces/header.interface'
 import Button from 'src/shared/button/Button'
 import { saveToLocalStorage } from 'src/shared/utils/utils.service'
+
+import HeaderSideBar from './mobile/HeaderSideBar'
 
 interface IHeaderProps {
   navClass: string
@@ -17,6 +20,7 @@ export default function Header({ navClass }: IHeaderProps) {
     register: false,
     forgotPassword: false
   })
+  const [openSidebar, setOpenSidebar] = useState<boolean>(false)
 
   return (
     <>
@@ -39,6 +43,9 @@ export default function Header({ navClass }: IHeaderProps) {
           onToggle={() => setShowModal((item) => ({ ...item, forgotPassword: false, login: true }))}
         />
       )}
+      {openSidebar && (
+        <HeaderSideBar setOpenSidebar={setOpenSidebar} setShowLoginModal={setShowModal} setShowRegisterModal={setShowModal} />
+      )}
       <header>
         <nav className={navClass}>
           <div className="m-auto px-6 xl:container md:px-12 lg:px-6">
@@ -48,7 +55,11 @@ export default function Header({ navClass }: IHeaderProps) {
                   Jobber
                 </Link>
                 <div className="peer-checked:hamburger relative z-20 -mr-6 block cursor-pointer p-6 lg:hidden">
-                  <Button className="m-auto h-0.5 w-5 rounded transition duration-300" />
+                  <Button
+                    className="m-auto h-0.5 w-5 rounded transition duration-300"
+                    label={<>{openSidebar ? <FaTimes className="h-6 w-6 text-sky-500" /> : <FaBars className="h-6 w-6 text-sky-500" />}</>}
+                    onClick={() => setOpenSidebar(!openSidebar)}
+                  />
                 </div>
               </div>
               <div className="navmenu mb-16 hidden w-full cursor-pointer flex-wrap items-center justify-end space-y-8 rounded-3xl border border-gray-100 bg-white p-6 shadow-2xl md:flex-nowrap lg:m-0 lg:flex lg:w-7/12 lg:space-y-0 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
