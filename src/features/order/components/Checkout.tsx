@@ -1,24 +1,53 @@
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { FaCog, FaRegClock, FaRegMoneyBillAlt } from 'react-icons/fa'
 import { useLocation, useParams, useSearchParams } from 'react-router-dom'
 import { ISellerGig } from 'src/interfaces/gig.interface'
 import { IOffer } from 'src/interfaces/order.interface'
+import { IReduxState } from 'src/interfaces/store.interface'
+import { useCreateOrderIntentMutation } from 'src/services/order.service'
+import { saveToLocalStorage, showErrorToast } from 'src/shared/utils/utils.service'
+import { useAppSelector } from 'src/store/store'
 
 import CheckoutForm from './checkout-form/CheckoutForm'
 
 export default function Checkout() {
+  const buyer = useAppSelector((state: IReduxState) => state.buyer)
+
   const { gigId } = useParams<string>()
   const [searchParams] = useSearchParams({})
   const { state }: { state: ISellerGig } = useLocation()
-  const stripePromise = useMemo(() => loadStripe(import.meta.env.VITE_STRIPE_KEY), [])
+  const stripePromise = useMemo(
+    () =>
+      loadStripe(import.meta.env.VITE_STRIPE_KEY, {
+        locale: 'en'
+      }),
+    []
+  )
 
   const [clientSecret, setClientSecret] = useState<string>('')
   const [offer] = useState<IOffer>(JSON.parse(`${searchParams.get('offer')}`))
 
   const serviceFee: number = offer.price < 50 ? (5.5 / 100) * offer.price + 2 : (5.5 / 100) * offer.price
-  // const [createOrderIntent] = useCreateOrderIntentMutation()
+
+  const [createOrderIntent] = useCreateOrderIntentMutation()
+
+  const createBuyerOrderIntent = async () => {
+    try {
+      const response = await createOrderIntent({ price: offer.price, buyerId: `${buyer._id}` }).unwrap()
+      setClientSecret(`${response.clientSecret}`)
+      saveToLocalStorage('paymentIntentId', JSON.stringify(`${response.paymentIntentId}`))
+    } catch (error) {
+      showErrorToast('Error with checkout request')
+    }
+  }
+
+  useEffect(() => {
+    createBuyerOrderIntent()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const options = { clientSecret } as StripeElementsOptions
   return (
     <div className="container mx-auto h-screen">

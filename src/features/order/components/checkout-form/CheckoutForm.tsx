@@ -1,3 +1,5 @@
+import './CheckoutForm.scss'
+
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { Stripe, StripeElement, StripeElements } from '@stripe/stripe-js'
 import { FormEvent, useEffect, useState } from 'react'
