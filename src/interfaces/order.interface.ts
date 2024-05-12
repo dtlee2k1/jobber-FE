@@ -2,11 +2,6 @@ import { IAuthUser } from './auth.interface'
 
 export type DivElementRefType = HTMLDivElement
 
-export interface ICheckoutProps {
-  gigId: string
-  offer: IOffer
-}
-
 export interface IOrderProps {
   order: IOrderDocument
   authUser: IAuthUser

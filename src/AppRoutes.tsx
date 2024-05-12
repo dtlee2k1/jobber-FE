@@ -11,6 +11,7 @@ import EditGig from './features/gigs/components/gig/EditGig'
 import Gigs from './features/gigs/components/gigs/Gigs'
 import GigView from './features/gigs/components/view/GigView'
 import Home from './features/home/Home'
+import Checkout from './features/order/components/Checkout'
 import ProtectedRoute from './features/ProtectedRoute'
 import AddSeller from './features/seller/components/add/AddSeller'
 import ManageEarnings from './features/seller/components/dashboard/ManageEarnings'
@@ -179,6 +180,16 @@ export default function AppRouter() {
         <ProtectedRoute>
           <Layout backgroundColor="#fff">
             <Chat />
+          </Layout>
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: '/gig/checkout/:gigId',
+      element: (
+        <ProtectedRoute>
+          <Layout backgroundColor="#fff">
+            <Checkout />
           </Layout>
         </ProtectedRoute>
       )

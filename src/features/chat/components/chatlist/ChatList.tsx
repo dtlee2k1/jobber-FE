@@ -59,7 +59,7 @@ export default function ChatList() {
   useEffect(() => {
     if (isSuccess) {
       setChatList(data.conversations as IMessageDocument[])
-      if (data.conversations?.length) {
+      if (!data.conversations?.length) {
         dispatch(updateNotification({ hasUnreadMessage: false }))
       }
     }

@@ -1,6 +1,6 @@
 import { io, Socket } from 'socket.io-client'
 
-const VITE_BASE_ENDPOINT = 'http://localhost:4000'
+const VITE_BASE_ENDPOINT = import.meta.env.VITE_BASE_ENDPOINT
 
 export let socket: Socket
 

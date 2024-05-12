@@ -35,7 +35,7 @@ export default function ChatOffer({ message, gig, seller }: IChatOfferProps) {
       if (type === 'accepted') {
         navigate(
           {
-            pathname: '/gig/checkout',
+            pathname: `/gig/checkout/${message.gigId}`,
             search: createSearchParams({ offer: JSON.stringify(offerParams) }).toString()
           },
           { state: gig }
