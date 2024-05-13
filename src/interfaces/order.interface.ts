@@ -46,13 +46,6 @@ export interface IOrderInvoiceService {
   price: number
 }
 
-export interface IOrderContext {
-  order?: IOrderDocument
-  authUser?: IAuthUser
-  orderInvoice?: IOrderInvoice
-  viewDeliveryBtnClicked?: boolean
-}
-
 export interface IExtendedDateModalProps {
   order: IOrderDocument
   onClose: () => void
