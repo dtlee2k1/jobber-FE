@@ -12,6 +12,7 @@ import Gigs from './features/gigs/components/gigs/Gigs'
 import GigView from './features/gigs/components/view/GigView'
 import Home from './features/home/Home'
 import Checkout from './features/order/components/Checkout'
+import Order from './features/order/components/Order'
 import Requirement from './features/order/components/Requirement'
 import ProtectedRoute from './features/ProtectedRoute'
 import AddSeller from './features/seller/components/add/AddSeller'
@@ -201,6 +202,16 @@ export default function AppRouter() {
         <ProtectedRoute>
           <Layout backgroundColor="#fff">
             <Requirement />
+          </Layout>
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: '/orders/:orderId/activities',
+      element: (
+        <ProtectedRoute>
+          <Layout backgroundColor="#fff">
+            <Order />
           </Layout>
         </ProtectedRoute>
       )
