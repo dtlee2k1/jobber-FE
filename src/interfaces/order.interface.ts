@@ -46,11 +46,6 @@ export interface IOrderInvoiceService {
   price: number
 }
 
-export interface IExtendedDateModalProps {
-  order: IOrderDocument
-  onClose: () => void
-}
-
 export interface IActiveOrderProps {
   activeOrders: IOrderDocument[]
 }
