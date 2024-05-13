@@ -5,7 +5,7 @@ import { IOrderInvoiceService } from 'src/interfaces/order.interface'
 
 const styles = StyleSheet.create({
   tbody: { fontSize: 9, paddingTop: 4, textAlign: 'center', flex: 1, borderColor: 'whitesmoke', borderBottomWidth: 1 },
-  tbody2: { flex: 2, textAlign: 'left' }
+  tbody2: { flex: 4, textAlign: 'left' }
 })
 
 export default function TableBody() {
@@ -20,12 +20,6 @@ export default function TableBody() {
             <View style={{ width: '100%', flexDirection: 'row' }}>
               <View style={[styles.tbody, styles.tbody2]}>
                 <Text>{order.service}</Text>
-              </View>
-              <View style={[styles.tbody]}>
-                <Text></Text>
-              </View>
-              <View style={styles.tbody}>
-                <Text></Text>
               </View>
               <View style={styles.tbody}>
                 <Text></Text>

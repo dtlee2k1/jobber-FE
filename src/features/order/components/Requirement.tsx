@@ -1,7 +1,61 @@
+import { PDFDownloadLink } from '@react-pdf/renderer'
+import { useRef, useState } from 'react'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { ISellerGig } from 'src/interfaces/gig.interface'
+import { IOffer, IOrderInvoice } from 'src/interfaces/order.interface'
+import { IReduxState } from 'src/interfaces/store.interface'
+import { useGetGigByIdQuery } from 'src/services/gig.service'
+import { useCreateOrderMutation } from 'src/services/order.service'
 import Button from 'src/shared/button/Button'
 import TextAreaInput from 'src/shared/inputs/TextAreaInput'
+import { generateRandomNumber } from 'src/shared/utils/utils.service'
+import { useAppSelector } from 'src/store/store'
+
+import { OrderContext } from '../context/OrderContext'
+import Invoice from './invoice/Invoice'
 
 export default function Requirement() {
+  const buyer = useAppSelector((state: IReduxState) => state.buyer)
+
+  const navigate = useNavigate()
+  const { gigId } = useParams<string>()
+  const [searchParams] = useSearchParams({})
+  const order_date = `${searchParams.get('order_date')}`
+  const offer: IOffer = JSON.parse(`${searchParams.get('offer')}`)
+  const serviceFee = offer.price < 50 ? (5.5 / 100) * offer.price + 2 : (5.5 / 100) * offer.price
+
+  const orderId = `JO${generateRandomNumber(11)}`
+  const invoiceId = `JI${generateRandomNumber(11)}`
+  const placeholder = 'https://placehold.co/330x220?text=Placeholder'
+
+  const [requirement, setRequirement] = useState<string>('')
+  const gigRef = useRef<ISellerGig>()
+
+  const { data, isSuccess } = useGetGigByIdQuery(`${gigId}`)
+  const [createOrder] = useCreateOrderMutation()
+
+  if (isSuccess) {
+    gigRef.current = data.gig
+  }
+
+  const orderInvoice: IOrderInvoice = {
+    invoiceId,
+    orderId,
+    date: `${new Date()}`,
+    buyerUsername: `${buyer.username}`,
+    orderService: [
+      {
+        service: `${gigRef?.current?.title}`,
+        quantity: 1,
+        price: offer.price
+      },
+      {
+        service: 'Service Fee',
+        quantity: 1,
+        price: serviceFee
+      }
+    ]
+  }
   return (
     <div className="container mx-auto lg:h-screen">
       <div className="flex flex-wrap">
@@ -9,7 +63,17 @@ export default function Requirement() {
           <div className="mb-4 flex w-full flex-col flex-wrap bg-[#d4edda] p-4">
             <span className="text-base font-bold text-black lg:text-xl">Thank you for your purchase</span>
             <div className="flex gap-1">
-              You can <div className="cursor-pointer text-blue-400 underline">download your invoice</div>
+              You can{' '}
+              <PDFDownloadLink
+                document={
+                  <OrderContext.Provider value={{ orderInvoice }}>
+                    <Invoice />
+                  </OrderContext.Provider>
+                }
+                fileName={`invoice-${invoiceId}.pdf`}
+              >
+                <div className="cursor-pointer text-blue-400 underline">download your invoice</div>
+              </PDFDownloadLink>
             </div>
           </div>
           <div className="border-grey border">

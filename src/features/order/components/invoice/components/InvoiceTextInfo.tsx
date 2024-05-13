@@ -12,8 +12,8 @@ export default function InvoiceTextInfo() {
       <View style={styles.titleContainer}>
         <View style={styles.spaceBetween}>
           <View>
-            <Text style={styles.info}>Purchased on Jobber.com through Jobber Limited </Text>
-            <Text style={styles.info}>have an invoice or billing question? Contact us</Text>
+            <Text style={styles.info}>Purchased on Jobber</Text>
+            <Text style={styles.info}>Have an invoice or billing question? Contact us</Text>
           </View>
         </View>
       </View>
