@@ -8,6 +8,8 @@ import { dayMonthYear } from 'src/shared/utils/timeago.utils'
 import { socket, socketService } from 'src/sockets/socket.service'
 import { useAppSelector } from 'src/store/store'
 
+import DeliveryTimer from './DeliveryTimer'
+
 export default function Order() {
   const authUser = useAppSelector((state: IReduxState) => state.authUser)
 
@@ -81,7 +83,9 @@ export default function Order() {
         </div>
 
         <div className="w-full p-4 lg:w-1/3 ">
-          {/* <!-- DeliveryTimer --> */}
+          {order?.delivered && authUser.username === order.sellerUsername && <DeliveryTimer authUser={authUser} order={order} />}
+          {order?.delivered && authUser.username === order.sellerUsername && <></>}
+          {order && !order.delivered && <DeliveryTimer order={order} authUser={authUser} />}
 
           <div className="bg-white">
             <div className="mb-2 flex flex-col border-b px-4 pb-4 pt-3 md:flex-row">
