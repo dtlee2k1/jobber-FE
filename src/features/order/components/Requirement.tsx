@@ -94,7 +94,7 @@ export default function Requirement() {
         requirements: requirement,
         paymentIntent: `${paymentIntentId}`,
         events: {
-          placeOrder: order_date,
+          placeOrder: order_date, // Date after successful payment
           requirements: `${new Date()}`,
           orderStarted: `${new Date()}`
         }

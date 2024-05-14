@@ -210,7 +210,7 @@ export default function AppRouter() {
       path: '/orders/:orderId/activities',
       element: (
         <ProtectedRoute>
-          <Layout backgroundColor="#fff">
+          <Layout backgroundColor="#f5f5f5">
             <Order />
           </Layout>
         </ProtectedRoute>
