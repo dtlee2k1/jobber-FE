@@ -7,6 +7,7 @@ import { chatMessageTransform } from 'src/shared/utils/timeago.utils'
 
 import { OrderContext } from '../../context/OrderContext'
 import OrderPlaced from './components/OrderPlaced'
+import OrderExtension from './components/OrderExtension'
 
 interface IOrderActivitiesProps {
   order: IOrderDocument
@@ -43,6 +44,7 @@ const OrderActivities = forwardRef<HTMLDivElement, IOrderActivitiesProps>((props
       </div>
       <OrderContext.Provider value={{ order, authUser, viewDeliveryBtnClicked }}>
         <OrderPlaced />
+        <OrderExtension />
       </OrderContext.Provider>
       <div className="flex px-3 pt-2">
         If you need to contact the {order.buyerUsername === authUser.username ? 'seller' : 'buyer'},

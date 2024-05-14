@@ -82,7 +82,12 @@ export default function Order() {
           )}
 
           {order && Object.keys(order).length > 0 && (
-            <OrderActivities ref={elementRef} order={order as IOrderDocument} authUser={authUser} viewDeliveryBtnClicked={true} />
+            <OrderActivities
+              ref={elementRef}
+              order={order as IOrderDocument}
+              authUser={authUser}
+              viewDeliveryBtnClicked={showDeliveryPanel}
+            />
           )}
         </div>
 
