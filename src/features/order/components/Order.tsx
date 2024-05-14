@@ -9,6 +9,7 @@ import { socket, socketService } from 'src/sockets/socket.service'
 import { useAppSelector } from 'src/store/store'
 
 import DeliveryTimer from './DeliveryTimer'
+import OrderDetailsTable from './OrderDetailsTable'
 
 export default function Order() {
   const authUser = useAppSelector((state: IReduxState) => state.authUser)
@@ -40,7 +41,7 @@ export default function Order() {
     <div className="container mx-auto">
       <div className="flex flex-wrap">
         <div className="order-last w-full p-4 lg:order-first lg:w-2/3">
-          {/* <!-- OrderDetailsTable --> */}
+          <OrderDetailsTable authUser={authUser} order={order as IOrderDocument} />
           {order && order.buyerUsername === authUser.username && (
             <div className="mt-4 flex flex-col justify-between bg-white md:flex-row">
               <div className="flex w-full flex-col flex-wrap p-4 md:w-2/3">

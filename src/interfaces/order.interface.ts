@@ -2,11 +2,6 @@ import { IAuthUser } from './auth.interface'
 
 export type DivElementRefType = HTMLDivElement
 
-export interface IOrderProps {
-  order: IOrderDocument
-  authUser: IAuthUser
-}
-
 export interface IOrderActivitiesProps {
   order: IOrderDocument
   authUser: IAuthUser
