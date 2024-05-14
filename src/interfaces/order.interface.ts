@@ -1,15 +1,3 @@
-import { IAuthUser } from './auth.interface'
-
-export type DivElementRefType = HTMLDivElement
-
-export interface IOrderActivitiesProps {
-  order: IOrderDocument
-  authUser: IAuthUser
-  viewDeliveryBtnClicked?: boolean
-  showDeliveryPanel?: boolean
-  showReviewPanel?: boolean
-}
-
 export interface IOffer {
   [key: string]: string | number | boolean | undefined
   gigTitle: string

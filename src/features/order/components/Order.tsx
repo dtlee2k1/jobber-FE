@@ -9,6 +9,7 @@ import { socket, socketService } from 'src/sockets/socket.service'
 import { useAppSelector } from 'src/store/store'
 
 import DeliveryTimer from './DeliveryTimer'
+import OrderActivities from './order-activities/OrderActivities'
 import OrderDetailsTable from './OrderDetailsTable'
 
 export default function Order() {
@@ -80,7 +81,9 @@ export default function Order() {
             </div>
           )}
 
-          {/* <!-- OrderActivities --> */}
+          {order && Object.keys(order).length > 0 && (
+            <OrderActivities ref={elementRef} order={order as IOrderDocument} authUser={authUser} viewDeliveryBtnClicked={true} />
+          )}
         </div>
 
         <div className="w-full p-4 lg:w-1/3 ">
