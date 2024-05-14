@@ -11,10 +11,6 @@ export interface IOffer {
   reason?: string // this is the reason for extending the delivery date
 }
 
-export interface IOrderDeliveredProps {
-  ref?: HTMLDivElement
-}
-
 export interface IOrderInvoice {
   invoiceId: string
   orderId: string

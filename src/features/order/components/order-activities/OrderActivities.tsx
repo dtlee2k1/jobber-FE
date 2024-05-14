@@ -6,15 +6,14 @@ import { IOrderDocument } from 'src/interfaces/order.interface'
 import { chatMessageTransform } from 'src/shared/utils/timeago.utils'
 
 import { OrderContext } from '../../context/OrderContext'
-import OrderPlaced from './components/OrderPlaced'
+import OrderDelivered from './components/OrderDelivered'
 import OrderExtension from './components/OrderExtension'
+import OrderPlaced from './components/OrderPlaced'
 
 interface IOrderActivitiesProps {
   order: IOrderDocument
   authUser: IAuthUser
   viewDeliveryBtnClicked?: boolean
-  showDeliveryPanel?: boolean
-  showReviewPanel?: boolean
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -45,6 +44,7 @@ const OrderActivities = forwardRef<HTMLDivElement, IOrderActivitiesProps>((props
       <OrderContext.Provider value={{ order, authUser, viewDeliveryBtnClicked }}>
         <OrderPlaced />
         <OrderExtension />
+        <OrderDelivered ref={ref} />
       </OrderContext.Provider>
       <div className="flex px-3 pt-2">
         If you need to contact the {order.buyerUsername === authUser.username ? 'seller' : 'buyer'},
