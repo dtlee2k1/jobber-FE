@@ -3,6 +3,7 @@ import useCountDown from 'src/hooks/useCountDown'
 import { IAuthUser } from 'src/interfaces/auth.interface'
 import { IOrderDisplayModal, IOrderDocument } from 'src/interfaces/order.interface'
 import Button from 'src/shared/button/Button'
+import DeliverWorkModal from 'src/shared/modals/DeliverWorkModal'
 import ExtendDateModal from 'src/shared/modals/ExtendDateModal'
 
 interface IDeliveryTimerProps {
@@ -19,6 +20,9 @@ export default function DeliveryTimer({ order, authUser }: IDeliveryTimerProps) 
 
   return (
     <>
+      {displayModal.deliverWork && (
+        <DeliverWorkModal order={order} onClose={() => setDisplayModal({ ...displayModal, deliverWork: false })} />
+      )}
       {displayModal.extendDelivery && (
         <ExtendDateModal order={order} onClose={() => setDisplayModal({ ...displayModal, extendDelivery: false })} />
       )}
