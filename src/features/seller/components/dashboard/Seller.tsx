@@ -4,6 +4,7 @@ import { IOrderDocument } from 'src/interfaces/order.interface'
 import { ISellerDocument } from 'src/interfaces/seller.interface'
 import { IReduxState } from 'src/interfaces/store.interface'
 import { useGetGigsBySellerIdQuery, useGetSellerPausedGigsQuery } from 'src/services/gig.service'
+import { useGetOrdersBySellerIdQuery } from 'src/services/order.service'
 import { useGetSellerByIdQuery } from 'src/services/seller.service'
 import DashBoardHeader from 'src/shared/header/components/DashBoardHeader'
 import CircularPageLoader from 'src/shared/page-loader/CircularPageLoader'
@@ -16,11 +17,12 @@ export default function Seller() {
   const { data: sellerData, isLoading, isSuccess: isSellerSuccess } = useGetSellerByIdQuery(`${sellerId}`)
   const { data: sellerGigs, isSuccess: isSellerGigsSuccess } = useGetGigsBySellerIdQuery(`${sellerId}`)
   const { data: sellerPausedGigs, isSuccess: isSellerPausedGigsSuccess } = useGetSellerPausedGigsQuery(`${sellerId}`)
+  const { data: sellerOrders, isSuccess: isSellerOrdersSuccess } = useGetOrdersBySellerIdQuery(`${sellerId}`)
 
   let seller: ISellerDocument | undefined = undefined
   let gigs: ISellerGig[] = []
   let pausedGigs: ISellerGig[] = []
-  const orders: IOrderDocument[] = []
+  let orders: IOrderDocument[] = []
 
   if (isSellerSuccess) {
     seller = sellerData?.seller as ISellerDocument
@@ -32,6 +34,10 @@ export default function Seller() {
 
   if (isSellerPausedGigsSuccess) {
     pausedGigs = sellerPausedGigs?.gigs as ISellerGig[]
+  }
+
+  if (isSellerOrdersSuccess) {
+    orders = sellerOrders.orders as IOrderDocument[]
   }
   return (
     <div className="w-screen">

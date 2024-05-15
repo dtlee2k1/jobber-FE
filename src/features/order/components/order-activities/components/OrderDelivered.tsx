@@ -50,7 +50,7 @@ const OrderDelivered = forwardRef<HTMLDivElement, IOrderDeliveredProps>((_, ref)
         ongoingJobs: -1,
         completedJobs: 1,
         totalEarnings: parseFloat((0.9 * parseFloat(`${order?.price}`)).toFixed(2)), // seller will receiver 90% of original price, 10% goes to the platform
-        purchasedGigs: `${order?.gigId}`
+        purchasedGigId: `${order?.gigId}`
       }
       await approveOrder({ orderId: `${order?.orderId}`, body: orderMessage })
       setOrderDeliveredModal({ ...orderDeliveredModal, deliveryApproval: false })

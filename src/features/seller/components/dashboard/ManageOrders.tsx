@@ -45,7 +45,7 @@ export default function ManageOrders() {
                 })}
               >
                 Active{' '}
-                {orderTypes(SELLER_GIG_STATUS.IN_PROGRESS, ordersRef) && (
+                {orderTypes(SELLER_GIG_STATUS.IN_PROGRESS, ordersRef) > 0 && (
                   <span className="ml-1 rounded-[5px] bg-sky-500 px-[5px] py-[1px] text-xs font-medium text-white">
                     {shortenLargeNumbers(orderTypes(SELLER_GIG_STATUS.IN_PROGRESS, ordersRef))}
                   </span>
@@ -60,7 +60,7 @@ export default function ManageOrders() {
                 })}
               >
                 Completed{' '}
-                {orderTypes(SELLER_GIG_STATUS.COMPLETED, ordersRef) && (
+                {orderTypes(SELLER_GIG_STATUS.COMPLETED, ordersRef) > 0 && (
                   <span className="ml-1 rounded-[5px] bg-sky-500 px-[5px] py-[1px] text-xs font-medium text-white">
                     {shortenLargeNumbers(orderTypes(SELLER_GIG_STATUS.COMPLETED, ordersRef))}
                   </span>

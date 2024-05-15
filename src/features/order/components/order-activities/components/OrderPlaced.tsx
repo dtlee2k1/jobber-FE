@@ -35,7 +35,7 @@ export default function OrderPlaced() {
             <div className="border-grey w-full cursor-pointer border-b pb-6">
               <div className="mt-2 flex items-center gap-2 text-gray-500">
                 <span className="text-base font-bold">
-                  {order?.buyerUsername === authUser?.username ? 'You' : order?.buyerUsername} submiited the requirements
+                  {order?.buyerUsername === authUser?.username ? 'You' : order?.buyerUsername} submitted the requirements
                 </span>
                 <p className="text-sm font-normal italic">{dayWithTime(`${order?.events.requirements}`)}</p>
               </div>

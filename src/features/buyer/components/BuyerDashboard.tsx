@@ -1,7 +1,9 @@
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { IOrderDocument } from 'src/interfaces/order.interface'
-import { orderTypes } from 'src/shared/utils/utils.service'
+import { useGetOrdersByBuyerIdQuery } from 'src/services/order.service'
+import { orderTypes, shortenLargeNumbers } from 'src/shared/utils/utils.service'
 import { socket, socketService } from 'src/sockets/socket.service'
 
 import BuyerTable from './BuyerTable'
@@ -15,9 +17,16 @@ const BUYER_GIG_STATUS = {
 }
 
 export default function BuyerDashboard() {
-  const [type, setType] = useState<string>(BUYER_GIG_STATUS.ACTIVE)
+  const { buyerId } = useParams<string>()
 
-  const orders: IOrderDocument[] = []
+  const [type, setType] = useState<string>(BUYER_GIG_STATUS.ACTIVE)
+  const { data: buyerOrders, isSuccess: isBuyerOrdersSuccess } = useGetOrdersByBuyerIdQuery(`${buyerId}`)
+
+  let orders: IOrderDocument[] = []
+
+  if (isBuyerOrdersSuccess) {
+    orders = buyerOrders.orders as IOrderDocument[]
+  }
 
   useEffect(() => {
     socketService.setupSocketConnection()
@@ -37,7 +46,12 @@ export default function BuyerDashboard() {
                   'pb-[15px] outline outline-1 outline-sky-500 sm:rounded-lg': type === BUYER_GIG_STATUS.ACTIVE
                 })}
               >
-                Active <span className="ml-1 rounded-[5px] bg-sky-500 px-[5px] py-[1px] text-xs font-medium text-white">2</span>
+                Active{' '}
+                {orderTypes(BUYER_GIG_STATUS.ACTIVE, orders) > 0 && (
+                  <span className="ml-1 rounded-[5px] bg-sky-500 px-[5px] py-[1px] text-xs font-medium text-white">
+                    {shortenLargeNumbers(orderTypes(BUYER_GIG_STATUS.ACTIVE, orders))}
+                  </span>
+                )}
               </a>
             </li>
             <li className="inline-block py-3 uppercase" onClick={() => setType(BUYER_GIG_STATUS.COMPLETED)}>
@@ -47,7 +61,12 @@ export default function BuyerDashboard() {
                   'pb-[15px] outline outline-1 outline-sky-500 sm:rounded-lg': type === BUYER_GIG_STATUS.COMPLETED
                 })}
               >
-                Completed <span className="ml-1 rounded-[5px] bg-sky-500 px-[5px] py-[1px] text-xs font-medium text-white">1</span>
+                Completed{' '}
+                {orderTypes(BUYER_GIG_STATUS.COMPLETED, orders) > 0 && (
+                  <span className="ml-1 rounded-[5px] bg-sky-500 px-[5px] py-[1px] text-xs font-medium text-white">
+                    {shortenLargeNumbers(orderTypes(BUYER_GIG_STATUS.COMPLETED, orders))}
+                  </span>
+                )}
               </a>
             </li>
             <li className="inline-block py-3 uppercase" onClick={() => setType(BUYER_GIG_STATUS.CANCELLED)}>
@@ -57,7 +76,12 @@ export default function BuyerDashboard() {
                   'pb-[15px] outline outline-1 outline-sky-500 sm:rounded-lg': type === BUYER_GIG_STATUS.CANCELLED
                 })}
               >
-                Cancelled <span className="ml-1 rounded-[5px] bg-sky-500 px-[5px] py-[1px] text-xs font-medium text-white">2</span>
+                Cancelled{' '}
+                {orderTypes(BUYER_GIG_STATUS.CANCELLED, orders) > 0 && (
+                  <span className="ml-1 rounded-[5px] bg-sky-500 px-[5px] py-[1px] text-xs font-medium text-white">
+                    {shortenLargeNumbers(orderTypes(BUYER_GIG_STATUS.CANCELLED, orders))}
+                  </span>
+                )}
               </a>
             </li>
           </ul>

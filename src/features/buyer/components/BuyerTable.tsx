@@ -31,8 +31,8 @@ export default function BuyerTable({ type, orderTypes, orders }: IOrderTableProp
                   <th className="p-3 text-center md:w-[40%]">
                     <span className="block lg:hidden">Title</span>
                   </th>
-                  <th className="p-3 text-center">Order Date</th>
-                  <th className="p-3 text-center">{type === 'cancelled' ? 'Cancelled On' : 'Due On'}</th>
+                  <th className="whitespace-nowrap p-3 text-center">Order Date</th>
+                  <th className="whitespace-nowrap p-3 text-center">{type === 'cancelled' ? 'Cancelled On' : 'Due On'}</th>
                   <th className="p-3 text-center">Total</th>
                   <th className="p-3 text-center">Status</th>
                 </tr>
@@ -41,7 +41,7 @@ export default function BuyerTable({ type, orderTypes, orders }: IOrderTableProp
             <tbody className="flex-1 sm:flex-none">
               {orders.map((order: IOrderDocument) => (
                 <tr key={uuidv4()} className="border-grey mb-2 flex flex-col flex-nowrap border-b bg-white sm:mb-0 sm:table-row ">
-                  <td className="px-3 py-3 lg:flex lg:justify-center">
+                  <td className="p-2 sm:p-3 lg:flex lg:justify-center">
                     <img className="h-6 w-10 object-cover lg:h-8 lg:w-11" src={order.gigCoverImage} alt="Gig cover image" />
                   </td>
                   <td className="p-3 text-left">
@@ -51,11 +51,11 @@ export default function BuyerTable({ type, orderTypes, orders }: IOrderTableProp
                       </Link>
                     </div>
                   </td>
-                  <td className="p-3 text-left lg:text-center">{dayMonthYear(`${order.dateOrdered}`)}</td>
-                  <td className="p-3 text-left lg:text-center">
+                  <td className="whitespace-nowrap p-3 text-left lg:text-center">{dayMonthYear(`${order.dateOrdered}`)}</td>
+                  <td className="whitespace-nowrap p-3 text-left lg:text-center">
                     {type === 'cancelled' ? dayMonthYear(`${order.approvedAt}`) : dayMonthYear(`${order.offer.newDeliveryDate}`)}
                   </td>
-                  <td className="p-3 text-left lg:text-center">${order.price}</td>
+                  <td className="px-3 py-2 text-left sm:p-3 lg:text-center">${order.price + parseFloat(`${order.serviceFee}`)}</td>
                   <td className="px-3 py-1 text-left lg:p-3 lg:text-center">
                     <span
                       className={`status rounded bg-transparent p-0 text-xs font-bold uppercase text-black sm:px-[5px] sm:py-[4px] sm:text-white ${lowerCase(
