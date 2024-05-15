@@ -1,4 +1,4 @@
-import { IRatingCategories, IReviewDocument } from './review.interface'
+import { IRatingCategories } from './review.interface'
 
 export interface IAllowedGigItem {
   gigTitle: string
@@ -80,12 +80,6 @@ export interface ISellerGig {
 export interface ISelectedBudget {
   minPrice: string
   maxPrice: string
-}
-
-export interface IGigViewReviewsProps {
-  showRatings: boolean
-  reviews?: IReviewDocument[]
-  hasFetchedReviews?: boolean
 }
 
 export interface IGigInfo {

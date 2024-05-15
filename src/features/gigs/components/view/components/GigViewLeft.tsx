@@ -7,7 +7,7 @@ export default function GigViewLeft() {
     <>
       <GigLeftOverview />
       <GigLeftAbout />
-      <GigViewReviews />
+      <GigViewReviews showRatings={true} hasFetchedReviews={false} />
     </>
   )
 }

@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import GigViewReviews from 'src/features/gigs/components/view/components/GigViewLeft/GigViewReviews'
 import { ISellerGig } from 'src/interfaces/gig.interface'
+import { IReviewDocument } from 'src/interfaces/review.interface'
 import { ISellerDocument } from 'src/interfaces/seller.interface'
 import { useGetGigsBySellerIdQuery } from 'src/services/gig.service'
+import { useGetReviewsBySellerIdQuery } from 'src/services/review.service'
 import { useGetSellerByIdQuery } from 'src/services/seller.service'
 import Breadcrumb from 'src/shared/breadcrumb/Breadcrumb'
 import GigCardDisplayItem from 'src/shared/gigs/GigCardDisplayItem'
@@ -19,8 +22,16 @@ export default function SellerProfile() {
 
   const { data: sellerData, isLoading: isSellerLoading, isSuccess: isSellerSuccess } = useGetSellerByIdQuery(`${sellerId}`)
   const { data: gigData, isSuccess: isSellerGigSuccess, isLoading: isSellerGigLoading } = useGetGigsBySellerIdQuery(`${sellerId}`)
+  const { data: reviewsData, isSuccess: isReviewsSuccess, isLoading: isReviewsLoading } = useGetReviewsBySellerIdQuery(`${sellerId}`)
 
-  const isLoading: boolean = isSellerGigLoading && isSellerLoading && !isSellerSuccess && !isSellerGigSuccess
+  let reviews: IReviewDocument[] = []
+
+  if (isReviewsSuccess) {
+    reviews = reviewsData.reviews as IReviewDocument[]
+  }
+
+  const isLoading: boolean =
+    isSellerGigLoading && isSellerLoading && !isSellerSuccess && !isSellerGigSuccess && !isReviewsSuccess && !isReviewsLoading
 
   return (
     <div className="relative w-full pb-6">
@@ -44,7 +55,7 @@ export default function SellerProfile() {
                   ))}
               </div>
             )}
-            {type === 'Ratings & Reviews' && <div>Ratings & Reviews</div>}
+            {type === 'Ratings & Reviews' && <GigViewReviews showRatings={false} reviews={reviews} hasFetchedReviews={true} />}
           </div>
         </div>
       )}

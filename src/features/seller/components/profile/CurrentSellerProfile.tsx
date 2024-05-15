@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 import equal from 'react-fast-compare'
 import { useParams } from 'react-router-dom'
+import GigViewReviews from 'src/features/gigs/components/view/components/GigViewLeft/GigViewReviews'
 import { ISellerGig } from 'src/interfaces/gig.interface'
+import { IReviewDocument } from 'src/interfaces/review.interface'
 import { ISellerDocument } from 'src/interfaces/seller.interface'
 import { IReduxState } from 'src/interfaces/store.interface'
 import { useGetGigsBySellerIdQuery } from 'src/services/gig.service'
+import { useGetReviewsBySellerIdQuery } from 'src/services/review.service'
 import { useUpdateSellerMutation } from 'src/services/seller.service'
 import Breadcrumb from 'src/shared/breadcrumb/Breadcrumb'
 import Button from 'src/shared/button/Button'
@@ -22,17 +25,23 @@ import SellerOverview from './components/SellerOverview'
 export default function CurrentSellerProfile() {
   const seller = useAppSelector((state: IReduxState) => state.seller)
   const dispatch = useAppDispatch()
-  const [updateSeller, { isLoading }] = useUpdateSellerMutation()
+  const { sellerId } = useParams()
 
   const [sellerProfile, setSellerProfile] = useState<ISellerDocument>(seller)
   const [showEdit, setShowEdit] = useState<boolean>(true)
   const [type, setType] = useState<string>('Overview')
 
-  const { sellerId } = useParams()
-
   const { data, isSuccess: isSellerGigSuccess, isLoading: isSellerGigLoading } = useGetGigsBySellerIdQuery(`${sellerId}`)
+  const { data: reviewsData, isSuccess: isReviewsSuccess, isLoading: isReviewsLoading } = useGetReviewsBySellerIdQuery(`${sellerId}`)
+  const [updateSeller, { isLoading }] = useUpdateSellerMutation()
 
-  const isDataLoading = isSellerGigLoading && !isSellerGigSuccess
+  let reviews: IReviewDocument[] = []
+
+  if (isReviewsSuccess) {
+    reviews = reviewsData.reviews as IReviewDocument[]
+  }
+
+  const isDataLoading = isSellerGigLoading && isReviewsLoading && !isSellerGigSuccess && !isReviewsSuccess
 
   const onUpdateSeller = async () => {
     try {
@@ -84,19 +93,33 @@ export default function CurrentSellerProfile() {
             <ProfileTabs type={type} setType={setType} />
           </div>
 
-          <div className="flex flex-wrap justify-center bg-white">
+          <div className="flex flex-wrap bg-white px-6">
             {type === 'Overview' && (
               <SellerOverview sellerProfile={sellerProfile} showEditIcons={true} setSellerProfile={setSellerProfile} />
             )}
-            {type === 'Active Gigs' && (
-              <div className="grid gap-6 pt-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                {data?.gigs &&
-                  data?.gigs.map((gig: ISellerGig) => (
-                    <GigCardDisplayItem key={uuidv4()} gig={gig} linkTarget={false} showEditIcon={true} />
-                  ))}
-              </div>
+            {type === 'Active Gigs' ? (
+              data?.gigs && data.gigs?.length > 0 ? (
+                <div className="grid gap-6 pt-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                  {data.gigs &&
+                    data.gigs.map((gig: ISellerGig) => (
+                      <GigCardDisplayItem key={uuidv4()} gig={gig} linkTarget={false} showEditIcon={true} />
+                    ))}
+                </div>
+              ) : (
+                <div className="w-full py-10 text-center text-lg font-semibold">No active gigs to show</div>
+              )
+            ) : (
+              <></>
             )}
-            {type === 'Ratings & Reviews' && <div>Ratings & Reviews</div>}
+            {type === 'Ratings & Reviews' ? (
+              reviews.length > 0 ? (
+                <GigViewReviews showRatings={false} reviews={reviews} hasFetchedReviews={true} />
+              ) : (
+                <div className="w-full py-10 text-center text-lg font-semibold">No Ratings & Reviews to show</div>
+              )
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       )}
