@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { FaEllipsisH, FaPauseCircle, FaPencilAlt, FaPlayCircle, FaRegStar, FaStar, FaTrashAlt } from 'react-icons/fa'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { Link, useNavigate } from 'react-router-dom'
 import { ISellerGig } from 'src/interfaces/gig.interface'
 import { IApprovalModalContent } from 'src/interfaces/modal.interface'
@@ -67,7 +68,7 @@ export default function GigCardItem({ gig }: IGigCardItemProps) {
       )}
       <div className="relative">
         {gigCardItemModal.overlay && (
-          <div className="border-grey absolute bottom-0 top-0 mb-8 w-full cursor-pointer border bg-white">
+          <div className="border-grey absolute bottom-0 top-0 z-10 mb-8 w-full cursor-pointer border bg-white">
             <div
               className="absolute -right-[12px] -top-[12px] flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-sky-500 bg-white text-sm font-bold leading-[0] text-sky-500"
               onClick={() => setGigCardItemModal({ ...gigCardItemModal, overlay: false })}
@@ -113,12 +114,22 @@ export default function GigCardItem({ gig }: IGigCardItemProps) {
         )}
 
         <div className="border-grey mb-8 flex flex-col gap-2 border">
-          <Link
-            to={`/gig/${lowerCase(`${gig.username}`)}/${title}/${gig.sellerId}/${gig.id}/view`}
-            onClick={() => dispatch(updateHeader('home'))}
-          >
-            <img src={gig.coverImage} alt="Gig cover image" className="w-full" />
-          </Link>
+          <div className="relative w-full pt-[50%]">
+            <Link
+              to={`/gig/${lowerCase(`${gig.username}`)}/${title}/${gig.sellerId}/${gig.id}/view`}
+              onClick={() => dispatch(updateHeader('home'))}
+            >
+              <LazyLoadImage
+                src={gig.coverImage}
+                alt="Gig cover image"
+                className="absolute left-0 top-0 h-full w-full object-cover align-bottom"
+                wrapperClassName="bg-center"
+                placeholderSrc="https://placehold.co/330x220?text=Profile+Image"
+                effect="opacity"
+              />
+            </Link>
+          </div>
+
           <div className="px-2">
             <Link
               to={`/gig/${lowerCase(`${gig.username}`)}/${title}/${gig.sellerId}/${gig.id}/view`}

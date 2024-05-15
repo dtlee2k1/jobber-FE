@@ -11,7 +11,7 @@ export const sellerApi = api.injectEndpoints({
     }),
     getSellerById: build.query<IResponse, string>({
       query: (sellerId: string) => `/seller/id/${sellerId}`,
-      providesTags: ['Seller']
+      providesTags: ['Seller', 'Gigs']
     }),
     getRandomSellers: build.query<IResponse, string>({
       query: (size: string) => `/seller/random/${size}`,

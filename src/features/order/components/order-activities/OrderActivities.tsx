@@ -9,6 +9,7 @@ import { OrderContext } from '../../context/OrderContext'
 import OrderDelivered from './components/OrderDelivered'
 import OrderExtension from './components/OrderExtension'
 import OrderPlaced from './components/OrderPlaced'
+import OrderReview from './components/OrderReview'
 
 interface IOrderActivitiesProps {
   order: IOrderDocument
@@ -45,6 +46,7 @@ const OrderActivities = forwardRef<HTMLDivElement, IOrderActivitiesProps>((props
         <OrderPlaced />
         <OrderExtension />
         <OrderDelivered ref={ref} />
+        <OrderReview />
       </OrderContext.Provider>
       <div className="flex px-3 pt-2">
         If you need to contact the {order.buyerUsername === authUser.username ? 'seller' : 'buyer'},

@@ -4,9 +4,10 @@ import { IOrderDocument } from 'src/interfaces/order.interface'
 import { IReduxState } from 'src/interfaces/store.interface'
 import { useGetOrderByOrderIdQuery } from 'src/services/order.service'
 import Button from 'src/shared/button/Button'
+import { updateHeader } from 'src/shared/header/reducers/header.reducer'
 import { dayMonthYear } from 'src/shared/utils/timeago.utils'
 import { socket, socketService } from 'src/sockets/socket.service'
-import { useAppSelector } from 'src/store/store'
+import { useAppDispatch, useAppSelector } from 'src/store/store'
 
 import DeliveryTimer from './DeliveryTimer'
 import OrderActivities from './order-activities/OrderActivities'
@@ -14,6 +15,7 @@ import OrderDetailsTable from './OrderDetailsTable'
 
 export default function Order() {
   const authUser = useAppSelector((state: IReduxState) => state.authUser)
+  const dispatch = useAppDispatch()
 
   const { orderId } = useParams<string>()
 
@@ -37,6 +39,10 @@ export default function Order() {
       }
     })
   }, [orderId])
+
+  useEffect(() => {
+    dispatch(updateHeader('home'))
+  }, [dispatch])
 
   return (
     <div className="container mx-auto">

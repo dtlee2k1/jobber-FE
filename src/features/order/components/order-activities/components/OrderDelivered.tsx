@@ -49,7 +49,7 @@ const OrderDelivered = forwardRef<HTMLDivElement, IOrderDeliveredProps>((_, ref)
         buyerId: `${order?.buyerId}`,
         ongoingJobs: -1,
         completedJobs: 1,
-        totalEarnings: 0.8 * parseInt(`${order?.price}`), // seller will receiver 80% of original price, 20% goes to the platform
+        totalEarnings: parseFloat((0.9 * parseFloat(`${order?.price}`)).toFixed(2)), // seller will receiver 90% of original price, 10% goes to the platform
         purchasedGigs: `${order?.gigId}`
       }
       await approveOrder({ orderId: `${order?.orderId}`, body: orderMessage })
@@ -179,7 +179,7 @@ const OrderDelivered = forwardRef<HTMLDivElement, IOrderDeliveredProps>((_, ref)
                   <div className="my-3 flex flex-col">
                     <div className="relative overflow-x-auto">
                       <div className="text-left text-sm text-gray-500">
-                        <div className="border-grey flex w-full cursor-pointer flex-col items-center space-x-4 border-b md:flex-row">
+                        <div className="flex w-full cursor-pointer flex-col items-center space-x-4 md:flex-row">
                           <div className="w-full text-sm dark:text-white">
                             <div className="flex flex-col justify-between text-[#777d74]">
                               <span className="text-sm md:text-[15px]">
