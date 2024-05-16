@@ -10,7 +10,7 @@ import { useGetConversationListQuery, useMarkMultipleMessagesAsReadMutation } fr
 import { updateNotification } from 'src/shared/header/reducers/notification.reducer'
 import { chatListMessageReceived, chatListMessageUpdated } from 'src/shared/utils/chat.utils'
 import { transform } from 'src/shared/utils/timeago.utils'
-import { lowerCase, showErrorToast } from 'src/shared/utils/utils.service'
+import { isFetchBaseQueryError, lowerCase, showErrorToast } from 'src/shared/utils/utils.service'
 import { socket } from 'src/sockets/socket.service'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 
@@ -52,7 +52,9 @@ export default function ChatList() {
         }
       }
     } catch (error) {
-      showErrorToast(error?.data?.message)
+      if (isFetchBaseQueryError(error)) {
+        showErrorToast(error?.data?.message)
+      }
     }
   }
 

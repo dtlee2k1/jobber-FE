@@ -22,6 +22,7 @@ import Seller from './features/seller/components/dashboard/Seller'
 import SellerDashboard from './features/seller/components/dashboard/SellerDashboard'
 import CurrentSellerProfile from './features/seller/components/profile/CurrentSellerProfile'
 import SellerProfile from './features/seller/components/profile/SellerProfile'
+import Settings from './features/settings/Settings'
 import Layout from './layouts/Layout'
 
 export default function AppRouter() {
@@ -212,6 +213,16 @@ export default function AppRouter() {
         <ProtectedRoute>
           <Layout backgroundColor="#f5f5f5">
             <Order />
+          </Layout>
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: '/change-password',
+      element: (
+        <ProtectedRoute>
+          <Layout backgroundColor="#f5f5f5">
+            <Settings />
           </Layout>
         </ProtectedRoute>
       )

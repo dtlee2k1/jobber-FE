@@ -40,7 +40,7 @@ export default function DashboardHeaderSideBar({ setOpenSidebar }: IDashboardHea
               dispatch(updateHeader('sellerDashboard'))
               dispatch(updateCategoryContainer(true))
             }}
-            className="cursor-pointer text-base font-medium text-gray-400"
+            className="cursor-pointer text-base font-medium text-gray-400 hover:text-sky-400"
           >
             <Link to={`/${lowerCase(`${seller?.username}`)}/${seller?._id}/seller_dashboard`}>Seller Dashboard</Link>
           </div>
@@ -49,7 +49,7 @@ export default function DashboardHeaderSideBar({ setOpenSidebar }: IDashboardHea
               event.stopPropagation()
               setOpenSidebar(false)
             }}
-            className="cursor-pointer text-base font-medium text-gray-400"
+            className="cursor-pointer text-base font-medium text-gray-400 hover:text-sky-400"
           >
             <Link to={`/${lowerCase(`${seller?.username}`)}/${seller?._id}/manage_orders`}>Orders</Link>
           </div>
@@ -58,7 +58,7 @@ export default function DashboardHeaderSideBar({ setOpenSidebar }: IDashboardHea
               event.stopPropagation()
               setOpenSidebar(false)
             }}
-            className="cursor-pointer text-base font-medium text-gray-400"
+            className="cursor-pointer text-base font-medium text-gray-400 hover:text-sky-400"
           >
             <Link to={`/${lowerCase(`${seller?.username}`)}/${seller?._id}/manage_earnings`}>Earnings</Link>
           </div>
@@ -71,7 +71,7 @@ export default function DashboardHeaderSideBar({ setOpenSidebar }: IDashboardHea
                 dispatch(updateCategoryContainer(true))
               }
             }}
-            className="cursor-pointer text-base font-medium text-gray-400"
+            className="cursor-pointer text-base font-medium text-gray-400 hover:text-sky-400"
           >
             <Link to="/">Switch to Buying</Link>
           </div>
@@ -82,7 +82,7 @@ export default function DashboardHeaderSideBar({ setOpenSidebar }: IDashboardHea
               dispatch(updateHeader('home'))
               dispatch(updateCategoryContainer(true))
             }}
-            className="cursor-pointer text-base font-medium text-gray-400"
+            className="cursor-pointer text-base font-medium text-gray-400 hover:text-sky-400"
           >
             <Link to={`/${lowerCase(`${seller?.username}`)}/edit`}>Settings</Link>
           </div>
@@ -92,7 +92,7 @@ export default function DashboardHeaderSideBar({ setOpenSidebar }: IDashboardHea
               setOpenSidebar(false)
               onLogout()
             }}
-            className="cursor-pointer text-base font-medium text-gray-400"
+            className="cursor-pointer text-base font-medium text-gray-400 hover:text-sky-400"
           >
             Logout
           </div>

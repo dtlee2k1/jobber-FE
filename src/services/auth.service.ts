@@ -82,6 +82,17 @@ export const authApi = api.injectEndpoints({
       invalidatesTags: ['Auth']
     }),
 
+    changePassword: build.mutation<IResponse, { currentPassword: string; newPassword: string }>({
+      query({ currentPassword, newPassword }) {
+        return {
+          url: '/auth/change-password',
+          method: 'PUT',
+          body: { currentPassword, newPassword }
+        }
+      },
+      invalidatesTags: ['Auth']
+    }),
+
     checkCurrentUser: build.query<IResponse, void>({
       query: () => '/auth/current-user',
       providesTags: ['Currentuser']
@@ -125,5 +136,6 @@ export const {
   useResendEmailMutation,
   useVerifyEmailMutation,
   useForgotPasswordMutation,
-  useResetPasswordMutation
+  useResetPasswordMutation,
+  useChangePasswordMutation
 } = authApi

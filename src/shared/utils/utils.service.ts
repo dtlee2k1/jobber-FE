@@ -218,3 +218,7 @@ export const downloadFile = (blobUrl: string, fileName: string) => {
     link.parentNode.removeChild(link)
   }
 }
+
+export const isFetchBaseQueryError = (error: unknown): boolean => {
+  return typeof error === 'object' && error !== null && 'status' in error && 'data' in error
+}

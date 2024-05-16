@@ -29,7 +29,7 @@ export default function HomeHeaderSideBar({ setOpenSidebar }: IHomeHeaderSideBar
     { id: 1, name: 'Add a new gig', url: `/manage_gigs/new/${seller?._id}`, show: isSeller },
     { id: 2, name: 'Dashboard', url: `/users/${buyer?.username}/${buyer?._id}/orders`, show: true },
     { id: 3, name: 'Profile', url: `/seller_profile/${lowerCase(`${seller?.username}`)}/${seller?._id}/edit`, show: isSeller },
-    { id: 4, name: 'Settings', url: `/${lowerCase(`${seller?.username}`)}/edit`, show: true }
+    { id: 4, name: 'Settings', url: '/change-password', show: true }
   ]
 
   const toggleDropdown = (event: MouseEvent): void => {
@@ -69,7 +69,7 @@ export default function HomeHeaderSideBar({ setOpenSidebar }: IHomeHeaderSideBar
                 dispatch(updateCategoryContainer(true))
               }
             }}
-            className="cursor-pointer text-base font-medium text-gray-400"
+            className="cursor-pointer text-base font-medium text-gray-400 hover:text-sky-400"
           >
             <Link to="/">Home</Link>
           </div>
@@ -80,7 +80,7 @@ export default function HomeHeaderSideBar({ setOpenSidebar }: IHomeHeaderSideBar
                 setOpenSidebar(false)
               }
             }}
-            className="cursor-pointer text-base font-medium text-gray-400"
+            className="cursor-pointer text-base font-medium text-gray-400 hover:text-sky-400"
           >
             <Link to="/inbox">Inbox</Link>
           </div>
@@ -91,7 +91,7 @@ export default function HomeHeaderSideBar({ setOpenSidebar }: IHomeHeaderSideBar
                 setOpenSidebar(false)
               }
             }}
-            className="cursor-pointer text-base font-medium text-gray-400"
+            className="cursor-pointer text-base font-medium text-gray-400 hover:text-sky-400"
           >
             <Link to={`/users/${lowerCase(`${buyer?.username}`)}/${buyer?._id}/orders`}>Orders</Link>
           </div>
@@ -120,15 +120,15 @@ export default function HomeHeaderSideBar({ setOpenSidebar }: IHomeHeaderSideBar
                   dispatch(updateCategoryContainer(true))
                 }
               }}
-              className="cursor-pointer text-base font-medium text-gray-400"
+              className="cursor-pointer text-base font-medium text-gray-400 hover:text-sky-400"
             >
               <Link to={`/${lowerCase(`${authUser?.username}`)}/${seller?._id}/seller_dashboard`}>
                 <span>Switch to Selling</span>
               </Link>
             </div>
           )}
-          <div className="flex w-full cursor-pointer flex-col text-base font-medium text-gray-400">
-            <span className="flex justify-between" onClick={toggleCategoriesDropdown}>
+          <div className="flex w-full cursor-pointer flex-col text-base font-medium text-gray-400 ">
+            <span className="flex justify-between hover:text-sky-400" onClick={toggleCategoriesDropdown}>
               Browse Categories{' '}
               {!toggleCategories ? <FaAngleDown className="mt-1 flex self-center" /> : <FaAngleUp className="mt-1 flex self-center" />}
             </span>
@@ -173,7 +173,7 @@ export default function HomeHeaderSideBar({ setOpenSidebar }: IHomeHeaderSideBar
             </div>
           </div>
           <div className="flex w-full cursor-pointer flex-col text-base font-medium text-gray-400">
-            <span className="flex justify-between" onClick={toggleDropdown}>
+            <span className="flex justify-between hover:text-sky-400" onClick={toggleDropdown}>
               Your Settings{' '}
               {!isDropdownOpen ? <FaAngleDown className="mt-1 flex self-center" /> : <FaAngleUp className="mt-1 flex self-center" />}
             </span>
@@ -217,7 +217,7 @@ export default function HomeHeaderSideBar({ setOpenSidebar }: IHomeHeaderSideBar
                 onLogout()
               }
             }}
-            className="cursor-pointer text-base font-medium text-gray-400"
+            className="cursor-pointer text-base font-medium text-gray-400 hover:text-sky-400"
           >
             Logout
           </div>

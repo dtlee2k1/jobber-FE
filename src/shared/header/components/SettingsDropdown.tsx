@@ -106,7 +106,7 @@ export default function SettingsDropdown({ buyer, seller, authUser, type, setIsD
 
         <li>
           <NavLink
-            to={`${lowerCase(`${buyer?.username}/edit`)}`}
+            to="/change-password"
             className={({ isActive }) => {
               const active = isActive ? 'text-sky-400' : ''
               return `${active} block px-4 py-2 hover:text-sky-400`

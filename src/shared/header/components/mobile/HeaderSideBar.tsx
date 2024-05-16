@@ -46,7 +46,7 @@ export default function HeaderSideBar({ setOpenSidebar, setShowLoginModal, setSh
                 setOpenSidebar(false)
               }
             }}
-            className="cursor-pointer rounded border border-sky-500 bg-sky-500 px-6 py-3 text-base font-semibold text-white transition-all duration-300"
+            className="cursor-pointer rounded border border-sky-500 bg-sky-500 px-6 py-3 text-base font-semibold text-white transition-all duration-300 hover:opacity-90"
           >
             Join Jobber
           </div>
@@ -60,7 +60,7 @@ export default function HeaderSideBar({ setOpenSidebar, setShowLoginModal, setSh
                 saveToLocalStorage('becomeASeller', JSON.stringify(true))
               }
             }}
-            className="cursor-pointer text-base font-medium text-gray-400"
+            className="cursor-pointer text-base font-medium text-gray-400 hover:text-sky-400"
           >
             Become a Seller
           </div>
@@ -73,12 +73,12 @@ export default function HeaderSideBar({ setOpenSidebar, setShowLoginModal, setSh
                 setOpenSidebar(false)
               }
             }}
-            className="cursor-pointer text-base font-medium text-gray-400"
+            className="cursor-pointer text-base font-medium text-gray-400 hover:text-sky-400"
           >
             Sign In
           </div>
           <div className="flex w-full cursor-pointer flex-col text-base font-medium text-gray-400">
-            <span className="flex justify-between" onClick={toggleDropdown}>
+            <span className="flex justify-between hover:text-sky-400" onClick={toggleDropdown}>
               Browse Categories{' '}
               {!isDropdownOpen ? <FaAngleDown className="mt-1 flex self-center" /> : <FaAngleUp className="mt-1 flex self-center" />}
             </span>
