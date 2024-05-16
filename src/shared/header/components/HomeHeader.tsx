@@ -27,6 +27,7 @@ import HeaderSearchInput from './HeaderSearchInput'
 import MessageDropdown from './MessageDropdown'
 import HomeHeaderSideBar from './mobile/HomeHeaderSideBar'
 import MobileHeaderSearchInput from './mobile/MobileHeaderSearchInput'
+import OrderDropdown from './OrderDropdown'
 import SettingsDropdown from './SettingsDropdown'
 
 export interface IHomeHeaderProps {
@@ -84,6 +85,10 @@ export default function HomeHeader(props: IHomeHeaderProps) {
 
   const toggleMessageDropdown = () => {
     setIsMessageDropdownOpen(!isMessageDropdownOpen)
+  }
+
+  const toggleOrderDropdown = () => {
+    setIsOrderDropdownOpen(!isOrderDropdownOpen)
   }
 
   const slideLeft = () => {
@@ -230,6 +235,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                             <span>Orders</span>
                           </>
                         }
+                        onClick={toggleOrderDropdown}
                       />
                       <Transition
                         ref={orderDropdownRef}
@@ -241,7 +247,9 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                         leaveFrom="opacity-100 translate-y-0"
                         leaveTo="opacity-0 translate-y-1"
                       >
-                        <div className="absolute right-0 mt-5 w-96">{/* <!-- OrderDropdown --> */}</div>
+                        <div className="absolute right-0 mt-5 w-96">
+                          <OrderDropdown buyer={buyer} setIsOrderDropdownOpen={setIsOrderDropdownOpen} />
+                        </div>
                       </Transition>
                     </li>
 
