@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Transition } from '@headlessui/react'
-import { find } from 'lodash'
+import { filter, find } from 'lodash'
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import { FaAngleLeft, FaAngleRight, FaBars, FaRegBell, FaRegEnvelope, FaTimes } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
@@ -13,6 +13,7 @@ import { IOrderNotification } from 'src/interfaces/order.interface'
 import { ISellerDocument } from 'src/interfaces/seller.interface'
 import { IReduxState } from 'src/interfaces/store.interface'
 import { useResendEmailMutation } from 'src/services/auth.service'
+import { useGetNotificationsByIdQuery } from 'src/services/notification.service'
 import Banner from 'src/shared/banner/Banner'
 import Button from 'src/shared/button/Button'
 import { categories, replaceSpacesWithDash, showErrorToast, showSuccessToast } from 'src/shared/utils/utils.service'
@@ -27,6 +28,7 @@ import HeaderSearchInput from './HeaderSearchInput'
 import MessageDropdown from './MessageDropdown'
 import HomeHeaderSideBar from './mobile/HomeHeaderSideBar'
 import MobileHeaderSearchInput from './mobile/MobileHeaderSearchInput'
+import NotificationDropdown from './NotificationDropdown'
 import OrderDropdown from './OrderDropdown'
 import SettingsDropdown from './SettingsDropdown'
 
@@ -49,6 +51,8 @@ export default function HomeHeader(props: IHomeHeaderProps) {
   const logout = useAppSelector((state: IReduxState) => state.logout)
   const buyer = useAppSelector((state: IReduxState) => state.buyer)
   const seller = useAppSelector((state: IReduxState) => state.seller)
+  const notification = useAppSelector((state: IReduxState) => state.notification)
+  const dispatch = useAppDispatch()
 
   const settingsDropdownRef = useRef<HTMLDivElement | null>(null)
   const messageDropdownRef = useRef<HTMLDivElement | null>(null)
@@ -58,7 +62,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
   const [openSidebar, setOpenSidebar] = useState<boolean>(false)
   const [authUsername, setAuthUsername] = useState<string>('')
 
-  const dispatch = useAppDispatch()
+  const { data, isSuccess } = useGetNotificationsByIdQuery(`${authUser.username}`, { refetchOnMountOrArgChange: true })
   const [resendEmail] = useResendEmailMutation()
 
   const { isActive: isSettingsDropdown, setIsActive: setIsSettingsDropdown } = useDetectOutsideClick(settingsDropdownRef, false)
@@ -79,18 +83,6 @@ export default function HomeHeader(props: IHomeHeaderProps) {
     }
   }
 
-  const toggleDropdown = () => {
-    setIsSettingsDropdown(!isSettingsDropdown)
-  }
-
-  const toggleMessageDropdown = () => {
-    setIsMessageDropdownOpen(!isMessageDropdownOpen)
-  }
-
-  const toggleOrderDropdown = () => {
-    setIsOrderDropdownOpen(!isOrderDropdownOpen)
-  }
-
   const slideLeft = () => {
     if (navElement.current) {
       const maxScrollLeft = navElement.current.scrollWidth + navElement.current.clientWidth // maximum scroll position
@@ -108,7 +100,14 @@ export default function HomeHeader(props: IHomeHeaderProps) {
   useEffect(() => {
     socketService.setupSocketConnection()
     socket.emit('getLoggedInUsers')
-  }, [])
+    if (isSuccess) {
+      const list: IOrderNotification[] = filter(
+        data.notifications,
+        (item: IOrderNotification) => !item.isRead && item.userTo === authUser?.username
+      )
+      dispatch(updateNotification({ hasUnreadNotification: list.length > 0 }))
+    }
+  }, [authUser?.username, data?.notifications, dispatch, isSuccess])
 
   useEffect(() => {
     socket.on('message_received', (data: IMessageDocument) => {
@@ -184,9 +183,12 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                         label={
                           <>
                             <FaRegBell />
-                            <span className="absolute -top-0 right-0 mr-3 inline-flex h-[6px] w-[6px] items-center justify-center rounded-full bg-[#ff62ab]"></span>
+                            {notification.hasUnreadNotification && (
+                              <span className="absolute -top-0 right-0 mr-3 inline-flex h-[6px] w-[6px] items-center justify-center rounded-full bg-[#ff62ab]"></span>
+                            )}
                           </>
                         }
+                        onClick={() => setIsNotificationDropdownOpen(!isOrderDropdownOpen)}
                       />
                       <Transition
                         ref={notificationDropdownRef}
@@ -198,7 +200,9 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                         leaveFrom="opacity-100 translate-y-0"
                         leaveTo="opacity-0 translate-y-1"
                       >
-                        <div className="absolute right-0 mt-5 w-96">{/* <!-- NotificationDropdown --> */}</div>
+                        <div className="absolute right-0 mt-5 w-96">
+                          <NotificationDropdown setIsNotificationDropdownOpen={setIsNotificationDropdownOpen} />
+                        </div>
                       </Transition>
                     </li>
                     <li className="relative z-50 flex cursor-pointer items-center">
@@ -207,10 +211,12 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                         label={
                           <>
                             <FaRegEnvelope />
-                            <span className="absolute -top-1 right-0 mr-2 inline-flex h-[6px] w-[6px] items-center justify-center rounded-full bg-[#ff62ab]"></span>
+                            {notification.hasUnreadMessage && (
+                              <span className="absolute -top-1 right-0 mr-2 inline-flex h-[6px] w-[6px] items-center justify-center rounded-full bg-[#ff62ab]"></span>
+                            )}
                           </>
                         }
-                        onClick={toggleMessageDropdown}
+                        onClick={() => setIsMessageDropdownOpen(!isMessageDropdownOpen)}
                       />
                       <Transition
                         ref={messageDropdownRef}
@@ -235,7 +241,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                             <span>Orders</span>
                           </>
                         }
-                        onClick={toggleOrderDropdown}
+                        onClick={() => setIsOrderDropdownOpen(!isOrderDropdownOpen)}
                       />
                       <Transition
                         ref={orderDropdownRef}
@@ -276,7 +282,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
                             <span className="flex self-center">{authUser.username}</span>
                           </>
                         }
-                        onClick={toggleDropdown}
+                        onClick={() => setIsSettingsDropdown(!isSettingsDropdown)}
                       />
                       <Transition
                         ref={settingsDropdownRef}
