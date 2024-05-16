@@ -3,9 +3,12 @@ import { BrowserRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
 import AppRouter from './AppRoutes'
+import useBeforeWindowUnload from './hooks/useBeforeWindowUnload'
 import { socketService } from './sockets/socket.service'
 
 function App() {
+  useBeforeWindowUnload()
+
   useEffect(() => {
     socketService.setupSocketConnection()
   }, [])
