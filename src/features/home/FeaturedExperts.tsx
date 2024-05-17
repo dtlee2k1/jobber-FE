@@ -22,7 +22,9 @@ export default function FeaturedExperts({ sellers }: IFeaturedExpertProps) {
               <div className="flex flex-col items-center pb-10 pt-5">
                 <img className="mb-3 h-24 w-24 rounded-full object-cover shadow-lg" src={seller.profilePicture} alt="Profile image" />
                 <h5 className="mb-1 font-medium text-gray-900 xl:text-xl ">{seller.username}</h5>
-                <span className="mb-1 w-[90%] text-center text-sm text-gray-500 dark:text-gray-500">{seller.oneliner}</span>
+                <span className="mb-1 line-clamp-2 min-h-10 w-[90%] text-center text-sm text-gray-500 dark:text-gray-500">
+                  {seller.oneliner}
+                </span>
                 <div className="flex h-6 w-full justify-center gap-x-1 self-center">
                   <div className="mt-1 w-20 gap-x-2">
                     <StarRating value={rating(parseInt(`${seller.ratingSum}`) / parseInt(`${seller.ratingsCount}`))} size={14} />

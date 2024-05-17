@@ -17,7 +17,9 @@ export default function Seller() {
   const { data: sellerData, isLoading, isSuccess: isSellerSuccess } = useGetSellerByIdQuery(`${sellerId}`)
   const { data: sellerGigs, isSuccess: isSellerGigsSuccess } = useGetGigsBySellerIdQuery(`${sellerId}`)
   const { data: sellerPausedGigs, isSuccess: isSellerPausedGigsSuccess } = useGetSellerPausedGigsQuery(`${sellerId}`)
-  const { data: sellerOrders, isSuccess: isSellerOrdersSuccess } = useGetOrdersBySellerIdQuery(`${sellerId}`)
+  const { data: sellerOrders, isSuccess: isSellerOrdersSuccess } = useGetOrdersBySellerIdQuery(`${sellerId}`, {
+    refetchOnMountOrArgChange: true
+  })
 
   let seller: ISellerDocument | undefined = undefined
   let gigs: ISellerGig[] = []

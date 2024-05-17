@@ -31,7 +31,7 @@ export default function SellerProfile() {
   }
 
   const isLoading: boolean =
-    isSellerGigLoading && isSellerLoading && !isSellerSuccess && !isSellerGigSuccess && !isReviewsSuccess && !isReviewsLoading
+    isSellerGigLoading && isSellerLoading && isReviewsLoading && !isSellerSuccess && !isSellerGigSuccess && !isReviewsSuccess
 
   return (
     <div className="relative w-full pb-6">

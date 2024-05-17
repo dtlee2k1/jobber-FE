@@ -49,7 +49,7 @@ export default function ManageEarningsTable({ type, orders, orderTypes }: IManag
                       {order.orderId}
                     </Link>
                   </td>
-                  <td className="px-3 text-left font-bold text-sky-500 md:text-center">US ${0.8 * order.price}</td>
+                  <td className="px-3 text-left font-bold text-sky-500 md:text-center">US ${0.9 * order.price}</td>
                 </tr>
               ))}
             </tbody>

@@ -7,6 +7,7 @@ import { ISellerGig } from 'src/interfaces/gig.interface'
 import { IOffer } from 'src/interfaces/order.interface'
 import { IReduxState } from 'src/interfaces/store.interface'
 import { useCreateOrderIntentMutation } from 'src/services/order.service'
+import HtmlParser from 'src/shared/html-parser/HtmlParser'
 import { saveToLocalStorage, showErrorToast } from 'src/shared/utils/utils.service'
 import { useAppSelector } from 'src/store/store'
 
@@ -73,7 +74,9 @@ export default function Checkout() {
             </div>
             <ul className="mb-0 list-none">
               <li className="border-grey flex border-b px-4 pb-3 pt-1">
-                <div className="text-sm font-normal">{state.description}</div>
+                <div className="text-sm font-normal">
+                  <HtmlParser htmlString={state.description} />
+                </div>
               </li>
               <li className="flex justify-between px-4 pb-2 pt-2">
                 <div className="flex gap-2 text-sm font-normal">
