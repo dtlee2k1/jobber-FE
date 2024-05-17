@@ -31,11 +31,6 @@ export const GIG_MAX_LENGTH: IGigTextLength = {
   fullDescription: 1200
 }
 
-export interface IGigsProps {
-  type?: string
-  gig?: ISellerGig
-}
-
 export interface ICreateGig {
   [key: string]: string | string[] | number | undefined
   sellerId?: string

@@ -21,7 +21,6 @@ import DeliveryTimeDropdown from './components/DeliveryTimeDropdown'
 
 interface IGigsProps {
   type: string
-  gig?: ISellerGig
 }
 
 const ITEMS_PER_PAGE = 8

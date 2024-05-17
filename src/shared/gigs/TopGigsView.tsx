@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import GigIndexItem from 'src/features/index/gig-tabs/GigIndexItem'
 import { ISellerGig } from 'src/interfaces/gig.interface'
 import { socket } from 'src/sockets/socket.service'
 import { v4 as uuidv4 } from 'uuid'
@@ -77,7 +78,7 @@ export default function TopGigsView({ gigs, title, subTitle, category, type, wid
         <div className="relative flex gap-x-8 pt-3">
           {gigs.map((gig: ISellerGig) => (
             <div key={uuidv4()} className={`${gigs.length === 5 ? 'w-[20%]' : width}`}>
-              {type === 'home' && <GigCardDisplayItem gig={gig} linkTarget={false} showEditIcon={false} />}
+              {type === 'home' ? <GigCardDisplayItem gig={gig} linkTarget={false} showEditIcon={false} /> : <GigIndexItem gig={gig} />}
             </div>
           ))}
         </div>

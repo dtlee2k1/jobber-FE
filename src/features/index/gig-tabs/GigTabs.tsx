@@ -1,13 +1,26 @@
 import classNames from 'classnames'
+import { lowerCase } from 'lodash'
 import { useState } from 'react'
 import { ISellerGig } from 'src/interfaces/gig.interface'
+import { useGetAuthGigsByCategoryQuery } from 'src/services/auth.service'
 import TopGigsView from 'src/shared/gigs/TopGigsView'
-import { categories, replaceSpacesWithDash } from 'src/shared/utils/utils.service'
+import { categories, replaceAmpersandAndDashWithSpace, replaceSpacesWithDash } from 'src/shared/utils/utils.service'
 import { v4 as uuidv4 } from 'uuid'
 
 export default function GigTabs() {
   const [activeTab, setActiveTab] = useState<string>('Graphics & Design')
-  const categoryGigs = [] as ISellerGig[]
+  const queryType = `query=${replaceAmpersandAndDashWithSpace(`${lowerCase(activeTab)}`)}`
+  const { data, isSuccess } = useGetAuthGigsByCategoryQuery({
+    query: `${queryType}`,
+    from: '0',
+    size: '10',
+    type: 'forward'
+  })
+
+  let categoryGigs: ISellerGig[] = []
+  if (isSuccess) {
+    categoryGigs = data.gigs as ISellerGig[]
+  }
 
   return (
     <div className="relative m-auto mt-8 w-screen px-6 xl:container md:px-12 lg:px-6">
