@@ -2,6 +2,7 @@
 import classNames from 'classnames'
 import { useRef, useState } from 'react'
 import { FaCamera, FaChevronLeft, FaEye, FaEyeSlash, FaTimes } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 import { useAuthSchema } from 'src/hooks/useAuthSchema'
 import { ISignUpPayload } from 'src/interfaces/auth.interface'
 import { IModalBgProps } from 'src/interfaces/modal.interface'
@@ -40,6 +41,7 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
   const { schemaValidation, validationErrors } = useAuthSchema({ schema: registerUserSchema, userInfo })
@@ -71,6 +73,7 @@ export default function RegisterModal({ onClose, onToggle }: IModalBgProps) {
         dispatch(updateHeader('home'))
         dispatch(updateCategoryContainer(true))
 
+        navigate('/')
         saveToSessionStorage(JSON.stringify(true), JSON.stringify(result.user?.username))
       }
     } catch (error) {

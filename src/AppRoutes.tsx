@@ -11,6 +11,7 @@ import EditGig from './features/gigs/components/gig/EditGig'
 import Gigs from './features/gigs/components/gigs/Gigs'
 import GigView from './features/gigs/components/view/GigView'
 import Home from './features/home/Home'
+import GigsIndexDisplay from './features/index/gig-tabs/GigsIndexDisplay'
 import Checkout from './features/order/components/Checkout'
 import Order from './features/order/components/Order'
 import Requirement from './features/order/components/Requirement'
@@ -38,6 +39,22 @@ export default function AppRouter() {
     {
       path: '/confirm_email',
       element: <ConfirmEmail />
+    },
+    {
+      path: '/search/categories/:category',
+      element: (
+        <Layout backgroundColor="#fff">
+          <GigsIndexDisplay type="categories" />
+        </Layout>
+      )
+    },
+    {
+      path: '/gigs/search',
+      element: (
+        <Layout backgroundColor="#fff">
+          <GigsIndexDisplay type="search" />
+        </Layout>
+      )
     },
     {
       path: '/',

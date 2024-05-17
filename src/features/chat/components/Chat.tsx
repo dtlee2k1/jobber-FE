@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { IMessageDocument } from 'src/interfaces/chat.interface'

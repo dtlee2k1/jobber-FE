@@ -17,7 +17,6 @@ interface IOrderActivitiesProps {
   viewDeliveryBtnClicked?: boolean
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const OrderActivities = forwardRef<HTMLDivElement, IOrderActivitiesProps>((props, ref) => {
   const { order, authUser, viewDeliveryBtnClicked } = props
 

@@ -14,15 +14,19 @@ export default function GigIndexItem({ gig }: IGigIndexItemProps) {
   return (
     <div className="rounded">
       <div className="mb-8 flex cursor-pointer flex-col gap-2">
-        <Link to={`/gig/${gig.id}/${title}`}>
-          <LazyLoadImage
-            src={gig.coverImage}
-            alt="Gig cover image"
-            className="w-full rounded-lg"
-            placeholderSrc="https://placehold.co/330x220?text=Profile+Image"
-            effect="blur"
-          />
-        </Link>
+        <div className="relative w-full pt-[50%]">
+          <Link to={`/gig/${gig.id}/${title}`}>
+            <LazyLoadImage
+              src={gig.coverImage}
+              alt="Gig cover image"
+              className="absolute left-0 top-0 h-full w-full rounded-t-lg object-cover align-bottom"
+              wrapperClassName="bg-center"
+              placeholderSrc="https://placehold.co/330x220?text=Profile+Image"
+              effect="opacity"
+            />
+          </Link>
+        </div>
+
         <div className="flex items-center gap-2">
           <LazyLoadImage
             src={gig.profilePicture}
@@ -39,7 +43,9 @@ export default function GigIndexItem({ gig }: IGigIndexItemProps) {
         </div>
         <div>
           <Link to={`/gig/${gig.id}/${title}`}>
-            <p className="line-clamp-2 text-sm text-[#404145] hover:underline md:text-base">{gig.basicDescription}</p>
+            <p className="line-clamp-2 min-h-[3rem] break-words text-sm text-[#404145] hover:underline md:text-base">
+              {gig.basicDescription}
+            </p>
           </Link>
         </div>
         <div className="flex items-center gap-1 text-yellow-400">

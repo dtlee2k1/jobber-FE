@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { ISellerGig } from 'src/interfaces/gig.interface'
 import { ISellerDocument } from 'src/interfaces/seller.interface'
 import { IReduxState } from 'src/interfaces/store.interface'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useGetGigsByCategoryQuery, useGetTopRatedGigsByCategoryQuery } from 'src/services/gig.service'
 import { useGetRandomSellersQuery } from 'src/services/seller.service'
 import TopGigsView from 'src/shared/gigs/TopGigsView'

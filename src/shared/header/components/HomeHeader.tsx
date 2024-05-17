@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Transition } from '@headlessui/react'
 import { filter, find } from 'lodash'
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'

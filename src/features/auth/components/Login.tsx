@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 import { FaEye, FaEyeSlash, FaTimes } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 import { useAuthSchema } from 'src/hooks/useAuthSchema'
 import { ISignInPayload } from 'src/interfaces/auth.interface'
 import { IModalBgProps } from 'src/interfaces/modal.interface'
@@ -19,6 +20,8 @@ import { addAuthUser } from '../reducers/auth.reducer'
 import { updateLogout } from '../reducers/logout.reducer'
 
 export default function LoginModal({ onClose, onToggle, onTogglePassword }: IModalBgProps) {
+  const navigate = useNavigate()
+
   const [alertMessage, setAlertMessage] = useState<string>('')
   const [passwordType, setPasswordType] = useState<string>('password')
   const [userInfo, setUserInfo] = useState<ISignInPayload>({
@@ -45,6 +48,7 @@ export default function LoginModal({ onClose, onToggle, onTogglePassword }: IMod
         dispatch(updateHeader('home'))
         dispatch(updateCategoryContainer(true))
 
+        navigate('/')
         saveToSessionStorage(JSON.stringify(true), JSON.stringify(result.user?.username))
       }
     } catch (error) {
