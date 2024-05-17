@@ -7,7 +7,7 @@ export default function GigLeftOverview() {
   const { gig, isSuccess, isLoading } = useContext(GigContext)
 
   return (
-    <div className="relative flex h-[600px] max-h-[600px] cursor-pointer justify-center bg-[#F5F5F5]">
+    <div className="relative flex h-[600px] max-h-[600px] cursor-pointer justify-center">
       {!isLoading && isSuccess && (
         <LazyLoadImage
           src={gig.coverImage}

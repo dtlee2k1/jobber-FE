@@ -11,6 +11,7 @@ import EditGig from './features/gigs/components/gig/EditGig'
 import Gigs from './features/gigs/components/gigs/Gigs'
 import GigView from './features/gigs/components/view/GigView'
 import Home from './features/home/Home'
+import GigInfoDisplay from './features/index/gig-tabs/GigInfoDisplay'
 import GigsIndexDisplay from './features/index/gig-tabs/GigsIndexDisplay'
 import Checkout from './features/order/components/Checkout'
 import Order from './features/order/components/Order'
@@ -53,6 +54,14 @@ export default function AppRouter() {
       element: (
         <Layout backgroundColor="#fff">
           <GigsIndexDisplay type="search" />
+        </Layout>
+      )
+    },
+    {
+      path: '/gig/:gigId/:title',
+      element: (
+        <Layout backgroundColor="#fff">
+          <GigInfoDisplay />
         </Layout>
       )
     },
