@@ -61,8 +61,7 @@ export default function CheckoutForm({ gigId, offer }: ICheckoutProps) {
     if (!stripe) {
       return
     }
-    // Retrieve the "payment_intent_client_secret" query parameter appended to
-    // your return_url by Stripe.js
+    // Retrieve the "payment_intent_client_secret"
     const clientSecret: string = new URLSearchParams(window.location.search).get('payment_intent_client_secret') as string
     if (!clientSecret) {
       return
